@@ -8,7 +8,7 @@ You can read about it [here](http://markforster.squarespace.com/autofocus-system
 Commands:
 - add
 - complete
-- complete and continue
+- continue later
 - turn the page
 
 # Instal
