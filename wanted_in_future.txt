@@ -1,4 +1,0 @@
-to use compound orders ("add read progmatic programmer", "complete 17")
-to clear file of list from done tasks and pages
-to implement OOP
-to make a GUI
