@@ -1,38 +1,16 @@
 import pickle
 
-
-#structure of list 'tasks'
-
-#list of pages of tasks of message and flag
-#first item of core list is a flag weather any task of active page is completed after turning
-#second item of core list is a list of active pages
-#third item - list of pages (page is a list of tasks (task is a list of a text and flag))
-
-#[
-#False,
-#[0, 1], #list of unfinished pages, first item is an active page
-#[
-#[['read lutz', 0], ['read tutor', 1], ['do codecademy', 1]],
-#[['task', 0], ['task', 1], ['task', 0], ['task', 0]]
-#]
-#]
-
-#0 - undone
-#1 - done
-#
-
-
 num_ts = 20 #Number of tasks in a page
 
 with open('tasks.pkl', 'rb') as f:
     flag, active, pages = pickle.load(f)
 
 def print_agenda():
-    print ()
+    print ('=' * 35)
     for (index, task) in enumerate(pages[active[0]]):
         if not task[1]:  #if task is not undone (1, not 0)
-            print (index, task[0])
-    print ()
+            print (' {:2}  {}'.format(index, task[0]))
+    print ('=' * 35)
 
 def add(new_task):
     if len(pages):
@@ -62,7 +40,7 @@ def complete(index_task):
     else:
         print ("Bad number. It must be from 0 to 19")
 
-def complete_and_continue(index_task):
+def continue_later(index_task):
     task = pages[active[0]][index_task][0]
     complete(index_task)
     add(task)
@@ -84,7 +62,7 @@ def is_page_full(number_of_page):
     else:
         return False
 
-def check_active_page_completed(): #only for an active page
+def check_active_page_completed():
     for task in pages[active[0]]:
         if not task[1]:
             break
@@ -116,19 +94,16 @@ else:
 msg = ''
 
 while msg != 'exit' and msg != 'quit':
-    msg = input("Order: >>> ")
+    msg = input(">>> ")
 
-    if msg == "add":
-        new_task = input("Type a new task\n")
-        add(new_task)
+    if msg[:3] == "add" and msg[4:]:
+        add(msg[4:])
 
-    if msg == "complete":
-        number_of_a_task = int(input("Type a number of a completed task "))
-        complete(number_of_a_task)
+    if msg[:8] == "complete" and msg[9:]:
+        complete(int(msg[9:]))
 
-    if msg == "complete and continue":
-        number_of_a_task = int(input("Type a number of a completed task "))
-        complete_and_continue(number_of_a_task)
+    if msg[:14] == "continue later" and msg[:15]:
+        continue_later(msg[:15])
 
     if msg == "turn the page":
         if flag:
@@ -146,7 +121,7 @@ while msg != 'exit' and msg != 'quit':
         print_agenda()
 
     if msg == "help":
-        print ("add, complete, complete and continue, turn the page, print, exit")
+        print ("add, complete, continue later, turn the page, print, exit")
 
     if msg == "print active":
         print_active_pages()
@@ -159,5 +134,5 @@ while msg != 'exit' and msg != 'quit':
 
     if msg == "save":
         save()
-    
+
 save()
