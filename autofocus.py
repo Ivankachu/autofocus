@@ -34,7 +34,7 @@ def complete(index_task):
         if not pages[active[0]][index_task][1]:
             flag = True
             pages[active[0]][index_task][1] = 1
-            check_active_page_completed()       #For the case if all tasks in the page is completed
+            check_active_page_completed()  #For the case if all tasks in the page is completed
         else:
             print ("The task is already completed")
     else:
@@ -55,6 +55,7 @@ def turn_the_page():
             for task in pages[active[0]]:
                 task[1] = 1
             del active[0]
+        print_agenda()
 
 def is_page_full(number_of_page):
     if len(pages[number_of_page]) == num_ts:
@@ -102,16 +103,16 @@ while msg != 'exit' and msg != 'quit':
     if msg[:8] == "complete" and msg[9:]:
         complete(int(msg[9:]))
 
-    if msg[:14] == "continue later" and msg[:15]:
-        continue_later(msg[:15])
+    if msg[:14] == "continue later" and msg[15:]:
+            continue_later(int(msg[15:]))
 
     if msg == "turn the page":
         if flag:
             turn_the_page()
             print ("Done!")
         else:
-            print ("The active page is not started yet")
-            print ("If you turn the page, all uncompleted tasks will become completed")
+            print ("The active page is not started yet.")
+            print ("If you turn the page, all uncompleted tasks will be demolished.")
             print ("Are you sure you want to turn the page?")
             msg1 = input("Yes or No?    ")
             if msg1 == "Yes":
