@@ -1,4 +1,5 @@
 import pickle
+import os
 
 num_ts = 20 #Number of tasks in a page
 
@@ -79,6 +80,12 @@ def print_pages():
         print ("page ", index)
         for (indext, task) in enumerate(page):
             print (indext, task)
+			
+def clear():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 def print_flag():
     print (flag)
@@ -135,5 +142,8 @@ while msg != 'exit' and msg != 'quit':
 
     if msg == "save":
         save()
+
+    if msg == 'clear':
+        clear()
 
 save()
