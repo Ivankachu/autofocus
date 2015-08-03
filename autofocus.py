@@ -94,56 +94,57 @@ def save():
     with open('tasks.pkl', 'wb') as f:
         pickle.dump([flag, active, pages], f)
 
-if len(active):
-    print_agenda()
-else:
-    print ("All tasks you planned are completed.")
-        
-msg = ''
-
-while msg != 'exit' and msg != 'quit':
-    msg = input(">>> ")
-
-    if msg[:3] == "add" and msg[4:]:
-        add(msg[4:])
-
-    if msg[:8] == "complete" and msg[9:]:
-        complete(int(msg[9:]))
-
-    if msg[:14] == "continue later" and msg[15:]:
-            continue_later(int(msg[15:]))
-
-    if msg == "turn the page":
-        if flag:
-            turn_the_page()
-            print ("Done!")
-        else:
-            print ("The active page is not started yet.")
-            print ("If you turn the page, all uncompleted tasks will be demolished.")
-            print ("Are you sure you want to turn the page?")
-            msg1 = input("Yes or No?    ")
-            if msg1 == "Yes":
-                turn_the_page()
-                
-    if msg == "print":
+if __name__ == '__main__':
+    if len(active):
         print_agenda()
+    else:
+        print ("All tasks you planned are completed.")
 
-    if msg == "help":
-        print ("add, complete, continue later, turn the page, print, exit")
+    msg = ''
 
-    if msg == "print active":
-        print_active_pages()
+    while msg != 'exit' and msg != 'quit':
+        msg = input(">>> ")
 
-    if msg == "print pages":
-        print_pages()
+        if msg[:3] == "add" and msg[4:]:
+            add(msg[4:])
 
-    if msg == "print flag":
-        print_flag()
+        if msg[:8] == "complete" and msg[9:]:
+            complete(int(msg[9:]))
 
-    if msg == "save":
-        save()
+        if msg[:14] == "continue later" and msg[15:]:
+                continue_later(int(msg[15:]))
 
-    if msg == 'clear':
-        clear()
+        if msg == "turn the page":
+            if flag:
+                turn_the_page()
+                print ("Done!")
+            else:
+                print ("The active page is not started yet.")
+                print ("If you turn the page, all uncompleted tasks will be demolished.")
+                print ("Are you sure you want to turn the page?")
+                msg1 = input("Yes or No?    ")
+                if msg1 == "Yes":
+                    turn_the_page()
+                    
+        if msg == "print":
+            print_agenda()
 
+        if msg == "help":
+            print ("add, complete, continue later, turn the page, print, exit")
+
+        if msg == "print active":
+            print_active_pages()
+
+        if msg == "print pages":
+            print_pages()
+
+        if msg == "print flag":
+            print_flag()
+
+        if msg == "save":
+            save()
+
+        if msg == 'clear':
+            clear()
+            
 save()
