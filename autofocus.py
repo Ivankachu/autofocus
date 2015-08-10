@@ -3,8 +3,10 @@ import os
 
 num_ts = 20 #Number of tasks in a page
 
-with open('tasks.pkl', 'rb') as f:
-    flag, active, pages = pickle.load(f)
+def copydb():
+    with open('tasks.pkl', 'rb') as f:
+        db = pickle.load(f)
+    return db
 
 def print_agenda():
     print ('=' * 35)
@@ -95,6 +97,9 @@ def save():
         pickle.dump([flag, active, pages], f)
 
 if __name__ == '__main__':
+
+    flag, active, pages = copydb()
+
     if len(active):
         print_agenda()
     else:
@@ -146,5 +151,4 @@ if __name__ == '__main__':
 
         if msg == 'clear':
             clear()
-            
-save()
+    save()
