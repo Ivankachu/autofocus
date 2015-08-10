@@ -1,19 +1,21 @@
-import autofocus
+from autofocus import *
 from tkinter import *
 
-widthpixels = 303
+widthpixels = 393
 heightpixels = 350
 
 
 root = Tk()
 root.geometry('{}x{}'.format(widthpixels, heightpixels))
 
-tasks = ['task ' + str(i) for i in range(20)]
 
-lbox = Listbox(root, height=20, width=35)
+lbox = Listbox(root, height=20, width=50)
 
-for (index, task) in enumerate(tasks):
-    lbox.insert(index + 1, task)
+i = 0
+for task in pages[active[0]]:
+    if not task[1]:
+        lbox.insert(i + 1, task[0])
+        i += 1
 
 lbox.grid(rowspan=3, columnspan=2, sticky=W+E)
 
