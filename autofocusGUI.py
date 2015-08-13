@@ -16,7 +16,7 @@ for task in pages[active[0]]:
         lbox.insert(i + 1, task[0])
         i += 1
 
-lbox.grid(rowspan=3, columnspan=2, sticky=W+E)
+lbox.grid(rowspan=3, sticky=W+E)
 
 entry_add = Entry(root)
 button_add = Button(root, text='Add new task')
