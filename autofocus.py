@@ -92,7 +92,7 @@ def clear():
 def print_flag():
     print (flag)
 
-def save():
+def savedb():
     with open('tasks.pkl', 'wb') as f:
         pickle.dump([flag, active, pages], f)
 
@@ -147,8 +147,8 @@ if __name__ == '__main__':
             print_flag()
 
         if msg == "save":
-            save()
+            savedb()
 
         if msg == 'clear':
             clear()
-    save()
+    savedb()
