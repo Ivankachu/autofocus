@@ -9,11 +9,14 @@ def copydb():
     return db
 
 def print_agenda():
-    print ('=' * 35)
-    for (index, task) in enumerate(pages[active[0]]):
-        if not task[1]:  #if task is not undone (1, not 0)
-            print (' {:2}  {}'.format(index, task[0]))
-    print ('=' * 35)
+    if len(active):
+        print ('=' * 35)
+        for (index, task) in enumerate(pages[active[0]]):
+            if not task[1]:  #if task is not undone (1, not 0)
+                print (' {:2}  {}'.format(index, task[0]))
+        print ('=' * 35)
+    else:
+        print ("All tasks you planned are completed.")
 
 def add(new_task):
     if len(pages):
@@ -50,15 +53,23 @@ def continue_later(index_task):
 
 def turn_the_page():
     global flag, active
-    if len(active) > 1:
+    if len(active):
         if flag:
             flag = False
             active = active[1:] + [active[0]]
+            print_agenda()
+        elif pages[active[0]] is not pages[-1]:
+            print ("The active page is not started yet.")
+            print ("If you turn the page, all uncompleted tasks will be demolished.")
+            print ("Are you sure you want to turn the page?")
+            msg1 = input("Yes or No?  ")
+            if msg1 == "Yes":
+                for task in pages[active[0]]:
+                    task[1] = 1
+                del active[0]
+            print_agenda()
         else:
-            for task in pages[active[0]]:
-                task[1] = 1
-            del active[0]
-        print_agenda()
+            print ('You cannot turn the last page without completing something!')
 
 def is_page_full(number_of_page):
     if len(pages[number_of_page]) == num_ts:
@@ -92,7 +103,7 @@ def clear():
 def print_flag():
     print (flag)
 
-def save():
+def savedb():
     with open('tasks.pkl', 'wb') as f:
         pickle.dump([flag, active, pages], f)
 
@@ -100,10 +111,7 @@ if __name__ == '__main__':
 
     flag, active, pages = copydb()
 
-    if len(active):
-        print_agenda()
-    else:
-        print ("All tasks you planned are completed.")
+    print_agenda()
 
     msg = ''
 
@@ -117,19 +125,10 @@ if __name__ == '__main__':
             complete(int(msg[9:]))
 
         if msg[:14] == "continue later" and msg[15:]:
-                continue_later(int(msg[15:]))
+            continue_later(int(msg[15:]))
 
         if msg == "turn the page":
-            if flag:
-                turn_the_page()
-                print ("Done!")
-            else:
-                print ("The active page is not started yet.")
-                print ("If you turn the page, all uncompleted tasks will be demolished.")
-                print ("Are you sure you want to turn the page?")
-                msg1 = input("Yes or No?    ")
-                if msg1 == "Yes":
-                    turn_the_page()
+            turn_the_page()
                     
         if msg == "print":
             print_agenda()
@@ -147,8 +146,8 @@ if __name__ == '__main__':
             print_flag()
 
         if msg == "save":
-            save()
+            savedb()
 
         if msg == 'clear':
             clear()
-    save()
+    savedb()
