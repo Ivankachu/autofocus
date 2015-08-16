@@ -1,7 +1,7 @@
-from autofocus import copydb
+import autofocus as af
 from tkinter import *
 
-flag, active, pages = copydb()
+
 widthpixels = 393
 heightpixels = 350
 
@@ -10,27 +10,61 @@ root.geometry('{}x{}'.format(widthpixels, heightpixels))
 
 lbox = Listbox(root, height=20, width=50)
 
-i = 0
-for task in pages[active[0]]:
-    if not task[1]:
-        lbox.insert(i + 1, task[0])
-        i += 1
+def filllb():
+    lbox.delete(0, END)
+    i = 0
+    for task in af.pages[af.active[0]]:
+        if not task[1]:
+            lbox.insert(i + 1, task[0])
+            i += 1
+
+def pushadd():
+    af.add(entry_add.get())
+    entry_add.delete(0, END)
+
+def pushturn():
+    af.turn_the_page()
+    filllb()
+
+def pushdone():
+    af.complete(convertindex(lbox.curselection()[0]))
+    filllb()
+
+def pushcont():
+    af.continue_later(convertindex(lbox.curselection()[0]))
+    filllb()
+
+def convertindex(numinlist):
+    """
+    Convert a number of the selected item in the listbox
+    into the number string in the page
+    """
+    countinpage = 0
+    countinlist = -1
+    for task in af.pages[af.active[0]]:
+        if not task[1]:
+            countinlist += 1
+        if countinlist == numinlist:
+            return countinpage
+        countinpage += 1
 
 lbox.grid(rowspan=3, sticky=W+E)
 
-entry_add = Entry(root)
-button_add = Button(root, text='Add new task')
+filllb()
 
+entry_add = Entry(root)
 entry_add.grid(row=3, column=0, sticky=W+E)
+
+button_add = Button(root, text='Add new task', command=pushadd)
 button_add.grid(row=3, column=1, sticky=W+E)
 
-button_done = Button(root, text='Done!')
+button_done = Button(root, text='Done!', command=pushdone)
 button_done.grid(row=0, column=1, sticky=N+W+E+S)
 
-button_continuelater = Button(root, text='Continue later')
-button_continuelater.grid(row=1, column=1, sticky=N+W+E+S)
+button_cont = Button(root, text='Continue later', command=pushcont)
+button_cont.grid(row=1, column=1, sticky=N+W+E+S)
 
-button_turnthepage = Button(root, text='Turn the Page!')
-button_turnthepage.grid(row=2, column=1, sticky=N+W+E+S)
+button_turn = Button(root, text='Turn the Page!', command=pushturn)
+button_turn.grid(row=2, column=1, sticky=N+W+E+S)
 
 root.mainloop()

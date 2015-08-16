@@ -33,6 +33,7 @@ def add(new_task):
     else:
         pages.append([[new_task, 0]])
         active.append(0)
+    savedb()
 
 def complete(index_task):
     global flag
@@ -41,6 +42,7 @@ def complete(index_task):
             flag = True
             pages[active[0]][index_task][1] = 1
             check_active_page_completed()  #For the case if all tasks in the page is completed
+            savedb()
         else:
             print ("The task is already completed")
     else:
@@ -51,25 +53,33 @@ def continue_later(index_task):
     complete(index_task)
     add(task)
 
+def demolish_page():
+    for task in pages[active[0]]:
+        task[1] = 1
+    del active[0]
+
 def turn_the_page():
     global flag, active
     if len(active):
         if flag:
             flag = False
             active = active[1:] + [active[0]]
-            print_agenda()
+            if __name__ == '__main__':
+                print_agenda()
         elif pages[active[0]] is not pages[-1]:
-            print ("The active page is not started yet.")
-            print ("If you turn the page, all uncompleted tasks will be demolished.")
-            print ("Are you sure you want to turn the page?")
-            msg1 = input("Yes or No?  ")
-            if msg1 == "Yes":
-                for task in pages[active[0]]:
-                    task[1] = 1
-                del active[0]
-            print_agenda()
-        else:
+            if __name__ == '__main__':
+                print ("The active page is not started yet.")
+                print ("If you turn the page, all uncompleted tasks will be demolished.")
+                print ("Are you sure you want to turn the page?")
+                msg1 = input("Yes or No?  ")
+                if msg1 == "Yes":
+                    demolish_page()
+                print_agenda()
+            else:
+                demolish_page()
+        elif __name__ == '__main__':
             print ('You cannot turn the last page without completing something!')
+
 
 def is_page_full(number_of_page):
     if len(pages[number_of_page]) == num_ts:
@@ -107,9 +117,9 @@ def savedb():
     with open('tasks.pkl', 'wb') as f:
         pickle.dump([flag, active, pages], f)
 
-if __name__ == '__main__':
+flag, active, pages = copydb()
 
-    flag, active, pages = copydb()
+if __name__ == '__main__':
 
     print_agenda()
 
