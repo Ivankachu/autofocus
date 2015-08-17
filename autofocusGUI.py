@@ -14,39 +14,41 @@ def filllb():
     lbox.delete(0, END)
     i = 0
     for task in af.pages[af.active[0]]:
-        if not task[1]:
-            lbox.insert(i + 1, task[0])
-            i += 1
+        lbox.insert(i, task[0])
+        if task[1]:
+            lbox.itemconfig(i, fg='green')
+        i += 1
 
 def pushadd():
     af.add(entry_add.get())
     entry_add.delete(0, END)
+    filllb()
 
 def pushturn():
     af.turn_the_page()
     filllb()
 
 def pushdone():
-    af.complete(convertindex(lbox.curselection()[0]))
+    af.complete(lbox.curselection()[0])
     filllb()
 
 def pushcont():
-    af.continue_later(convertindex(lbox.curselection()[0]))
+    af.continue_later(lbox.curselection()[0])
     filllb()
 
-def convertindex(numinlist):
-    """
-    Convert a number of the selected item in the listbox
-    into the number string in the page
-    """
-    countinpage = 0
-    countinlist = -1
-    for task in af.pages[af.active[0]]:
-        if not task[1]:
-            countinlist += 1
-        if countinlist == numinlist:
-            return countinpage
-        countinpage += 1
+#def convertindex(numinlist):
+#    """
+#    Convert a number of the selected item in the listbox
+#    into the number string in the page
+#    """
+#    countinpage = 0
+#    countinlist = -1
+#    for task in af.pages[af.active[0]]:
+#        if not task[1]:
+#            countinlist += 1
+#        if countinlist == numinlist:
+#            return countinpage
+#        countinpage += 1
 
 lbox.grid(rowspan=3, sticky=W+E)
 
