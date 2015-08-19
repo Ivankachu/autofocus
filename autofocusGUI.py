@@ -16,7 +16,7 @@ def filllb():
     for task in af.pages[af.active[0]]:
         lbox.insert(i, task[0])
         if task[1]:
-            lbox.itemconfig(i, fg='green')
+            lbox.itemconfig(i, bg='indigo', fg='white')
         i += 1
 
 def pushadd():
@@ -35,20 +35,6 @@ def pushdone():
 def pushcont():
     af.continue_later(lbox.curselection()[0])
     filllb()
-
-#def convertindex(numinlist):
-#    """
-#    Convert a number of the selected item in the listbox
-#    into the number string in the page
-#    """
-#    countinpage = 0
-#    countinlist = -1
-#    for task in af.pages[af.active[0]]:
-#        if not task[1]:
-#            countinlist += 1
-#        if countinlist == numinlist:
-#            return countinpage
-#        countinpage += 1
 
 lbox.grid(rowspan=3, sticky=W+E)
 
@@ -69,4 +55,5 @@ button_cont.grid(row=1, column=1, sticky=N+W+E+S)
 button_turn = Button(root, text='Turn the Page!', command=pushturn)
 button_turn.grid(row=2, column=1, sticky=N+W+E+S)
 
+root.resizable(width=FALSE, height=FALSE)
 root.mainloop()
