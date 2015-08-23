@@ -80,7 +80,6 @@ def turn_the_page():
         elif __name__ == '__main__':
             print ('You cannot turn the last page without completing something!')
 
-
 def is_page_full(number_of_page):
     if len(pages[number_of_page]) == num_ts:
         return True
