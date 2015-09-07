@@ -8,7 +8,7 @@ def copydb():
         db = pickle.load(f)
     return db
 
-def print_agenda():
+def print_agenda(active, pages):
     if len(active):
         print ('=' * 35)
         for (index, task) in enumerate(pages[active[0]]):
@@ -18,7 +18,7 @@ def print_agenda():
     else:
         print ("All tasks you planned are completed.")
 
-def add(new_task):
+def add(new_task, active, pages):
     if len(pages):
         if len(pages[-1]) < num_ts:
             pages[-1].append([new_task, 0])  #Add a new task in the last page.
@@ -33,16 +33,15 @@ def add(new_task):
     else:
         pages.append([[new_task, 0]])
         active.append(0)
-    savedb()
+    savedb(flag, active, pages)
 
-def complete(index_task):
-    global flag
+def complete(index_task, flag, active, pages):
     if 0 <= index_task < num_ts:
         if not pages[active[0]][index_task][1]:
             flag = True
             pages[active[0]][index_task][1] = 1
             check_active_page_completed()  #For the case if all tasks in the page is completed
-            savedb()
+            savedb(flag, active, pages)
         else:
             print ("The task is already completed")
     else:
@@ -51,7 +50,7 @@ def complete(index_task):
 def continue_later(index_task):
     task = pages[active[0]][index_task][0]
     complete(index_task)
-    add(task)
+    add(task, active, pages)
 
 def demolish_page():
     for task in pages[active[0]]:
@@ -65,7 +64,7 @@ def turn_the_page():
             flag = False
             active = active[1:] + [active[0]]
             if __name__ == '__main__':
-                print_agenda()
+                print_agenda(active, pages)
         elif pages[active[0]] is not pages[-1]:
             if __name__ == '__main__':
                 print ("The active page is not started yet.")
@@ -74,7 +73,7 @@ def turn_the_page():
                 msg1 = input("Yes or No?  ")
                 if msg1 == "Yes":
                     demolish_page()
-                print_agenda()
+                print_agenda(active, pages)
             else:
                 demolish_page()
         elif __name__ == '__main__':
@@ -109,18 +108,15 @@ def clear():
     else:
         os.system('clear')
 
-def print_flag():
-    print (flag)
-
-def savedb():
+def savedb(flag, active, pages):
     with open('tasks.pkl', 'wb') as f:
         pickle.dump([flag, active, pages], f)
 
-flag, active, pages = copydb()
-
 if __name__ == '__main__':
 
-    print_agenda()
+    flag, active, pages = copydb()
+    
+    print_agenda(active, pages)
 
     msg = ''
 
@@ -128,10 +124,10 @@ if __name__ == '__main__':
         msg = input(">>> ")
 
         if msg[:3] == "add" and msg[4:]:
-            add(msg[4:])
+            add(msg[4:], active, pages)
 
         if msg[:8] == "complete" and msg[9:]:
-            complete(int(msg[9:]))
+            complete(int(msg[9:]), flag, active, pages)
 
         if msg[:14] == "continue later" and msg[15:]:
             continue_later(int(msg[15:]))
@@ -140,7 +136,7 @@ if __name__ == '__main__':
             turn_the_page()
                     
         if msg == "print":
-            print_agenda()
+            print_agenda(active, pages)
 
         if msg == "help":
             print ("add, complete, continue later, turn the page, print, exit")
@@ -152,11 +148,11 @@ if __name__ == '__main__':
             print_pages()
 
         if msg == "print flag":
-            print_flag()
+            print (flag)
 
         if msg == "save":
-            savedb()
+            savedb(flag, active, pages)
 
         if msg == 'clear':
             clear()
-    savedb()
+    savedb(flag, active, pages)
