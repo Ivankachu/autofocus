@@ -35,14 +35,13 @@ def add(new_task, active, pages):
         active.append(0)
     savedb(flag, active, pages)
 
-def complete(index_task):
-    global flag
+def complete(index_task, flag, active, pages):
     if 0 <= index_task < num_ts:
         if not pages[active[0]][index_task][1]:
             flag = True
             pages[active[0]][index_task][1] = 1
             check_active_page_completed()  #For the case if all tasks in the page is completed
-            savedb()
+            savedb(flag, active, pages)
         else:
             print ("The task is already completed")
     else:
@@ -128,7 +127,7 @@ if __name__ == '__main__':
             add(msg[4:], active, pages)
 
         if msg[:8] == "complete" and msg[9:]:
-            complete(int(msg[9:]))
+            complete(int(msg[9:]), flag, active, pages)
 
         if msg[:14] == "continue later" and msg[15:]:
             continue_later(int(msg[15:]))
