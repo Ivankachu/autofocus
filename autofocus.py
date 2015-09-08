@@ -47,12 +47,12 @@ def complete(index_task, flag, active, pages):
     else:
         print ("Bad number. It must be from 0 to 19")
 
-def continue_later(index_task):
+def continue_later(index_task, active, pages):
     task = pages[active[0]][index_task][0]
     complete(index_task)
     add(task, active, pages)
 
-def demolish_page():
+def demolish_page(active, pages):
     for task in pages[active[0]]:
         task[1] = 1
     del active[0]
@@ -72,10 +72,10 @@ def turn_the_page():
                 print ("Are you sure you want to turn the page?")
                 msg1 = input("Yes or No?  ")
                 if msg1 == "Yes":
-                    demolish_page()
+                    demolish_page(active, pages)
                 print_agenda(active, pages)
             else:
-                demolish_page()
+                demolish_page(active, pages)
         elif __name__ == '__main__':
             print ('You cannot turn the last page without completing something!')
 
@@ -130,7 +130,7 @@ if __name__ == '__main__':
             complete(int(msg[9:]), flag, active, pages)
 
         if msg[:14] == "continue later" and msg[15:]:
-            continue_later(int(msg[15:]))
+            continue_later(int(msg[15:]), active, pages)
 
         if msg == "turn the page":
             turn_the_page()
