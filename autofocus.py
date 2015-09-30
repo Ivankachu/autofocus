@@ -8,32 +8,32 @@ def copydb():
         db = pickle.load(f)
     return db
 
-def print_agenda(active, pages):
-    if len(active):
+def print_agenda(db):
+    if len(db[active]):
         print ('=' * 35)
-        for (index, task) in enumerate(pages[active[0]]):
+        for (index, task) in enumerate(db[pages[active[0]]]):
             if not task[1]:  #if task is not undone (1, not 0)
                 print (' {:2}  {}'.format(index, task[0]))
         print ('=' * 35)
     else:
         print ("All tasks you planned are completed.")
 
-def add(new_task, active, pages):
-    if len(pages):
-        if len(pages[-1]) < num_ts:
-            pages[-1].append([new_task, 0])  #Add a new task in the last page.
+def add(new_task, db):
+    if len(db[pages]):
+        if len(db[pages[-1]]) < num_ts:
+            db[pages[-1]].append([new_task, 0])  #Add a new task in the last page.
         else:
-            pages.append([[new_task, 0]])    #Add a new page and a new task in it.
-            index_new_page = len(pages) - 1
-            if active:                       #If there is something in active list
-                place_max = active.index(max(active))
-                active.insert(place_max + 1, index_new_page)
+            db[pages].append([[new_task, 0]])    #Add a new page and a new task in it.
+            index_new_page = len(db[pages]) - 1
+            if db[actpgs]:                           #If there is something in active list
+                place_max = db[actpgs].index(max(db[act]))
+                db[actpgs].insert(place_max + 1, index_new_page)
             else:
-                active.append(index_new_page)
+                db[active].append(index_new_page)
     else:
-        pages.append([[new_task, 0]])
-        active.append(0)
-    savedb(flag, active, pages)
+        db[pages].append([[new_task, 0]])
+        db[actpgs].append(0)
+    return db
 
 def complete(index_task, flag, active, pages):
     if 0 <= index_task < num_ts:
@@ -114,9 +114,9 @@ def savedb(flag, active, pages):
 
 if __name__ == '__main__':
 
-    flag, active, pages = copydb()
+    db = copydb()
     
-    print_agenda(active, pages)
+    print_agenda(db)
 
     msg = ''
 
@@ -124,7 +124,8 @@ if __name__ == '__main__':
         msg = input(">>> ")
 
         if msg[:3] == "add" and msg[4:]:
-            add(msg[4:], active, pages)
+            add(msg[4:], db)
+            savedb(db)
 
         if msg[:8] == "complete" and msg[9:]:
             complete(int(msg[9:]), flag, active, pages)
