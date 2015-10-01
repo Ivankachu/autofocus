@@ -9,9 +9,9 @@ def copydb():
     return db
 
 def print_agenda(db):
-    if len(db[active]):
+    if len(db["active"]):
         print ('=' * 35)
-        for (index, task) in enumerate(db[pages[active[0]]]):
+        for (index, task) in enumerate(db["pages"[active[0]]]):
             if not task[1]:  #if task is not undone (1, not 0)
                 print (' {:2}  {}'.format(index, task[0]))
         print ('=' * 35)
@@ -19,36 +19,37 @@ def print_agenda(db):
         print ("All tasks you planned are completed.")
 
 def add(new_task, db):
-    if len(db[pages]):
-        if len(db[pages[-1]]) < num_ts:
-            db[pages[-1]].append([new_task, 0])  #Add a new task in the last page.
+    if len(db["pages"]):
+        if len(db["pages"[-1]]) < num_ts:
+            db["pages"[-1]].append([new_task, 0])  #Add a new task in the last page.
         else:
-            db[pages].append([[new_task, 0]])    #Add a new page and a new task in it.
-            index_new_page = len(db[pages]) - 1
-            if db[actpgs]:                           #If there is something in active list
-                place_max = db[actpgs].index(max(db[act]))
-                db[actpgs].insert(place_max + 1, index_new_page)
+            db["pages"].append([[new_task, 0]])    #Add a new page and a new task in it.
+            index_new_page = len(db["pages"]) - 1
+            if db["active"]:                           #If there is something in active list
+                place_max = db["active"].index(max(db["active"]))
+                db["active"].insert(place_max + 1, index_new_page)
             else:
-                db[active].append(index_new_page)
+                db["active"].append(index_new_page)
     else:
-        db[pages].append([[new_task, 0]])
-        db[actpgs].append(0)
+        db["pages"].append([[new_task, 0]])
+        db["active"].append(0)
     return db
 
-def complete(index_task, flag, active, pages):
+def complete(index_task, db):
     if 0 <= index_task < num_ts:
-        if not pages[active[0]][index_task][1]:
-            flag = True
-            pages[active[0]][index_task][1] = 1
+        if not db["pages"][active[0]]][index_task][1]:
+            db["isdone"] = True
+            db["pages"][db["active"][0]]][index_task][1] = 1
             check_active_page_completed()  #For the case if all tasks in the page is completed
-            savedb(flag, active, pages)
+            return db
         else:
             print ("The task is already completed")
     else:
         print ("Bad number. It must be from 0 to 19")
+        
 
-def continue_later(index_task, active, pages):
-    task = pages[active[0]][index_task][0]
+def continue_later(index_task, db):
+    task = db["pages"][db["active"][0]][index_task][0]
     complete(index_task)
     add(task, active, pages)
 
@@ -57,27 +58,25 @@ def demolish_page(active, pages):
         task[1] = 1
     del active[0]
 
-def turn_the_page():
-    global flag, active
-    if len(active):
-        if flag:
+def turn_the_page(db):
+    if len(db["active"]):
+        if db["isdone"]:
             flag = False
             active = active[1:] + [active[0]]
             if __name__ == '__main__':
                 print_agenda(active, pages)
         elif pages[active[0]] is not pages[-1]:
-            if __name__ == '__main__':
-                print ("The active page is not started yet.")
-                print ("If you turn the page, all uncompleted tasks will be demolished.")
-                print ("Are you sure you want to turn the page?")
-                msg1 = input("Yes or No?  ")
-                if msg1 == "Yes":
-                    demolish_page(active, pages)
-                print_agenda(active, pages)
-            else:
+            print ("The active page is not started yet.")
+            print ("If you turn the page, all uncompleted tasks will be demolished.")
+            print ("Are you sure you want to turn the page?")
+            msg1 = input("Yes or No?  ")
+            if msg1 == "Yes":
                 demolish_page(active, pages)
-        elif __name__ == '__main__':
-            print ('You cannot turn the last page without completing something!')
+            print_agenda(active, pages)
+        else:
+            demolish_page(active, pages)
+    else:
+        print ('You cannot turn the last page without completing something!')
 
 def is_page_full(number_of_page):
     if len(pages[number_of_page]) == num_ts:
@@ -124,11 +123,12 @@ if __name__ == '__main__':
         msg = input(">>> ")
 
         if msg[:3] == "add" and msg[4:]:
-            add(msg[4:], db)
+            db = add(msg[4:], db)
             savedb(db)
 
         if msg[:8] == "complete" and msg[9:]:
-            complete(int(msg[9:]), flag, active, pages)
+            db = complete(int(msg[9:]), db)
+            savedb(db)
 
         if msg[:14] == "continue later" and msg[15:]:
             continue_later(int(msg[15:]), active, pages)
