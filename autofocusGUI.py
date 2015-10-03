@@ -4,55 +4,61 @@ from tkinter import *
 
 widthpixels = 393
 heightpixels = 350
+db = af.copydb()
 
 root = Tk()
 root.geometry('{}x{}'.format(widthpixels, heightpixels))
 
 lbox = Listbox(root, height=20, width=50)
 
-def turn_the_page_gui(flag, active, pages):
-    if len(active):
-        if flag:
-            flag = False
-            active = active[1:] + [active[0]]
-        elif pages[active[0]] is not pages[-1]:
+def turn_the_page_gui(db):
+    if len(db["active"]):
+        if db["isdone"]:
+            db["isdone"] = False
+            db["active"] = db["active"][1:] + [db["active"][0]]
+        elif db["pages"][db["active"][0]] is not db["pages"][-1]:
             if messagebox.askyesno(
                 "Warning!",
                 "If you turn the page, all uncompleted tasks will be demolished.\
                 Are you sure you want to turn the page?"):
-                for task in pages[active[0]]:
+                for task in db["pages"][db["active"][0]]:
                     task[1] = 1
-                del active[0]
+                del db["active"][0]
         else:
             messagebox.showwarning(
                 "Warning!",
                 "You cannot turn the last page without completing something!")
-        return flag, active, pages           
+        return db           
 
 def filllb():
     lbox.delete(0, END)
     i = 0
-    for task in af.pages[af.active[0]]:
+    for task in db["pages"][db["active"][0]]:
         lbox.insert(i, task[0])
         if task[1]:
             lbox.itemconfig(i, bg='indigo', fg='white')
         i += 1
 
 def pushadd():
-    af.add(entry_add.get())
+    af.add(entry_add.get(), db)
     entry_add.delete(0, END)
+    af.savedb(db)
     filllb()
 
 def pushturn():
-    af.flag, af.active, af.pages = turn_the_page_gui(af.flag, af.active, af.pages)
+    global db
+    db = turn_the_page_gui(db)
+    af.savedb(db)
     filllb()
 
 def pushdone():
-    af.complete(lbox.curselection()[0])
+    af.complete(lbox.curselection()[0], db)
+    af.savedb(db)
     filllb()
 
 def pushcont():
-    af.continue_later(lbox.curselection()[0])
+    af.continue_later(lbox.curselection()[0], db)
+    af.savedb(db)
     filllb()
 
 filllb()
