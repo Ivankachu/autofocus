@@ -109,7 +109,14 @@ def clear():
     else:
         os.system('clear')
 
+<<<<<<< HEAD
+def print_flag():
+    print (flag)
+
+def savedb():
+=======
 def savedb(db):
+>>>>>>> develop
     with open('tasks.pkl', 'wb') as f:
         pickle.dump(db, f)
 
@@ -145,7 +152,15 @@ if __name__ == '__main__':
         if msg == "print flag":
             print (db["isdone"])
         if msg == "save":
+<<<<<<< HEAD
+            savedb()
+
+        if msg == 'clear':
+            clear()
+    savedb()
+=======
             savedb(db)
         if msg == 'clear':
             clear()
     savedb(db)
+>>>>>>> develop
