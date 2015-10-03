@@ -1,6 +1,6 @@
 import pickle
 
-tasks = [False, [], []]
+db = {"isdone": False, "active": [], "pages": []}
 f = open("tasks.pkl", "wb")
-pickle.dump(tasks, f)
+pickle.dump(db, f)
 f.close()

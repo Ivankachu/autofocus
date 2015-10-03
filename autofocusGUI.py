@@ -1,36 +1,87 @@
-from autofocus import copydb
+import autofocus as af
 from tkinter import *
 
-flag, active, pages = copydb()
+
 widthpixels = 393
 heightpixels = 350
+db = af.copydb()
 
 root = Tk()
 root.geometry('{}x{}'.format(widthpixels, heightpixels))
 
 lbox = Listbox(root, height=20, width=50)
 
-i = 0
-for task in pages[active[0]]:
-    if not task[1]:
-        lbox.insert(i + 1, task[0])
+def turn_the_page_gui(db):
+    if len(db["active"]):
+        if db["isdone"]:
+            db["isdone"] = False
+            db["active"] = db["active"][1:] + [db["active"][0]]
+        elif db["pages"][db["active"][0]] is not db["pages"][-1]:
+            if messagebox.askyesno(
+                "Warning!",
+                "If you turn the page, all uncompleted tasks will be demolished.\
+                Are you sure you want to turn the page?"):
+                for task in db["pages"][db["active"][0]]:
+                    task[1] = 1
+                del db["active"][0]
+        else:
+            messagebox.showwarning(
+                "Warning!",
+                "You cannot turn the last page without completing something!")
+        return db           
+
+def filllb():
+    lbox.delete(0, END)
+    i = 0
+    for task in db["pages"][db["active"][0]]:
+        lbox.insert(i, task[0])
+        if task[1]:
+            lbox.itemconfig(i, bg='indigo', fg='white')
         i += 1
+
+def pushadd():
+    af.add(entry_add.get(), db)
+    entry_add.delete(0, END)
+    af.savedb(db)
+    filllb()
+
+def pushturn():
+    global db
+    db = turn_the_page_gui(db)
+    af.savedb(db)
+    filllb()
+
+def pushdone():
+    af.complete(lbox.curselection()[0], db)
+    af.savedb(db)
+    filllb()
+
+def pushcont():
+    af.continue_later(lbox.curselection()[0], db)
+    af.savedb(db)
+    filllb()
+
+filllb()
 
 lbox.grid(rowspan=3, sticky=W+E)
 
 entry_add = Entry(root)
-button_add = Button(root, text='Add new task')
-
 entry_add.grid(row=3, column=0, sticky=W+E)
+
+button_add = Button(root, text='Add new task', command=pushadd)
 button_add.grid(row=3, column=1, sticky=W+E)
 
-button_done = Button(root, text='Done!')
+button_done = Button(root, text='Done!\nF2', command=pushdone)
+button_done.bind('<F2>', lambda event: pushdone())
 button_done.grid(row=0, column=1, sticky=N+W+E+S)
 
-button_continuelater = Button(root, text='Continue later')
-button_continuelater.grid(row=1, column=1, sticky=N+W+E+S)
+button_cont = Button(root, text='Continue later\nF3', command=pushcont)
+button_cont.bind('<F3>', lambda event: pushcont())
+button_cont.grid(row=1, column=1, sticky=N+W+E+S)
 
-button_turnthepage = Button(root, text='Turn the Page!')
-button_turnthepage.grid(row=2, column=1, sticky=N+W+E+S)
+button_turn = Button(root, text='Turn the Page!\nF4', command=pushturn)
+button_turn.bind('<F4>', lambda event: pushturn())
+button_turn.grid(row=2, column=1, sticky=N+W+E+S)
 
+root.resizable(width=FALSE, height=FALSE)
 root.mainloop()
