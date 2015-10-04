@@ -52,12 +52,18 @@ def pushturn():
     filllb()
 
 def pushdone():
-    af.complete(lbox.curselection()[0], db)
+    try:
+        af.complete(lbox.curselection()[0], db)
+    except:
+        pass
     af.savedb(db)
     filllb()
 
 def pushcont():
-    af.continue_later(lbox.curselection()[0], db)
+    try:
+        af.continue_later(lbox.curselection()[0], db)
+    except:
+        pass
     af.savedb(db)
     filllb()
 
