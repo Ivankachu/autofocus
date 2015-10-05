@@ -40,13 +40,12 @@ def filllb():
         i += 1
 
 def pushadd():
-    msg = entry_add.get()
-    if msg and not all(c == " " for c in msg):
-        msg = entry_add.get().strip()
+    msg = entry_add.get().strip()
+    if msg:
         af.add(msg, db)
-        entry_add.delete(0, END)
         af.savedb(db)
         filllb()
+    entry_add.delete(0, END)
     
 def pushturn():
     global db
