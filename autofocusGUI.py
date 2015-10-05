@@ -40,11 +40,14 @@ def filllb():
         i += 1
 
 def pushadd():
-    af.add(entry_add.get(), db)
-    entry_add.delete(0, END)
-    af.savedb(db)
-    filllb()
-
+    msg = entry_add.get()
+    if msg and not all(c == " " for c in msg):
+        msg = entry_add.get().strip()
+        af.add(msg, db)
+        entry_add.delete(0, END)
+        af.savedb(db)
+        filllb()
+    
 def pushturn():
     global db
     db = turn_the_page_gui(db)
