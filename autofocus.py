@@ -1,5 +1,5 @@
 import pickle
-import os
+import os, os.path
 
 num_ts = 20 #Number of tasks in a page
 
@@ -113,8 +113,15 @@ def savedb(db):
     with open('tasks.pkl', 'wb') as f:
         pickle.dump(db, f)
 
+def checkcreatefile():
+    if not os.path.isfile("tasks.pkl"):
+        with open('tasks.pkl', 'wb') as f:
+            db = {"isdone": False, "active": [], "pages": []}
+            pickle.dump(db, f)
+
 if __name__ == '__main__':
 
+    checkcreatefile()
     db = copydb()
     print_agenda(db)
     msg = ''
