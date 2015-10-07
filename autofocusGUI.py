@@ -4,6 +4,7 @@ from tkinter import *
 
 widthpixels = 393
 heightpixels = 350
+af.checkcreatefile()
 db = af.copydb()
 
 root = Tk()
@@ -33,11 +34,12 @@ def turn_the_page_gui(db):
 def filllb():
     lbox.delete(0, END)
     i = 0
-    for task in db["pages"][db["active"][0]]:
-        lbox.insert(i, task[0])
-        if task[1]:
-            lbox.itemconfig(i, bg='indigo', fg='white')
-        i += 1
+    if db["active"]:
+        for task in db["pages"][db["active"][0]]:
+            lbox.insert(i, task[0])
+            if task[1]:
+                lbox.itemconfig(i, bg='indigo', fg='white')
+            i += 1
 
 def pushadd():
     msg = entry_add.get().strip()
