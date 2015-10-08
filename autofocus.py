@@ -109,8 +109,8 @@ def clear():
     else:
         os.system('clear')
 
-def savedb(db):
-    with open('tasks.pkl', 'wb') as f:
+def savedb(db, filename):
+    with open(filename, 'wb') as f:
         pickle.dump(db, f)
 
 def checkcreatefile():
@@ -119,10 +119,19 @@ def checkcreatefile():
             db = {"isdone": False, "active": [], "pages": []}
             pickle.dump(db, f)
 
-def backup():
+def backup(db):
     list_files = glob.glob("backup*.pkl")
-    list_num_backup = sorted([int(name[6:-4]) for name in list_files])
-    print (list_num_backup)
+    list_num_backup = [int(name[6:-4]) for name in list_files
+                       if name[6:-4].isdigit()]
+    if list_num_backup:
+        new_num_backup = max(list_num_backup) + 1
+    else:
+        new_num_backup = 0
+    new_name_backup = "backup" + str(new_num_backup) + ".pkl"
+    savedb(db, new_name_backup)
+    if len(list_num_backup) > 4:
+        first_file = "backup" + str(min(list_num_backup)) + ".pkl"
+        os.remove(first_file)
 
 if __name__ == '__main__':
 
@@ -133,19 +142,14 @@ if __name__ == '__main__':
 
     while msg != 'exit' and msg != 'quit':
         msg = input(">>> ")
-        
         if msg[:4] == "add " and msg[4:]:
             db = add(msg[4:], db)
-            savedb(db)
         if msg[:9] == "complete " and msg[9:]:
             db = complete(int(msg[9:]), db)
-            savedb(db)
         if msg[:15] == "continue later " and msg[15:]:
             db = continue_later(int(msg[15:]), db)
-            savedb(db)
         if msg == "turn the page":
             db = turn_the_page(db)
-            savedb(db)
         if msg == "print":
             print_agenda(db)
         if msg == "help":
@@ -157,9 +161,10 @@ if __name__ == '__main__':
         if msg == "print flag":
             print (db["isdone"])
         if msg == "save":
-            savedb(db)
+            savedb(db, "tasks.pkl")
         if msg == "clear":
             clear()
         if msg == "backup":
-            backup()
-    savedb(db)
+            backup(db)
+    savedb(db, "tasks.pkl")
+    backup(db)
