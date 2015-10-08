@@ -1,5 +1,7 @@
 import pickle
-import os, os.path
+import os
+import os.path
+import glob
 
 num_ts = 20 #Number of tasks in a page
 
@@ -58,7 +60,6 @@ def demolish_page(db):
         task[1] = 1
     del db["active"][0]
     return db
-    
 
 def turn_the_page(db):
     if len(db["active"]):
@@ -119,6 +120,10 @@ def checkcreatefile():
             db = {"isdone": False, "active": [], "pages": []}
             pickle.dump(db, f)
 
+def backup():
+    list_files = glob.glob("backup*.pkl")
+    print (list_files)    
+
 if __name__ == '__main__':
 
     checkcreatefile()
@@ -153,6 +158,8 @@ if __name__ == '__main__':
             print (db["isdone"])
         if msg == "save":
             savedb(db)
-        if msg == 'clear':
+        if msg == "clear":
             clear()
+        if msg == "backup":
+            backup()
     savedb(db)
