@@ -1,6 +1,5 @@
 import pickle
 import os
-import os.path
 import glob
 
 num_ts = 20 #Number of tasks in a page
@@ -103,7 +102,7 @@ def print_pages(db):
         print ("page ", index)
         for (index2, task) in enumerate(page):
             print ('{:3}  {:40}{}'.format(index2, task[0], task[1]))
-			
+
 def clear():
     if os.name == 'nt':
         os.system('cls')
@@ -122,14 +121,15 @@ def checkcreatefile():
 
 def backup():
     list_files = glob.glob("backup*.pkl")
-    print (list_files)    
+    list_num_backup = sorted([int(name[6:-4]) for name in list_files])
+    print (list_num_backup)
 
 if __name__ == '__main__':
 
     checkcreatefile()
     db = copydb()
     print_agenda(db)
-    msg = ''
+    msg = ""
 
     while msg != 'exit' and msg != 'quit':
         msg = input(">>> ")
