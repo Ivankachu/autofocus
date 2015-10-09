@@ -91,3 +91,4 @@ button_turn.grid(row=2, column=1, sticky=N+W+E+S)
 
 root.resizable(width=FALSE, height=FALSE)
 root.mainloop()
+af.backup(db)
