@@ -83,13 +83,14 @@ button_done.bind('<F2>', lambda event: pushdone())
 button_done.grid(row=0, column=1, sticky=N+W+E+S)
 
 button_cont = Button(root, text='Continue later\nF3', command=pushcont)
-button_cont.bind('<F3>', lambda event: pushcont())
 button_cont.grid(row=1, column=1, sticky=N+W+E+S)
 
 button_turn = Button(root, text='Turn the Page!\nF4', command=pushturn)
-button_turn.bind('<F4>', lambda event: pushturn())
 button_turn.grid(row=2, column=1, sticky=N+W+E+S)
 
 root.resizable(width=FALSE, height=FALSE)
+root.bind('<F2>', lambda event: pushdone())
+root.bind('<F3>', lambda event: pushcont())
+root.bind('<F4>', lambda event: pushturn())
 root.mainloop()
 af.backup(db)
