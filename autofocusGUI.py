@@ -79,7 +79,6 @@ button_add = Button(root, text='Add new task', command=pushadd)
 button_add.grid(row=3, column=1, sticky=W+E)
 
 button_done = Button(root, text='Done!\nF2', command=pushdone)
-button_done.bind('<F2>', lambda event: pushdone())
 button_done.grid(row=0, column=1, sticky=N+W+E+S)
 
 button_cont = Button(root, text='Continue later\nF3', command=pushcont)
