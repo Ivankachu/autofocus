@@ -45,26 +45,26 @@ def pushadd():
     msg = entry_add.get().strip()
     if msg:
         af.add(msg, db)
-        af.savedb(db)
+        af.savedb(db, "tasks.pkl")
         filllb()
     entry_add.delete(0, END)
     
 def pushturn():
     global db
     db = turn_the_page_gui(db)
-    af.savedb(db)
+    af.savedb(db, "tasks.pkl")
     filllb()
 
 def pushdone():
     if lbox.curselection():
         af.complete(lbox.curselection()[0], db)
-        af.savedb(db)
+        af.savedb(db, "tasks.pkl")
         filllb()
 
 def pushcont():
     if lbox.curselection():
         af.continue_later(lbox.curselection()[0], db)
-        af.savedb(db)
+        af.savedb(db, "tasks.pkl")
         filllb()
 
 filllb()
@@ -73,6 +73,7 @@ lbox.grid(rowspan=3, sticky=W+E)
 
 entry_add = Entry(root)
 entry_add.grid(row=3, column=0, sticky=W+E)
+entry_add.bind('<Return>', lambda event: pushadd())
 
 button_add = Button(root, text='Add new task', command=pushadd)
 button_add.grid(row=3, column=1, sticky=W+E)
