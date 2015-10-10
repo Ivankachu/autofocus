@@ -2,7 +2,7 @@ import pickle
 import os
 import glob
 
-num_ts = 20 #Number of tasks in a page
+tasks_in_page = 20
 
 def copydb():
     with open('tasks.pkl', 'rb') as f:
@@ -13,7 +13,7 @@ def print_agenda(db):
     if len(db["active"]):
         print ('=' * 35)
         for (index, task) in enumerate(db["pages"][db["active"][0]]):
-            if not task[1]:  #if task is not undone (1, not 0)
+            if not task[1]:
                 print (' {:2}  {}'.format(index, task[0]))
         print ('=' * 35)
     else:
@@ -21,12 +21,14 @@ def print_agenda(db):
 
 def add(new_task, db):
     if len(db["pages"]):
-        if len(db["pages"][-1]) < num_ts:
-            db["pages"][-1].append([new_task, 0])  #Add a new task in the last page.
+        if len(db["pages"][-1]) < tasks_in_page:
+            #Add a new task in the last page
+            db["pages"][-1].append([new_task, 0])
         else:
-            db["pages"].append([[new_task, 0]])    #Add a new page and a new task in it.
+            #Add a new page and a new task in it
+            db["pages"].append([[new_task, 0]])
             index_new_page = len(db["pages"]) - 1
-            if db["active"]:                           #If there is something in active list
+            if db["active"]:
                 place_max = db["active"].index(max(db["active"]))
                 db["active"].insert(place_max + 1, index_new_page)
             else:
@@ -37,11 +39,11 @@ def add(new_task, db):
     return db
 
 def complete(index_task, db):
-    if 0 <= index_task < num_ts:
+    if 0 <= index_task < tasks_in_page:
         if not db["pages"][db["active"][0]][index_task][1]:
             db["isdone"] = True
             db["pages"][db["active"][0]][index_task][1] = 1
-            check_active_page_completed(db)  #For the case if all tasks in the page are completed
+            check_active_page_completed(db)
         else:
             print ("The task is already completed")
     else:
@@ -68,7 +70,8 @@ def turn_the_page(db):
             print_agenda(db)
         elif db["pages"][db["active"][0]] is not db["pages"][-1]:
             print ("The active page is not started yet.")
-            print ("If you turn the page, all uncompleted tasks will be demolished.")
+            print ("If you turn the page,\
+                   all uncompleted tasks will be demolished.")
             print ("Are you sure you want to turn the page?")
             msg1 = input("Yes?  ")
             if msg1 == "Yes":
@@ -77,11 +80,12 @@ def turn_the_page(db):
         else:
             db = demolish_page(db)
     else:
-        print ('You cannot turn the last page without completing something!')
+        print ('You cannot turn the last page \
+                without completing something!')
     return db
 
 def is_page_full(number_of_page):
-    if len(db["pages"][number_of_page]) == num_ts:
+    if len(db["pages"][number_of_page]) == tasks_in_page:
         return True
     else:
         return False
@@ -153,7 +157,8 @@ if __name__ == '__main__':
         if msg == "print":
             print_agenda(db)
         if msg == "help":
-            print ("add, complete, continue later, turn the page, print, exit")
+            print ("add, complete, continue later, turn the page, \
+                    print, exit")
         if msg == "print active":
             print_active_pages(db)
         if msg == "print pages":
