@@ -157,8 +157,8 @@ if __name__ == '__main__':
         if msg == "print":
             print_agenda(db)
         if msg == "help":
-            print ("add, complete, continue later, turn the page, \
-                    print, exit")
+            print ("add, complete, continue later, turn the page, "
+                   "print, exit")
         if msg == "print active":
             print_active_pages(db)
         if msg == "print pages":
