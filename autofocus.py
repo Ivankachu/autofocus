@@ -69,10 +69,10 @@ def turn_the_page(db):
             db["active"] = db["active"][1:] + [db["active"][0]]
             print_agenda(db)
         elif db["pages"][db["active"][0]] is not db["pages"][-1]:
-            print ("The active page is not started yet.")
-            print ("If you turn the page,\
-                   all uncompleted tasks will be demolished.")
-            print ("Are you sure you want to turn the page?")
+            print ("The active page is not started yet."
+                   "If you turn the page, "
+                   "all uncompleted tasks will be demolished."
+                   "Are you sure you want to turn the page?")
             msg1 = input("Yes?  ")
             if msg1 == "Yes":
                 db = demolish_page(db)
@@ -80,8 +80,8 @@ def turn_the_page(db):
         else:
             db = demolish_page(db)
     else:
-        print ('You cannot turn the last page \
-                without completing something!')
+        print ("You cannot turn the last page "
+               "without completing something!")
     return db
 
 def is_page_full(number_of_page):

@@ -1,15 +1,13 @@
 import autofocus as af
 from tkinter import *
 
-
 widthpixels = 393
 heightpixels = 350
+
 af.checkcreatefile()
 db = af.copydb()
-
 root = Tk()
 root.geometry('{}x{}'.format(widthpixels, heightpixels))
-
 lbox = Listbox(root, height=20, width=50)
 
 def turn_the_page_gui(db):
@@ -68,7 +66,6 @@ def pushcont():
         filllb()
 
 filllb()
-
 lbox.grid(rowspan=3, sticky=W+E)
 
 entry_add = Entry(root)
@@ -77,13 +74,10 @@ entry_add.bind('<Return>', lambda event: pushadd())
 
 button_add = Button(root, text='Add new task', command=pushadd)
 button_add.grid(row=3, column=1, sticky=W+E)
-
 button_done = Button(root, text='Done!\nF2', command=pushdone)
 button_done.grid(row=0, column=1, sticky=N+W+E+S)
-
 button_cont = Button(root, text='Continue later\nF3', command=pushcont)
 button_cont.grid(row=1, column=1, sticky=N+W+E+S)
-
 button_turn = Button(root, text='Turn the Page!\nF4', command=pushturn)
 button_turn.grid(row=2, column=1, sticky=N+W+E+S)
 
@@ -91,5 +85,6 @@ root.resizable(width=FALSE, height=FALSE)
 root.bind('<F2>', lambda event: pushdone())
 root.bind('<F3>', lambda event: pushcont())
 root.bind('<F4>', lambda event: pushturn())
+
 root.mainloop()
 af.backup(db)
