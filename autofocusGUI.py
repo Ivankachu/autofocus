@@ -16,18 +16,11 @@ def turn_the_page_gui(db):
             db["isdone"] = False
             db["active"] = db["active"][1:] + [db["active"][0]]
         elif db["pages"][db["active"][0]] is not db["pages"][-1]:
-            if messagebox.askyesno(
-                "Warning!",
-                "If you turn the page, all uncompleted tasks will be demolished.\
-                Are you sure you want to turn the page?"):
-                for task in db["pages"][db["active"][0]]:
-                    task[1] = 1
-                del db["active"][0]
+            if messagebox.askyesno("Warning!", af.msg_can_kill_page):
+                db = demolish_page(db)
         else:
-            messagebox.showwarning(
-                "Warning!",
-                "You cannot turn the last page without completing something!")
-        return db           
+            messagebox.showwarning("Warning!", af.msg_cant_turn_page)
+    return db           
 
 def filllb():
     lbox.delete(0, END)
@@ -82,6 +75,7 @@ button_turn = Button(root, text='Turn the Page!\nF4', command=pushturn)
 button_turn.grid(row=2, column=1, sticky=N+W+E+S)
 
 root.resizable(width=FALSE, height=FALSE)
+root.title("AutoFocus")
 root.bind('<F2>', lambda event: pushdone())
 root.bind('<F3>', lambda event: pushcont())
 root.bind('<F4>', lambda event: pushturn())

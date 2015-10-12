@@ -3,6 +3,14 @@ import os
 import glob
 
 tasks_in_page = 20
+msg_cant_turn_page = ("You can turn the page without doing anything "
+                      "but it will cause marking all tasks "
+                      "in the page as completed.\n"
+                      "Do you wish to proceed?")
+msg_can_kill_page = ("You can turn the page without doing anything "
+                     "but it will cause marking all tasks "
+                     "in the page as completed.\n"
+                     "Do you wish to proceed?")
 
 def copydb():
     with open('tasks.pkl', 'rb') as f:
@@ -70,17 +78,13 @@ def turn_the_page(db):
             print_agenda(db)
         else:
             if db["pages"][db["active"][0]] is not db["pages"][-1]:
-                print ("You can turn the page without doing anything "
-                       "but it will cause marking all tasks "
-                       "in the page as completed.\n"
-                       "Do you wish to proceed?")
+                print (msg_can_kill_page)
                 msg1 = input("Yes?  ")
                 if msg1 == "Yes":
                     db = demolish_page(db)
                     print_agenda(db)
             else:
-                print ("You have to do something from "
-                       "the current list firstly!")
+                print (msg_cant_turn_page)
     return db
 
 def is_page_full(number_of_page):
