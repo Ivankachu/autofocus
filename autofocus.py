@@ -3,10 +3,8 @@ import os
 import glob
 
 tasks_in_page = 20
-msg_cant_turn_page = ("You can turn the page without doing anything "
-                      "but it will cause marking all tasks "
-                      "in the page as completed.\n"
-                      "Do you wish to proceed?")
+msg_cant_turn_page = ("You have to do something from "	
+                      "the current list firstly!")
 msg_can_kill_page = ("You can turn the page without doing anything "
                      "but it will cause marking all tasks "
                      "in the page as completed.\n"
@@ -130,15 +128,21 @@ def backup(db):
     list_files = glob.glob("backup*.pkl")
     list_num_backup = [int(name[6:-4]) for name in list_files
                        if name[6:-4].isdigit()]
-    if list_num_backup:
-        new_num_backup = max(list_num_backup) + 1
-    else:
+    new_num_backup = None
+    if not list_num_backup:
         new_num_backup = 0
-    new_name_backup = "backup" + str(new_num_backup) + ".pkl"
-    savedb(db, new_name_backup)
-    if len(list_num_backup) > 4:
-        first_file = "backup" + str(min(list_num_backup)) + ".pkl"
-        os.remove(first_file)
+    else:
+        last_backup = "backup" + str(max(list_num_backup)) + ".pkl"
+        with open(last_backup, 'rb') as f:
+            last_db = pickle.load(f)
+        if last_db != db:
+            new_num_backup = max(list_num_backup) + 1
+    if new_num_backup != None:
+        new_name_backup = "backup" + str(new_num_backup) + ".pkl"
+        savedb(db, new_name_backup)
+        if len(list_num_backup) > 4:
+            first_file = "backup" + str(min(list_num_backup)) + ".pkl"
+            os.remove(first_file)
 
 if __name__ == '__main__':
 
@@ -174,5 +178,5 @@ if __name__ == '__main__':
             clear()
         if msg == "backup":
             backup(db)
-    savedb(db, "tasks.pkl")
     backup(db)
+    savedb(db, "tasks.pkl")
