@@ -2,6 +2,9 @@ class WritingPad:
 
     def __init__(self, numstr):
         self.numstr = numstr
+        self.status = False
+        self.acitve = []
+        self.pages = []
 
     def add_task(self, task):
         pass
