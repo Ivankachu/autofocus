@@ -7,7 +7,10 @@ class WritingPad:
         self.pages = []
 
     def add_task(self, task):
-        pass
+        if len(self.pages[-1]) < self.numstr:
+            self.pages[-1].append(task)
+        else:
+            self.pages.append([task])
 
     def do_task(self, task):
         pass
