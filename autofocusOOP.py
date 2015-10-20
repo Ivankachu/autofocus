@@ -6,14 +6,16 @@ class WritingPad:
         self.acitve = []
         self.pages = []
 
-    def add_task(self, task):
+    def add_task(self, text):
+        newtask = Entry(text)
         if len(self.pages[-1]) < self.numstr:
-            self.pages[-1].append(task)
+            self.pages[-1].append(newtask)
         else:
-            self.pages.append([task])
+            self.pages.append([newtask])
 
-    def do_task(self, task):
-        pass
+    def do_task(self, numtask):
+        current_page = active[0]
+        self.pages[current_page][numtask].do_task()
 
     def contin_later(self, task):
         pass
@@ -27,8 +29,8 @@ class WritingPad:
 
 class Entry:
 
-    def __init__(self, task):
-        self.task = task
+    def __init__(self, text):
+        self.text = text
         self.status = 0
 
     def do_task(self):
