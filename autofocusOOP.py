@@ -24,18 +24,32 @@ class WritingPad:
         text = self.pages[current_page][numtask].text
         self.do_task(numtask)
         self.add_task(text)
-        if self.check_complete_page():
+        if self.check_page_completed():
             self.turn_the_page()
 
     def kill_page(self):
-        pass
+        current_page = active[0]
+        for task in self.pages[current_page]:
+            task.do_task()
 
     def turn_the_page(self):
         pass
 
-    def check_complete_page(self):
-        pass
+    def check_page_completed(self):
+        current_page = active[0]
+        for task in self.pages[current_page]:
+            if task.status:
+                return false
+        return true
 
+    def check_page_full(self):
+        if len(self.pages[active[0]]) < self.numstr:
+            return false
+        else:
+            return true
+
+    def change_text(self, index, text):
+        self.pages[active[0]][index].text = text
 
 class Entry:
 
