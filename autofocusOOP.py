@@ -33,7 +33,14 @@ class WritingPad:
             task.do_task()
 
     def turn_the_page(self):
-        pass
+        if len(self.active) < 2:
+            print ("We can't turn the page. Work!")
+        else:
+            if self.status:
+                self.active.append(active.pop(0))
+            else:
+                self.kill_page()
+                self.active.pop(0)
 
     def check_page_completed(self):
         current_page = active[0]
