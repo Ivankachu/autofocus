@@ -66,3 +66,19 @@ class Entry:
 
     def do_task(self):
         self.status = 1
+
+def copydb():
+    with open('tasks.pkl', 'rb') as f:
+        db = pickle.load(f)
+    return db
+
+def checkcreatefile():
+    if not os.path.isfile("tasks.pkl"):
+        with open('tasks.pkl', 'wb') as f:
+            db = WritingPas(20)
+            pickle.dump(db, f)
+
+if __name__ == '__main__':
+    
+    checkcreatefile()
+    db = copydb()
