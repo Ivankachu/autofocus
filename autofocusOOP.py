@@ -6,6 +6,16 @@ class WritingPad:
         self.acitve = []
         self.pages = []
 
+    def print_agenda(self):
+        if len(self.active):
+            print ('=' * 35)
+            for (index, task) in enumerate(self.pages[self.active][0]):
+                if not task.status:
+                    print (' {:2}  {}'.format(index, task.text))
+            print ('=' * 35)
+        else:
+            print ("Nothing to do. Add something!")
+
     def add_task(self, text):
         newtask = Entry(text)
         if len(self.pages[-1]) < self.numstr:
@@ -82,3 +92,31 @@ if __name__ == '__main__':
     
     checkcreatefile()
     db = copydb()
+
+    while msg != 'exit' and msg != 'quit':
+        msg = input(">>> ")
+        if msg[:4] == "add " and msg[4:]:
+            pass
+        if msg[:9] == "complete " and msg[9:]:
+            pass
+        if msg[:15] == "continue later " and msg[15:]:
+            pass
+        if msg == "turn the page":
+            pass
+        if msg == "print":
+            pass
+        if msg == "help":
+            print ("add, complete, continue later, "
+                   "turn the page, print, exit")
+        if msg == "print active":
+            pass
+        if msg == "print pages":
+            pass
+        if msg == "print flag":
+            pass
+        if msg == "save":
+            pass
+        if msg == "clear":
+            pass
+        if msg == "backup":
+            pass
