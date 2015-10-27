@@ -78,7 +78,7 @@ class Entry:
         self.status = 1
 
 def copydb():
-    with open('tasks.pkl', 'rb') as f:
+    with open('db.pkl', 'rb') as f:
         db = pickle.load(f)
     return db
 
@@ -96,15 +96,15 @@ if __name__ == '__main__':
     while msg != 'exit' and msg != 'quit':
         msg = input(">>> ")
         if msg[:4] == "add " and msg[4:]:
-            pass
+            db.add(msg[4:])
         if msg[:9] == "complete " and msg[9:]:
-            pass
+            db.do_task(msg[9:])
         if msg[:15] == "continue later " and msg[15:]:
-            pass
+            db.contin_later(msg[15:])
         if msg == "turn the page":
-            pass
+            db.turn_the_page()
         if msg == "print":
-            pass
+            db.print_agenda()
         if msg == "help":
             print ("add, complete, continue later, "
                    "turn the page, print, exit")
