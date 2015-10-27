@@ -1,9 +1,12 @@
+import os
+import pickle
+
 class WritingPad:
 
     def __init__(self, numstr):
         self.numstr = numstr
         self.status = False
-        self.acitve = []
+        self.active = []
         self.pages = []
 
     def print_agenda(self):
@@ -16,31 +19,31 @@ class WritingPad:
         else:
             print ("Nothing to do. Add something!")
 
-    def add_task(self, text):
+    def add(self, text):
         newtask = Entry(text)
-        if len(self.pages[-1]) < self.numstr:
-            self.pages[-1].append(newtask)
-        else:
+        if not self.pages or len(self.pages[-1]) >= self.numstr:
             self.pages.append([newtask])
+        else:
+            self.pages[-1].append(newtask)
 
-    def do_task(self, numtask):
+    def do(self, numtask):
         current_page = active[0]
-        self.pages[current_page][numtask].do_task()
+        self.pages[current_page][numtask].do()
         if self.check_complete_page():
             self.turn_the_page()
 
     def contin_later(self, numtask):
         current_page = active[0]
         text = self.pages[current_page][numtask].text
-        self.do_task(numtask)
-        self.add_task(text)
+        self.do(numtask)
+        self.add(text)
         if self.check_page_completed():
             self.turn_the_page()
 
     def kill_page(self):
         current_page = active[0]
         for task in self.pages[current_page]:
-            task.do_task()
+            task.do()
 
     def turn_the_page(self):
         if len(self.active) < 2:
@@ -74,7 +77,7 @@ class Entry:
         self.text = text
         self.status = 0
 
-    def do_task(self):
+    def do(self):
         self.status = 1
 
 def copydb():
@@ -89,20 +92,21 @@ def savedb(db, filename):
 def checkcreatefile():
     if not os.path.isfile("db.pkl"):
         with open('db.pkl', 'wb') as f:
-            db = WritingPas(20)
+            db = WritingPad(20)
             pickle.dump(db, f)
 
 if __name__ == '__main__':
     
     checkcreatefile()
     db = copydb()
+    msg = ''
 
     while msg != 'exit' and msg != 'quit':
         msg = input(">>> ")
         if msg[:4] == "add " and msg[4:]:
             db.add(msg[4:])
         if msg[:9] == "complete " and msg[9:]:
-            db.do_task(msg[9:])
+            db.do(msg[9:])
         if msg[:15] == "continue later " and msg[15:]:
             db.contin_later(msg[15:])
         if msg == "turn the page":
