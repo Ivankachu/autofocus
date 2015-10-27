@@ -82,9 +82,13 @@ def copydb():
         db = pickle.load(f)
     return db
 
+def savedb(db, filename):
+    with open(filename, 'wb') as f:
+        pickle.dump(db, f)
+
 def checkcreatefile():
-    if not os.path.isfile("tasks.pkl"):
-        with open('tasks.pkl', 'wb') as f:
+    if not os.path.isfile("db.pkl"):
+        with open('db.pkl', 'wb') as f:
             db = WritingPas(20)
             pickle.dump(db, f)
 
@@ -105,6 +109,8 @@ if __name__ == '__main__':
             db.turn_the_page()
         if msg == "print":
             db.print_agenda()
+        if msg == "save":
+            savedb(db, "db.pkl")
         if msg == "help":
             print ("add, complete, continue later, "
                    "turn the page, print, exit")
@@ -113,8 +119,6 @@ if __name__ == '__main__':
         if msg == "print pages":
             pass
         if msg == "print flag":
-            pass
-        if msg == "save":
             pass
         if msg == "clear":
             pass
