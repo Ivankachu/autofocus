@@ -24,8 +24,8 @@ class WritingPad:
     def add(self, text):
         newtask = Entry(text)
         if not self.pages or len(self.pages[-1]) >= self.numstr:
-            self.pages.append([newtask])
             self.active.append(len(self.pages))
+            self.pages.append([newtask])
         else:
             self.pages[-1].append(newtask)
 
