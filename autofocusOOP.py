@@ -10,9 +10,11 @@ class WritingPad:
         self.pages = []
 
     def print_agenda(self):
+        print ('self.active: ', self.active)
+        print ('self.pages: ', self.pages)
         if len(self.active):
             print ('=' * 35)
-            for (index, task) in enumerate(self.pages[self.active][0]):
+            for (index, task) in enumerate(self.pages[self.active[0]]):
                 if not task.status:
                     print (' {:2}  {}'.format(index, task.text))
             print ('=' * 35)
@@ -23,6 +25,7 @@ class WritingPad:
         newtask = Entry(text)
         if not self.pages or len(self.pages[-1]) >= self.numstr:
             self.pages.append([newtask])
+            self.active.append(len(self.pages))
         else:
             self.pages[-1].append(newtask)
 
