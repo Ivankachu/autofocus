@@ -10,8 +10,6 @@ class WritingPad:
         self.pages = []
 
     def print_agenda(self):
-        print ('self.active: ', self.active)
-        print ('self.pages: ', self.pages)
         if len(self.active):
             print ('=' * 35)
             for (index, task) in enumerate(self.pages[self.active[0]]):
@@ -98,6 +96,12 @@ def checkcreatefile():
             db = WritingPad(20)
             pickle.dump(db, f)
 
+def clear():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
 if __name__ == '__main__':
     
     checkcreatefile()
@@ -122,12 +126,13 @@ if __name__ == '__main__':
             print ("add, complete, continue later, "
                    "turn the page, print, exit")
         if msg == "print active":
-            pass
+            print (self.active)
         if msg == "print pages":
-            pass
+            print (self.pages)
         if msg == "print flag":
-            pass
+            print (self.status)
         if msg == "clear":
-            pass
+            clear()
         if msg == "backup":
             pass
+    savedb(db, 'db.pkl')
