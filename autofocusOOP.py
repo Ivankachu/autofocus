@@ -28,13 +28,13 @@ class WritingPad:
             self.pages[-1].append(newtask)
 
     def do(self, numtask):
-        current_page = active[0]
+        current_page = self.active[0]
         self.pages[current_page][numtask].do()
-        if self.check_complete_page():
+        if self.check_page_completed():
             self.turn_the_page()
 
     def contin_later(self, numtask):
-        current_page = active[0]
+        current_page = self.active[0]
         text = self.pages[current_page][numtask].text
         self.do(numtask)
         self.add(text)
@@ -57,17 +57,17 @@ class WritingPad:
                 self.active.pop(0)
 
     def check_page_completed(self):
-        current_page = active[0]
+        current_page = self.active[0]
         for task in self.pages[current_page]:
             if task.status:
-                return false
-        return true
+                return False
+        return True
 
     def check_page_full(self):
         if len(self.pages[active[0]]) < self.numstr:
-            return false
+            return False
         else:
-            return true
+            return True
 
     def change_text(self, index, text):
         self.pages[active[0]][index].text = text
@@ -106,6 +106,7 @@ if __name__ == '__main__':
     
     checkcreatefile()
     db = copydb()
+    db.print_agenda()
     msg = ''
 
     while msg != 'exit' and msg != 'quit':
@@ -113,9 +114,9 @@ if __name__ == '__main__':
         if msg[:4] == "add " and msg[4:]:
             db.add(msg[4:])
         if msg[:9] == "complete " and msg[9:]:
-            db.do(msg[9:])
+            db.do(int(msg[9:]))
         if msg[:15] == "continue later " and msg[15:]:
-            db.contin_later(msg[15:])
+            db.contin_later(int(msg[15:]))
         if msg == "turn the page":
             db.turn_the_page()
         if msg == "print":
@@ -133,6 +134,4 @@ if __name__ == '__main__':
             print (self.status)
         if msg == "clear":
             clear()
-        if msg == "backup":
-            pass
     savedb(db, 'db.pkl')
