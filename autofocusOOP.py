@@ -64,10 +64,7 @@ class WritingPad:
         return True
 
     def check_page_full(self):
-        if len(self.pages[active[0]]) < self.numstr:
-            return False
-        else:
-            return True
+        return len(self.pages[active[0]]) >= self.numstr:
 
     def change_text(self, index, text):
         self.pages[active[0]][index].text = text
@@ -121,6 +118,8 @@ if __name__ == '__main__':
             db.turn_the_page()
         if msg == "print":
             db.print_agenda()
+        if msg[:7] == "change " and msg[7:]:
+            db.change_text(msg[7:])
         if msg == "save":
             savedb(db, "db.pkl")
         if msg == "help":
