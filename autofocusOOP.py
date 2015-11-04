@@ -63,6 +63,9 @@ class WritingPad:
                 return False
         return True
 
+    def print_pages(self):
+        pass
+
     def check_page_full(self):
         return len(self.pages[active[0]]) >= self.numstr
 
