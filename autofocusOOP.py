@@ -64,7 +64,10 @@ class WritingPad:
         return True
 
     def print_pages(self):
-        pass
+        for index, page in enumerate(self.pages):
+            print ('Page ', index)
+            for task in page:
+                print (task.text, task.status)
 
     def check_page_full(self):
         return len(self.pages[active[0]]) >= self.numstr
@@ -131,7 +134,7 @@ if __name__ == '__main__':
         if msg == "print active":
             print (db.active)
         if msg == "print pages":
-            print (db.pages)
+            db.print_pages()
         if msg == "print flag":
             print (db.status)
         if msg == "clear":
