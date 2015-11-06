@@ -8,7 +8,7 @@ af.checkcreatefile()
 db = af.copydb()
 root = Tk()
 root.geometry('{}x{}'.format(widthpixels, heightpixels))
-lbox = Listbox(root, height=20, width=50)
+lbox = Listbox(root, height=20, width=50, activestyle = 'none')
 
 def turn_the_page_gui(db):
     if len(db["active"]):
@@ -29,7 +29,9 @@ def filllb():
         for task in db["pages"][db["active"][0]]:
             lbox.insert(i, task[0])
             if task[1]:
-                lbox.itemconfig(i, bg='indigo', fg='white')
+                lbox.itemconfig(i, bg='#804D00', fg='white')
+            else:
+                lbox.itemconfig(i, bg='#FFD699', fg='black')
             i += 1
 
 def pushadd():
