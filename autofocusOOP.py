@@ -68,6 +68,7 @@ class WritingPad:
             print ('Page ', index)
             for task in page:
                 print (task.text, task.status)
+            print()
 
     def check_page_full(self):
         return len(self.pages[active[0]]) >= self.numstr
@@ -118,10 +119,13 @@ if __name__ == '__main__':
             db.add(msg[4:])
         if msg[:9] == "complete " and msg[9:]:
             db.do(int(msg[9:]))
+            db.print_agenda()
         if msg[:15] == "continue later " and msg[15:]:
             db.contin_later(int(msg[15:]))
+            db.print_agenda()
         if msg == "turn the page":
             db.turn_the_page()
+            db.print_agenda()
         if msg == "print":
             db.print_agenda()
         if msg[:7] == "change " and msg[7:]:
