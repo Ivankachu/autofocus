@@ -1,8 +1,8 @@
 import autofocus as af
 from tkinter import *
 
-widthpixels = 393
-heightpixels = 350
+widthpixels = 415
+heightpixels = 370
 
 af.checkcreatefile()
 db = af.copydb()
@@ -61,20 +61,24 @@ def pushcont():
         filllb()
 
 filllb()
-lbox.grid(rowspan=3, sticky=W+E)
+lbox.grid(rowspan=3, sticky=W+E, pady = 5,  padx = 5)
 
 entry_add = Entry(root)
-entry_add.grid(row=3, column=0, sticky=W+E)
+entry_add.grid(row=3, column=0, sticky=W+E, pady = 5,  padx = 5)
 entry_add.bind('<Return>', lambda event: pushadd())
 
-button_add = Button(root, text='Add new task', command=pushadd)
-button_add.grid(row=3, column=1, sticky=W+E)
-button_done = Button(root, text='Done!\nF2', command=pushdone)
-button_done.grid(row=0, column=1, sticky=N+W+E+S)
-button_cont = Button(root, text='Continue later\nF3', command=pushcont)
-button_cont.grid(row=1, column=1, sticky=N+W+E+S)
-button_turn = Button(root, text='Turn the Page!\nF4', command=pushturn)
-button_turn.grid(row=2, column=1, sticky=N+W+E+S)
+button_add = Button(root, text='Add new task', command=pushadd,
+                    bg = '#555', fg = 'white')
+button_add.grid(row=3, column=1, sticky=W+E, pady = 5,  padx = 5)
+button_done = Button(root, text='Done!\nF2', command=pushdone,
+                     bg = '#555', fg = 'white')
+button_done.grid(row=0, column=1, sticky=W+E+N+S, pady = 5, padx = 5)
+button_cont = Button(root, text='Continue later\nF3', command=pushcont,
+                     bg = '#555', fg = 'white')
+button_cont.grid(row=1, column=1, sticky=W+E+N+S, pady = 5,  padx = 5)
+button_turn = Button(root, text='Turn the Page!\nF4', command=pushturn,
+                     bg = '#555', fg = 'white')
+button_turn.grid(row=2, column=1,  sticky=W+E+N+S, pady = 5,  padx = 5)
 
 root.resizable(width=FALSE, height=FALSE)
 root.title("AutoFocus")
