@@ -1,4 +1,11 @@
-import pickle
+"""
+The app provides plane time-management system created by Mark Forster.
+You can add items in your notebook, mark them done or continue later.
+You can read about system and rules for using in in the website
+http://markforster.squarespace.com/autofocus-system/
+"""
+
+mport pickle
 import os
 import glob
 
