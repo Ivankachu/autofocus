@@ -1,7 +1,7 @@
 """
 The app provides plane time-management system created by Mark Forster.
 You can add items in your notebook, mark them done or continue later.
-You can read about system and rules for using in in the website
+You can read about system and rules for using it in the website
 http://markforster.squarespace.com/autofocus-system/
 """
 
@@ -64,18 +64,28 @@ def complete(index_task, db):
     return db
         
 def continue_later(index_task, db):
+    """
+    Mark item as completed and copy it in the end of notebook
+    """
     task = db["pages"][db["active"][0]][index_task][0]
     db = complete(index_task, db)
     db = add(task, db)
     return db
 
 def demolish_page(db):
+    """
+    Mark all items in current page as completed and delete
+    it from list of active pages
+    """
     for task in db["pages"][db["active"][0]]:
         task[1] = 1
     del db["active"][0]
     return db
 
 def turn_the_page(db):
+    """
+    Shift active pages: first page in active list become last one.
+    """
     if len(db["active"]):
         if db["isdone"]:
             db["isdone"] = False
