@@ -5,7 +5,7 @@ You can read about system and rules for using it in the website
 http://markforster.squarespace.com/autofocus-system/
 """
 
-mport pickle
+import pickle
 import os
 import glob
 

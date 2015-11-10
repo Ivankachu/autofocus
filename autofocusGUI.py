@@ -1,7 +1,7 @@
 import autofocus as af
 from tkinter import *
 
-widthpixels = 415
+widthpixels = 418
 heightpixels = 370
 
 af.checkcreatefile()
