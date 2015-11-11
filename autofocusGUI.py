@@ -3,15 +3,11 @@ from tkinter import *
 
 widthpixels = 418
 heightpixels = 370
-widthchoose = 800
-heightchoose = 370
 
 af.checkcreatefile()
 db = af.copydb()
 root = Tk()
-choosewin = Tk()
 root.geometry('{}x{}'.format(widthpixels, heightpixels))
-choosewin.geometry('{}x{}'.format(widthpixels, heightpixels))
 lbox = Listbox(root, height=20, width=50, activestyle = 'none')
 
 def turn_the_page_gui(db):
@@ -64,7 +60,7 @@ def pushcont():
         af.savedb(db, "tasks.pkl")
         filllb()
 def pushchoose():
-    pass
+    choosewin = Toplevel(root)
 
 filllb()
 lbox.grid(rowspan=4, sticky=W+E, pady = 5,  padx = 5)
@@ -74,19 +70,19 @@ entry_add.grid(row=4, column=0, sticky=W+E, pady = 5,  padx = 5)
 entry_add.bind('<Return>', lambda event: pushadd())
 
 button_choose = Button(root, text='Make a choice!\nF5', command=pushchoose,
-                     bg = '#699', fg = 'white')
+                     bg = '#444', fg = 'white')
 button_choose.grid(row=0, column=1, sticky=W+E+N+S, pady = 5, padx = 5)
 button_add = Button(root, text='Add new task', command=pushadd,
-                    bg = '#555', fg = 'white')
+                    bg = '#777', fg = 'white')
 button_add.grid(row=4, column=1, sticky=W+E, pady = 5,  padx = 5)
 button_done = Button(root, text='Done!\nF2', command=pushdone,
-                     bg = '#555', fg = 'white')
+                     bg = '#777', fg = 'white')
 button_done.grid(row=1, column=1, sticky=W+E+N+S, pady = 5, padx = 5)
 button_cont = Button(root, text='Continue later\nF3', command=pushcont,
-                     bg = '#555', fg = 'white')
+                     bg = '#777', fg = 'white')
 button_cont.grid(row=2, column=1, sticky=W+E+N+S, pady = 5,  padx = 5)
 button_turn = Button(root, text='Turn the Page!\nF4', command=pushturn,
-                     bg = '#555', fg = 'white')
+                     bg = '#777', fg = 'white')
 button_turn.grid(row=3, column=1,  sticky=W+E+N+S, pady = 5,  padx = 5)
 
 root.resizable(width=FALSE, height=FALSE)
