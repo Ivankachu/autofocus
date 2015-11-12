@@ -67,6 +67,7 @@ def continue_later(index_task, db):
     """
     Mark item as completed and copy it in the end of notebook
     """
+    if db["pages"][db["active"][0]][index_task][1]: return db
     task = db["pages"][db["active"][0]][index_task][0]
     db = complete(index_task, db)
     db = add(task, db)
