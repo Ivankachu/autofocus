@@ -158,6 +158,9 @@ def print_active_pages(db):
     print (db["active"])
 
 def print_pages(db):
+    """
+    Print all items in all pages
+    """    
     for (index, page) in enumerate(db["pages"]):
         print ("\n")
         print ("page ", index)
@@ -165,22 +168,38 @@ def print_pages(db):
             print ('{:3}  {:40}{}'.format(index2, task[0], task[1]))
 
 def clear():
+    """
+    Clear the screen of console
+    """
     if os.name == 'nt':
         os.system('cls')
     else:
         os.system('clear')
 
 def savedb(db, filename):
+    """
+    Save DB dictionary in file
+    """
     with open(filename, 'wb') as f:
         pickle.dump(db, f)
 
 def checkcreatefile():
+    """
+    Check whether file with DB is created?
+    If it's not, create it and write empty DB.
+    """
     if not os.path.isfile("tasks.pkl"):
         with open('tasks.pkl', 'wb') as f:
             db = {"isdone": False, "active": [], "pages": []}
             pickle.dump(db, f)
 
 def backup(db):
+    """
+    Create a backup file of previous 4 versions of DB.
+    Check for files 'backup<number>.pkl' and find out maximum number.
+    Then create 'backup<number+1>.pkl' file consisting of current DB.
+    If number of backup files is more than 4 delete file backup<min number>.pkl'.
+    """
     list_files = glob.glob("backup*.pkl")
     list_num_backup = [int(name[6:-4]) for name in list_files
                        if name[6:-4].isdigit()]
