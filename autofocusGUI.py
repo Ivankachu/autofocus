@@ -59,8 +59,12 @@ def pushcont():
         af.continue_later(lbox.curselection()[0], db)
         af.savedb(db, "tasks.pkl")
         filllb()
+        
 def pushchoose():
     choosewin = Toplevel(root)
+
+def createbutton(command, text, bg='#777', fg = 'white'):
+    return Button(root, text=text, command=command, bg=bg, fg=fg)
 
 filllb()
 lbox.grid(rowspan=4, sticky=W+E, pady = 5,  padx = 5)
@@ -69,20 +73,17 @@ entry_add = Entry(root)
 entry_add.grid(row=4, column=0, sticky=W+E, pady = 5,  padx = 5)
 entry_add.bind('<Return>', lambda event: pushadd())
 
-button_choose = Button(root, text='Make a choice!\nF5', command=pushchoose,
-                     bg = '#444', fg = 'white')
+button_choose = createbutton(text='Make a choice!\nF5', command=pushchoose,
+                     bg = '#444')
+button_add = createbutton(text='Add new task', command=pushadd)
+button_done = createbutton(text='Done!\nF2', command=pushdone)
+button_cont = createbutton(text='Continue later\nF3', command=pushcont)
+button_turn = createbutton(text='Turn the Page!\nF4', command=pushturn)
+
 button_choose.grid(row=0, column=1, sticky=W+E+N+S, pady = 5, padx = 5)
-button_add = Button(root, text='Add new task', command=pushadd,
-                    bg = '#777', fg = 'white')
 button_add.grid(row=4, column=1, sticky=W+E, pady = 5,  padx = 5)
-button_done = Button(root, text='Done!\nF2', command=pushdone,
-                     bg = '#777', fg = 'white')
 button_done.grid(row=1, column=1, sticky=W+E+N+S, pady = 5, padx = 5)
-button_cont = Button(root, text='Continue later\nF3', command=pushcont,
-                     bg = '#777', fg = 'white')
 button_cont.grid(row=2, column=1, sticky=W+E+N+S, pady = 5,  padx = 5)
-button_turn = Button(root, text='Turn the Page!\nF4', command=pushturn,
-                     bg = '#777', fg = 'white')
 button_turn.grid(row=3, column=1,  sticky=W+E+N+S, pady = 5,  padx = 5)
 
 root.resizable(width=FALSE, height=FALSE)
