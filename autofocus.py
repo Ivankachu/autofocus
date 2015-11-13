@@ -18,11 +18,36 @@ msg_can_kill_page = ("You can turn the page without doing anything "
                      "Do you wish to proceed?")
 
 def copydb():
+    """
+    Copy DB of items to-do list from a file. DB is structured as a dictionary
+    consisting of 3 items with keys: 'isdone', 'active' and 'pages'.
+    Item 'isdone' is a flag (True of False) that means whether any task
+    in the active page is already done in the current lap. The first number
+    of that list is an index of current page.
+    Item 'active' is a list of pages' indices that has undone tasks.
+    Item 'pages' is a nested list of pages which consist of tasks and flags
+    (0 or 1 - undone or done task).
+    
+    Example of DB dictionary:
+    
+    {False,
+    [1, 2],
+    [
+    [['text of task 1', 1], ['text of task 2', 1], ['text of task 3', 1]...],
+    [['text of task 21', 1], ['text of task 22', 0], ['text of task 23', 0]...],
+    [['text of task 31', 0], ['text of task 32', 0], ['text of task 33', 0]...],
+    ]
+    }
+    
+    """
     with open('tasks.pkl', 'rb') as f:
         db = pickle.load(f)
     return db
 
 def print_agenda(db):
+    """
+    Print undone items from the current active page
+    """
     if len(db["active"]):
         print ('=' * 35)
         for (index, task) in enumerate(db["pages"][db["active"][0]]):
@@ -33,6 +58,9 @@ def print_agenda(db):
         print ("All tasks you planned are completed.")
 
 def add(new_task, db):
+    """
+    Add new item(task) in the end of the last page or in a new page
+    """   
     if len(db["pages"]):
         if len(db["pages"][-1]) < tasks_in_page:
             #Add a new task in the last page
@@ -52,6 +80,9 @@ def add(new_task, db):
     return db
 
 def complete(index_task, db):
+    """
+    Mark item as completed
+    """
     if 0 <= index_task < tasks_in_page:
         if not db["pages"][db["active"][0]][index_task][1]:
             db["isdone"] = True
@@ -104,12 +135,16 @@ def turn_the_page(db):
     return db
 
 def is_page_full(number_of_page):
-    if len(db["pages"][number_of_page]) == tasks_in_page:
-        return True
-    else:
-        return False
+    """
+    Check whether current page is full of items.
+    """
+    return len(db["pages"][number_of_page]) == tasks_in_page:
 
 def check_active_page_completed(db):
+    """
+    Check whether all items in current page are marked as completed.
+    If so delete the page from the list of active pages.
+    """
     for task in db["pages"][db["active"][0]]:
         if not task[1]:
             break
@@ -117,6 +152,9 @@ def check_active_page_completed(db):
         del db["active"][0]
 
 def print_active_pages(db):
+    """
+    Print list of active pages.
+    """    
     print (db["active"])
 
 def print_pages(db):
