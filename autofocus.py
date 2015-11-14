@@ -138,7 +138,7 @@ def is_page_full(number_of_page):
     """
     Check whether current page is full of items.
     """
-    return len(db["pages"][number_of_page]) == tasks_in_page:
+    return len(db["pages"][number_of_page]) >= tasks_in_page
 
 def check_active_page_completed(db):
     """
