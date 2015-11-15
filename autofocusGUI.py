@@ -62,6 +62,8 @@ def pushcont():
         
 def pushchoose():
     choosewin = Toplevel(root)
+    choosetasklabel = Label(choosewin, text=choosetask)
+    choosetasklabel.pack()
 
 def createbutton(command, text, bg='#777', fg = 'white'):
     return Button(root, text=text, command=command, bg=bg, fg=fg)
