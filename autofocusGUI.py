@@ -59,13 +59,22 @@ def pushcont():
         af.continue_later(lbox.curselection()[0], db)
         af.savedb(db, "tasks.pkl")
         filllb()
-        
+
 def pushchoose():
+    global i, tasklabel
     tasks = db["pages"][db["active"][0]]
+    tasks = [task[0] for task in tasks if task[1] == 0]
     choosewin = Toplevel(root)
     choosetasklabel = Label(choosewin, text=tasks[0][0])
     choosetasklabel.pack()
-    #choosetasklabel.after(1000, pushchoose())
+    tasklabel = ''
+    i = 0
+    choosetasklabel.after(1000, iterchoose(tasks))
+
+def iterchoose(tasks):
+    global i, tasklabel
+    i += 1
+    tasklabel = tasks[i][0]
 
 def createbutton(command, text, bg='#777', fg = 'white'):
     return Button(root, text=text, command=command, bg=bg, fg=fg)
