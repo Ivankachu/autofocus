@@ -61,9 +61,11 @@ def pushcont():
         filllb()
         
 def pushchoose():
+    tasks = db["pages"][db["active"][0]]
     choosewin = Toplevel(root)
-    choosetasklabel = Label(choosewin, text=choosetask)
+    choosetasklabel = Label(choosewin, text=tasks[0][0])
     choosetasklabel.pack()
+    #choosetasklabel.after(1000, pushchoose())
 
 def createbutton(command, text, bg='#777', fg = 'white'):
     return Button(root, text=text, command=command, bg=bg, fg=fg)
