@@ -1,5 +1,6 @@
 import autofocus as af
 from tkinter import *
+from time import sleep
 
 widthpixels = 418
 heightpixels = 370
@@ -61,20 +62,18 @@ def pushcont():
         filllb()
 
 def pushchoose():
-    global i, tasklabel
     tasks = db["pages"][db["active"][0]]
     tasks = [task[0] for task in tasks if task[1] == 0]
     choosewin = Toplevel(root)
-    choosetasklabel = Label(choosewin, text=tasks[0][0])
+    choosetasklabel = Label(choosewin, text=tasks[0])
     choosetasklabel.pack()
-    tasklabel = ''
-    i = 0
-    choosetasklabel.after(1000, iterchoose(tasks))
+    choosetasklabel.after(1000, iter_label)
 
-def iterchoose(tasks):
-    global i, tasklabel
-    i += 1
-    tasklabel = tasks[i][0]
+def iter_label():
+    if not tasks:
+        return
+    choosetasklabel.config(text=tasks[0])
+    choosetasklabel.after(1000, iter_label)
 
 def createbutton(command, text, bg='#777', fg = 'white'):
     return Button(root, text=text, command=command, bg=bg, fg=fg)
