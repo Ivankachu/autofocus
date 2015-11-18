@@ -61,19 +61,22 @@ def pushcont():
         af.savedb(db, "tasks.pkl")
         filllb()
 
+class change_text:
+    def __init__(self, li):
+        self.choosewin = Toplevel(root)
+        self.li = li
+        self.choosetasklabel = Label(self.choosewin, text=self.li[0])
+        self.choosetasklabel.pack()
+    def __call__(self):
+        self.li.pop()
+        self.choosetasklabel.config(text=self.li[0])
+        self.choosetasklabel.after(1000, self.__call__)
+
 def pushchoose():
     tasks = db["pages"][db["active"][0]]
     tasks = [task[0] for task in tasks if task[1] == 0]
-    choosewin = Toplevel(root)
-    choosetasklabel = Label(choosewin, text=tasks[0])
-    choosetasklabel.pack()
-    choosetasklabel.after(1000, iter_label)
-
-def iter_label():
-    if not tasks:
-        return
-    choosetasklabel.config(text=tasks[0])
-    choosetasklabel.after(1000, iter_label)
+    ts = change_text(tasks)
+    ts()
 
 def createbutton(command, text, bg='#777', fg = 'white'):
     return Button(root, text=text, command=command, bg=bg, fg=fg)
