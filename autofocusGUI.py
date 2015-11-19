@@ -1,6 +1,5 @@
 import autofocus as af
 from tkinter import *
-from time import sleep
 
 widthpixels = 418
 heightpixels = 370
