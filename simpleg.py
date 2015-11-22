@@ -6,7 +6,6 @@ class App:
         self.height = 300
         self.root = Tk()
         self.root.geometry('{}x{}'.format(self.width, self.height))
-        self.root.update_idletasks()
         self.center(self.root)
         self.bt = Button(self.root, text='Push Me', command=self.pushme)
         self.bt.pack()
