@@ -1,4 +1,4 @@
-import autofocus as af
+import autofocusc as af
 from tkinter import *
 
 widthpixels = 418

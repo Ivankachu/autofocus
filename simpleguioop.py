@@ -1,7 +1,10 @@
 from tkinter import *
+from autofocusoop import *
+
 
 class App:
-    def __init__(self):
+    def __init__(self, db):
+        self.db = db
         self.width = 400
         self.height = 300
         self.root = Tk()
@@ -35,4 +38,7 @@ class App:
         self.lab.config(text=self.showli.pop(0))
         self.lab.after(1000, self.changelabel)
 
-app = App()
+checkcreatefile()
+db = copydb()
+
+app = App(db)
