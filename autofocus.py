@@ -1,7 +1,6 @@
 from tkinter import *
 from autofocusoop import *
 
-
 class App:
     def __init__(self, db):
         self.db = db
@@ -10,8 +9,9 @@ class App:
         self.root = Tk()
         self.root.geometry('{}x{}'.format(self.width, self.height))
         self.center(self.root)
-        self.bt = Button(self.root, text='Push Me', command=self.pushme)
-        self.bt.pack()
+        self.lbox = Listbox(root, height=20, width=50, activestyle = 'none')
+        self.btchoose = Button(self.root, text='Choose!', command=self.choose)
+        self.btchoose.pack()
         self.li = ['Aaaaa', 'Bbbbb', 'Ccccc', 'Ddddd', 'Eeeee']
         self.root.mainloop()
     def center(self, win):
@@ -22,7 +22,7 @@ class App:
         x = int(w / 2 - size[0] / 2)
         y = int(h / 2 - size[1] / 2)
         win.geometry("{}x{}+{}+{}".format(size[0], size[1], x, y))
-    def pushme(self):
+    def choose(self):
         self.newwin = Toplevel(self.root)
         self.newwin.geometry('{}x{}'.format(600, 200))
         self.center(self.newwin)
@@ -37,6 +37,8 @@ class App:
             return
         self.lab.config(text=self.showli.pop(0))
         self.lab.after(1000, self.changelabel)
+    def fill_listbox(self):
+        self.lbox.delete(0, END)
 
 checkcreatefile()
 db = copydb()
