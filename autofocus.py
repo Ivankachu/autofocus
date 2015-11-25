@@ -9,9 +9,12 @@ class App:
         self.root = Tk()
         self.root.geometry('{}x{}'.format(self.width, self.height))
         self.center(self.root)
-        self.lbox = Listbox(root, height=20, width=50, activestyle = 'none')
+        self.lbox = Listbox(self.root, height=20, width=50, activestyle = 'none')
+        self.entry_add = Entry(self.root)
         self.btchoose = Button(self.root, text='Choose!', command=self.choose)
+        self.btadd = Button(self.root, text='Add', command=self.add)
         self.btchoose.pack()
+        self.btadd.pack()
         self.li = ['Aaaaa', 'Bbbbb', 'Ccccc', 'Ddddd', 'Eeeee']
         self.root.mainloop()
     def center(self, win):
@@ -22,6 +25,8 @@ class App:
         x = int(w / 2 - size[0] / 2)
         y = int(h / 2 - size[1] / 2)
         win.geometry("{}x{}+{}+{}".format(size[0], size[1], x, y))
+    def add(self):
+        pass
     def choose(self):
         self.newwin = Toplevel(self.root)
         self.newwin.geometry('{}x{}'.format(600, 200))
