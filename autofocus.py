@@ -12,9 +12,15 @@ class App:
         self.lbox = Listbox(self.root, height=20, width=50, activestyle = 'none')
         self.entry_add = Entry(self.root)
         self.btchoose = Button(self.root, text='Choose!', command=self.choose)
+        self.btdone = Button(self.root, text='Done!', command=self.done)
+        self.btcont = Button(self.root, text='Continue\nlater', command=self.cont)
         self.btadd = Button(self.root, text='Add', command=self.add)
-        self.btchoose.pack()
-        self.btadd.pack()
+        self.lbox.grid(row=0, column=0)
+        self.entry_add.grid(row=3, column=0)
+        self.btchoose.grid(row=0, column=1)
+        self.btdone.grid(row=1, column=1)
+        self.btcont.grid(row=2, column=1)
+        self.btadd.grid(row=3, column=1)
         self.li = ['Aaaaa', 'Bbbbb', 'Ccccc', 'Ddddd', 'Eeeee']
         self.root.mainloop()
     def center(self, win):
@@ -26,6 +32,10 @@ class App:
         y = int(h / 2 - size[1] / 2)
         win.geometry("{}x{}+{}+{}".format(size[0], size[1], x, y))
     def add(self):
+        pass
+    def done(self):
+        pass
+    def cont(self):
         pass
     def choose(self):
         self.newwin = Toplevel(self.root)
