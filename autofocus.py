@@ -1,6 +1,7 @@
 import tkinter as tk
-from autofocusoop import *
-#reserved names: WritingPad, Entry, copydb, savedb, checkcreatefile, clear
+#For working with getting object from pickle file
+from autofocusoop import WritingPad
+import autofocusoop as af
 
 class App:
     def __init__(self, db):
@@ -56,7 +57,7 @@ class App:
     def fill_listbox(self):
         self.lbox.delete(0, END)
 
-checkcreatefile()
-db = copydb()
+af.checkcreatefile()
+db = af.copydb()
 
 app = App(db)
