@@ -3,28 +3,40 @@ import tkinter as tk
 from autofocusoop import WritingPad, Entry
 import autofocusoop as af
 
-class App:
-    def __init__(self, db):
-        self.db = db
-        self.width = 400
-        self.height = 300
+class Main:
+    def __init__(self):
+        self.width = 500
+        self.height = 500
         self.root = tk.Tk()
         self.root.geometry('{}x{}'.format(self.width, self.height))
         self.lbox = tk.Listbox(self.root, height=20, width=50, activestyle = 'none')
         self.inputbox = tk.Entry(self.root)
-        self.btchoose = tk.Button(self.root, text='Choose!', command=self.choose)
-        self.btdone = tk.Button(self.root, text='Done!', command=self.done)
-        self.btcont = tk.Button(self.root, text='Continue\nlater', command=self.cont)
-        self.btadd =tk. Button(self.root, text='Add', command=self.add)
+        self.btchoose = tk.Button(self.root, text='Choose!')
+        self.btdone = tk.Button(self.root, text='Done!')
+        self.btcont = tk.Button(self.root, text='Continue\nlater')
+        self.btadd =tk. Button(self.root, text='Add')
         self.lbox.grid(rowspan=3, column=0)
         self.btchoose.grid(row=0, column=1)
         self.btdone.grid(row=1, column=1)
         self.btcont.grid(row=2, column=1)
         self.btadd.grid(row=3, column=1)
         self.inputbox.grid(row=3, column=0)
-        self.li = ['Aaaaa', 'Bbbbb', 'Ccccc', 'Ddddd', 'Eeeee']
-        self.center(self.root)
         self.root.mainloop()
+
+class ChooseWin:
+    def __init__(self):
+        self.width = 800
+        self.height = 300
+        self.root = tk.Tk()
+        self.root.geometry('{}x{}'.format(self.width, self.height))
+        self.root.mainloop()
+
+class App:
+    def __init__(self, db):
+        self.db = db
+        self.li = ['Aaaaa', 'Bbbbb', 'Ccccc', 'Ddddd', 'Eeeee']
+        self.main = Main()
+        self.center(self.main.root)
     def center(self, win):
         win.update_idletasks()
         w = win.winfo_screenwidth()
@@ -33,12 +45,6 @@ class App:
         x = int(w / 2 - size[0] / 2)
         y = int(h / 2 - size[1] / 2)
         win.geometry("{}x{}+{}+{}".format(size[0], size[1], x, y))
-    def add(self):
-        pass
-    def done(self):
-        pass
-    def cont(self):
-        pass
     def choose(self):
         self.newwin = tk.Toplevel(self.root)
         self.newwin.geometry('{}x{}'.format(600, 200))
