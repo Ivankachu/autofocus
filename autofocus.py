@@ -37,6 +37,7 @@ class App:
         self.li = ['Aaaaa', 'Bbbbb', 'Ccccc', 'Ddddd', 'Eeeee']
         self.main = Main()
         self.center(self.main.root)
+        self.main.btchoose.bind("<Button-1>", self.choose)
     def center(self, win):
         win.update_idletasks()
         w = win.winfo_screenwidth()
@@ -46,9 +47,7 @@ class App:
         y = int(h / 2 - size[1] / 2)
         win.geometry("{}x{}+{}+{}".format(size[0], size[1], x, y))
     def choose(self):
-        self.newwin = tk.Toplevel(self.root)
-        self.newwin.geometry('{}x{}'.format(600, 200))
-        self.center(self.newwin)
+        self.newwin = ChooseWin()
         self.newwin.grab_set()
         self.showli = self.li[:]
         self.lab = Label(self.newwin, text=self.showli.pop(0))
