@@ -6,24 +6,26 @@ class App:
     def __init__(self):
         self.main = MainWin()
         self.main.btnewwin.bind("<Button-1>", self.secondwin)
+        self.main.mainloop()
         
     def secondwin(self):
-        secwin = SecondWin()
+        self.secwin = SecondWin()
+        self.secwin.mainloop()
 
         
-class MainWin():
+class MainWin(tk.Tk):
     
     def __init__(self):
+        tk.Tk.__init__(self)
         self.root = tk.Tk()
         self.btnewwin = tk.Button(self.root, text='New Win!')
         self.btnewwin.pack()
-        self.root.mainloop()
 
 
-class SecondWin:
+class SecondWin(tk.Tk):
     
     def __init__(self):
-        self.secwin = tk.Tk()
-        self.secwin.mainloop()
+        tk.Tk.__init__(self)
+        
 
 app = App()
