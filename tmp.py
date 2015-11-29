@@ -4,28 +4,28 @@ import tkinter as tk
 class App:
     
     def __init__(self):
-        self.main = MainWin()
+        self.root = tk.Tk()
+        self.main = MainWin(self.root)
         self.main.btnewwin.bind("<Button-1>", self.secondwin)
-        self.main.mainloop()
+        self.root.mainloop()
         
-    def secondwin(self):
-        self.secwin = SecondWin()
-        self.secwin.mainloop()
+    def secondwin(self, event):
+        self.slave = tk.Toplevel(self.root)
+        self.secwin = SecondWin(self.slave)
 
         
-class MainWin(tk.Tk):
+class MainWin:
     
-    def __init__(self):
-        tk.Tk.__init__(self)
-        self.root = tk.Tk()
-        self.btnewwin = tk.Button(self.root, text='New Win!')
+    def __init__(self, master):
+        self.btnewwin = tk.Button(master, text='New Win!')
         self.btnewwin.pack()
 
 
-class SecondWin(tk.Tk):
+class SecondWin:
     
-    def __init__(self):
-        tk.Tk.__init__(self)
-        
+    def __init__(self, master):
+        self.master = master
+       
 
 app = App()
+
