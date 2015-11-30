@@ -7,16 +7,16 @@ class Autofocus:
     
     def __init__(self):
         self.root = tk.Tk()
-        Autofocus.wincenter(self.root)
         self.main = MainWin(self.root)
         self.main.btchoose.bind("<Button-1>", self.choose)
+        Autofocus.wincenter(self.root)
         self.root.mainloop()
         
     def choose(self, event):
         self.slave = tk.Toplevel(self.root)
-        Autofocus.wincenter(self.slave)
         self.slave.grab_set()
         self.secwin = ChooseWin(self.slave)
+        Autofocus.wincenter(self.slave)
 
     def wincenter(win):
         win.update_idletasks()
@@ -32,7 +32,11 @@ class Autofocus:
 class MainWin:
     
     def __init__(self, master):
-        self.btchoose = tk.Button(master, text='Choose!')
+        self.master = master
+        self.width = 500
+        self.height = 500
+        self.master.geometry('{}x{}'.format(self.width, self.height))
+        self.btchoose = tk.Button(self.master, text='Choose!')
         self.btchoose.pack()
 
 
@@ -40,6 +44,10 @@ class ChooseWin:
     
     def __init__(self, master):
         self.master = master
+        self.width = 800
+        self.height = 200
+        self.master.geometry('{}x{}'.format(self.width, self.height))
+        
        
 
 app = Autofocus()
