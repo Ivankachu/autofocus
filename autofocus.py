@@ -46,7 +46,7 @@ class App:
         x = int(w / 2 - size[0] / 2)
         y = int(h / 2 - size[1] / 2)
         win.geometry("{}x{}+{}+{}".format(size[0], size[1], x, y))
-    def choose(self):
+    def choose(self, event):
         self.slave = tk.Toplevel(self.root)
         self.newwin = ChooseWin(self.slave)
         self.center(self.slave)
