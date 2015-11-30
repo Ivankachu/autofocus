@@ -4,7 +4,7 @@ from autofocusoop import WritingPad, Entry
 import autofocusoop as af
 
 class Main:
-    def __init__(self):
+    def __init__(self, master):
         self.width = 500
         self.height = 500
         self.root = tk.Tk()
@@ -21,23 +21,23 @@ class Main:
         self.btcont.grid(row=2, column=1)
         self.btadd.grid(row=3, column=1)
         self.inputbox.grid(row=3, column=0)
-        self.root.mainloop()
 
 class ChooseWin:
-    def __init__(self):
+    def __init__(self, master):
+        self.master = master
         self.width = 800
         self.height = 300
-        self.root = tk.Tk()
-        self.root.geometry('{}x{}'.format(self.width, self.height))
-        self.root.mainloop()
+        self.master.geometry('{}x{}'.format(self.width, self.height))
 
 class App:
     def __init__(self, db):
         self.db = db
         self.li = ['Aaaaa', 'Bbbbb', 'Ccccc', 'Ddddd', 'Eeeee']
-        self.main = Main()
-        self.center(self.main.root)
+        self.root = tk.Tk()
+        self.main = Main(self.root)
+        self.center(self.root)
         self.main.btchoose.bind("<Button-1>", self.choose)
+        self.root.mainloop()
     def center(self, win):
         win.update_idletasks()
         w = win.winfo_screenwidth()
@@ -47,7 +47,9 @@ class App:
         y = int(h / 2 - size[1] / 2)
         win.geometry("{}x{}+{}+{}".format(size[0], size[1], x, y))
     def choose(self):
-        self.newwin = ChooseWin()
+        self.slave = tk.Toplevel(self.root)
+        self.newwin = ChooseWin(self.slave)
+        self.center(self.slave)
         self.newwin.grab_set()
         self.showli = self.li[:]
         self.lab = Label(self.newwin, text=self.showli.pop(0))
