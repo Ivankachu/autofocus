@@ -36,8 +36,20 @@ class MainWin:
         self.width = 500
         self.height = 500
         self.master.geometry('{}x{}'.format(self.width, self.height))
+
+        self.lbox = tk.Listbox(self.master, height=20, width=50, activestyle = 'none')
+        self.inputbox = tk.Entry(self.master)
         self.btchoose = tk.Button(self.master, text='Choose!')
-        self.btchoose.pack()
+        self.btdone = tk.Button(self.master, text='Done!')
+        self.btcont = tk.Button(self.master, text='Continue\nlater')
+        self.btadd = tk.Button(self.master, text='Add')
+        
+        self.lbox.grid(rowspan=3, column=0)
+        self.inputbox.grid(row=3, column=0)
+        self.btchoose.grid(row=0, column=1)
+        self.btdone.grid(row=1, column=1)
+        self.btcont.grid(row=2, column=1)
+        self.btadd.grid(row=3, column=1)
 
 
 class ChooseWin:
