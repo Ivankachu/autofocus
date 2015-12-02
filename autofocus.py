@@ -5,7 +5,8 @@ import autofocusoop as af
 
 class Autofocus:
     
-    def __init__(self):
+    def __init__(self, db):
+        self.db = db
         self.root = tk.Tk()
         self.main = MainWin(self.root)
         self.main.btchoose.bind("<Button-1>", self.choose)
@@ -64,7 +65,9 @@ class ChooseWin:
         self.master.geometry('{}x{}'.format(self.width, self.height))
         self.labchoose = tk.Label(self.master, text='task #1')
         self.labchoose.pack()
-       
 
-app = Autofocus()
+
+af.checkcreatefile()
+db = af.copydb()
+app = Autofocus(db)
 
