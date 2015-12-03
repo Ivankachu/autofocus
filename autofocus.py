@@ -48,12 +48,17 @@ class MainWin:
         self.btadd     = self.make_bt(text='Add')
         
         self.lbox.grid     (rowspan=4, column=0)
-        self.inputbox.grid (row=4, column=0, sticky=W+E+N+S)
-        self.btchoose.grid (row=0, column=1, sticky=W+E+N+S, padx=5, pady=5)
-        self.btchooseq.grid(row=1, column=1, sticky=W+E+N+S, padx=5, pady=5)
-        self.btdone.grid   (row=2, column=1, sticky=W+E+N+S, padx=5, pady=5)
-        self.btcont.grid   (row=3, column=1, sticky=W+E+N+S, padx=5, pady=5)
-        self.btadd.grid    (row=4, column=1, sticky=W+E+N+S, padx=5, pady=5)
+        self.inputbox.grid (row=4, column=0, sticky=tk.W+tk.E+tk.N+tk.S)
+        self.btchoose.grid (row=0, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+                            padx=5, pady=2)
+        self.btchooseq.grid(row=1, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+                            padx=5, pady=2)
+        self.btdone.grid   (row=2, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+                            padx=5, pady=2)
+        self.btcont.grid   (row=3, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+                            padx=5, pady=2)
+        self.btadd.grid    (row=4, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+                            padx=5, pady=2)
 
     def make_bt(self, text=""):
         return tk.Button(self.master, text=text)
