@@ -24,11 +24,11 @@ class Autofocus:
 
     def done(self, event):
         if lbox.curselection():
-            db.do(lbox.curselection()[0])
+            self.db.do(lbox.curselection()[0])
 
     def cont(self, event):
         if lbox.curselection():
-            db.contin_later(lbox.curselection()[0])
+            self.db.contin_later(lbox.curselection()[0])
 
     def add(self, event):
         pass

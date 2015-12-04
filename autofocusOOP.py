@@ -8,6 +8,7 @@ class WritingPad:
         self.status = False
         self.active = []
         self.pages = []
+        self.chosen = 0
 
     def print_agenda(self):
         if len(self.active):
@@ -27,19 +28,25 @@ class WritingPad:
         else:
             self.pages[-1].append(newtask)
 
-    def do(self, numtask):
+    def choose(self, numtask):
+        if not self.chosen:
+            self.chosen = numtask
+
+    def do(self):
         current_page = self.active[0]
-        self.pages[current_page][numtask].do()
+        self.pages[current_page][self.chosen].do()
         if self.check_page_completed():
             self.turn_the_page()
+        self.chosen = 0
 
-    def contin_later(self, numtask):
+    def contin_later(self):
         current_page = self.active[0]
-        text = self.pages[current_page][numtask].text
-        self.do(numtask)
+        text = self.pages[current_page][self.chosen].text
+        self.do(self.chosen)
         self.add(text)
         if self.check_page_completed():
             self.turn_the_page()
+        self.chosen = 0
 
     def kill_page(self):
         current_page = active[0]
@@ -50,6 +57,7 @@ class WritingPad:
         if len(self.active) < 2:
             print ("We can't turn the page. Work!")
         else:
+            self.chosen = 0
             if self.status:
                 self.active.append(active.pop(0))
             else:
