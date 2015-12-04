@@ -19,6 +19,20 @@ class Autofocus:
         self.secwin = ChooseWin(self.slave)
         Autofocus.wincenter(self.slave)
 
+    def chooseq(self, event):
+        pass
+
+    def done(self, event):
+        if lbox.curselection():
+            db.do(lbox.curselection()[0])
+
+    def cont(self, event):
+        if lbox.curselection():
+            db.contin_later(lbox.curselection()[0])
+
+    def add(self, event):
+        pass
+
     def wincenter(win):
         win.update_idletasks()
         w = win.winfo_screenwidth()
@@ -73,6 +87,9 @@ class ChooseWin:
         self.master.geometry('{}x{}'.format(self.width, self.height))
         self.labchoose = tk.Label(self.master, text='task #1')
         self.labchoose.pack()
+
+    def show_tasks(self):
+        pass
 
 
 af.checkcreatefile()
