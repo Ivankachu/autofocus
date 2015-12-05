@@ -8,7 +8,7 @@ class WritingPad:
         self.status = False
         self.active = []
         self.pages = []
-        self.chosen = 0
+        self.chosen = -1
 
     def print_agenda(self):
         if len(self.active):
@@ -19,6 +19,9 @@ class WritingPad:
             print ('=' * 35)
         else:
             print ("Nothing to do. Add something!")
+        if self.chosen != -1:
+            print ("\nCurrent chosen task:\n",
+                   self.pages[self.active[0]][self.chosen].text)
 
     def add(self, text):
         newtask = Entry(text)
@@ -29,24 +32,26 @@ class WritingPad:
             self.pages[-1].append(newtask)
 
     def choose(self, numtask):
-        if not self.chosen:
+        if self.chosen == -1 and not self.pages[self.active[0]][numtask].status:
             self.chosen = numtask
 
     def do(self):
-        current_page = self.active[0]
-        self.pages[current_page][self.chosen].do()
-        if self.check_page_completed():
-            self.turn_the_page()
-        self.chosen = 0
+        if self.chosen != -1:
+            current_page = self.active[0]
+            self.pages[current_page][self.chosen].do()
+            if self.check_page_completed():
+                self.turn_the_page()
+            self.chosen = -1
 
     def contin_later(self):
-        current_page = self.active[0]
-        text = self.pages[current_page][self.chosen].text
-        self.do(self.chosen)
-        self.add(text)
-        if self.check_page_completed():
-            self.turn_the_page()
-        self.chosen = 0
+        if self.chosen != -1:
+            current_page = self.active[0]
+            text = self.pages[current_page][self.chosen].text
+            self.do(self.chosen)
+            self.add(text)
+            if self.check_page_completed():
+                self.turn_the_page()
+            self.chosen = -1
 
     def kill_page(self):
         current_page = active[0]
@@ -125,11 +130,13 @@ if __name__ == '__main__':
         msg = input(">>> ")
         if msg[:4] == "add " and msg[4:]:
             db.add(msg[4:])
-        if msg[:9] == "complete " and msg[9:]:
-            db.do(int(msg[9:]))
+        if msg[:7] == "choose " and msg[7:]:
+            db.choose(int(msg[7:]))
+        if msg == "complete":
+            db.do()
             db.print_agenda()
-        if msg[:15] == "continue later " and msg[15:]:
-            db.contin_later(int(msg[15:]))
+        if msg == "continue later":
+            db.contin_later()
             db.print_agenda()
         if msg == "turn the page":
             db.turn_the_page()
