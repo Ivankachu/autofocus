@@ -21,7 +21,7 @@ class WritingPad:
             print ("Nothing to do. Add something!")
         if self.chosen != -1:
             print ("\nCurrent chosen task:\n",
-                   self.pages[self.active[0]][self.chosen].text)
+                   self.pages[self.active[0]][self.chosen].text, sep='')
 
     def add(self, text):
         newtask = Entry(text)
@@ -42,19 +42,20 @@ class WritingPad:
             if self.check_page_completed():
                 self.turn_the_page()
             self.chosen = -1
+            self.status = True
 
     def contin_later(self):
         if self.chosen != -1:
             current_page = self.active[0]
             text = self.pages[current_page][self.chosen].text
-            self.do(self.chosen)
+            self.do()
             self.add(text)
             if self.check_page_completed():
                 self.turn_the_page()
             self.chosen = -1
 
     def kill_page(self):
-        current_page = active[0]
+        current_page = self.active[0]
         for task in self.pages[current_page]:
             task.do()
 
@@ -62,12 +63,13 @@ class WritingPad:
         if len(self.active) < 2:
             print ("We can't turn the page. Work!")
         else:
-            self.chosen = 0
             if self.status:
-                self.active.append(active.pop(0))
+                self.active.append(self.active.pop(0))
             else:
                 self.kill_page()
                 self.active.pop(0)
+            self.chosen = -1
+            self.status = False
 
     def check_page_completed(self):
         current_page = self.active[0]
@@ -78,7 +80,8 @@ class WritingPad:
 
     def print_pages(self):
         for index, page in enumerate(self.pages):
-            print ('Page ', index)
+            print ('Page', index)
+            print ('-------')
             for task in page:
                 print (task.text, task.status)
             print()
@@ -154,7 +157,7 @@ if __name__ == '__main__':
             print (db.active)
         if msg == "print pages":
             db.print_pages()
-        if msg == "print flag":
+        if msg == "print status":
             print (db.status)
         if msg == "clear":
             clear()
