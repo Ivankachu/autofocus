@@ -133,33 +133,47 @@ if __name__ == '__main__':
         msg = input(">>> ")
         if msg[:4] == "add " and msg[4:]:
             db.add(msg[4:])
+            continue
         if msg[:7] == "choose " and msg[7:]:
             db.choose(int(msg[7:]))
+            continue
         if msg == "complete":
             db.do()
             db.print_agenda()
+            continue
         if msg == "continue later":
             db.contin_later()
             db.print_agenda()
+            continue
         if msg == "turn the page":
             db.turn_the_page()
             db.print_agenda()
+            continue
         if msg == "print":
             db.print_agenda()
+            continue
         if msg[:7] == "change " and msg[7:]:
             db.change_text(msg[7:])
+            continue
         if msg == "save":
             savedb(db, "db.pkl")
+            continue
         if msg == "help":
             print ("add, complete, continue later, "
                    "turn the page, print, exit")
+            continue
         if msg == "print active":
             print (db.active)
+            continue
         if msg == "print pages":
             db.print_pages()
+            continue
         if msg == "print status":
             print (db.status)
+            continue
         if msg == "clear":
             clear()
+            continue
+        print ("There is no such command", msg)
     savedb(db, 'db.pkl')
 
