@@ -83,7 +83,7 @@ class WritingPad:
             print ('Page', index)
             print ('-------')
             for task in page:
-                print (task.text, task.status)
+                print ("{:<25}{:>5}".format(task.text,task.status))
             print()
 
     def check_page_full(self):
