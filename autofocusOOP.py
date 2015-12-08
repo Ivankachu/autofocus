@@ -129,8 +129,10 @@ if __name__ == '__main__':
     db.print_agenda()
     msg = ''
 
-    while msg != 'exit' and msg != 'quit':
+    while True:
         msg = input(">>> ")
+        if msg == 'exit' or msg == 'quit':
+            break
         if msg[:4] == "add " and msg[4:]:
             db.add(msg[4:])
             continue
