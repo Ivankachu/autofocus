@@ -79,11 +79,11 @@ class WritingPad:
         return True
 
     def print_pages(self):
-        for index, page in enumerate(self.pages):
-            print ('Page', index)
+        for index_page, page in enumerate(self.pages):
+            print ('Page', index_page)
             print ('-------')
-            for task in page:
-                print ("{:<25}{:>5}".format(task.text,task.status))
+            for index_task, task in enumerate(page):
+                print (" {:<4}{:<25}{:>5}".format(index_task, task.text,task.status))
             print()
 
     def check_page_full(self):
