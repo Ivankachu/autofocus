@@ -137,7 +137,10 @@ if __name__ == '__main__':
             db.add(msg[4:])
             continue
         if msg[:7] == "choose " and msg[7:]:
-            db.choose(int(msg[7:]))
+            if db.chosen == -1:
+                db.choose(int(msg[7:]))
+            else:
+                print ("The task is already chosen. Do it!")
             continue
         if msg == "complete":
             db.do()
