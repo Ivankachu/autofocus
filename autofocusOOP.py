@@ -90,7 +90,7 @@ class WritingPad:
         return len(self.pages[active[0]]) >= self.numstr
 
     def change_text(self, index, text):
-        self.pages[active[0]][index].text = text
+        self.pages[self.active[0]][index].text = text
 
 class Entry:
 
@@ -130,7 +130,7 @@ if __name__ == '__main__':
     msg = ''
 
     while True:
-        msg = input(">>> ")
+        msg = input(">>> ").strip()
         if msg == 'exit' or msg == 'quit':
             break
         if msg[:4] == "add " and msg[4:]:
@@ -151,14 +151,19 @@ if __name__ == '__main__':
             db.print_agenda()
             continue
         if msg == "turn the page":
-            db.turn_the_page()
-            db.print_agenda()
+            if db.chosen == -1:
+                db.turn_the_page()
+                db.print_agenda()
+            else:
+                print ("You have a chosen task. Do it or continue later!")
             continue
         if msg == "print":
             db.print_agenda()
             continue
         if msg[:7] == "change " and msg[7:]:
-            db.change_text(msg[7:])
+            index, *newtext = msg[7:].split()
+            db.change_text(int(index), " ".join(newtext))
+            db.print_agenda()
             continue
         if msg == "save":
             savedb(db, "db.pkl")
