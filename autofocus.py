@@ -1,7 +1,7 @@
 import tkinter as tk
 #For working with getting instance WritingPad and Entry from pickle file
-from autofocusoop import WritingPad, Entry
-import autofocusoop as af
+from autofocuso import WritingPad, Entry
+import autofocuso as af
 
 class Autofocus:
     
