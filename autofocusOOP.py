@@ -152,8 +152,18 @@ if __name__ == '__main__':
             continue
         if msg == "turn the page":
             if db.chosen == -1:
-                db.turn_the_page()
-                db.print_agenda()
+                if db.status:
+                    db.turn_the_page()
+                    db.print_agenda()
+                else:
+                    print ("You can turn the page without doing anything "
+                           "but it will cause marking all tasks "
+                           "in the page as completed.\n"
+                           "Do you want to proceed?")
+                    msg = input("Yes/No?   ")
+                    if msg == "Yes":
+                        db.turn_the_page()
+                        db.print_agenda()
             else:
                 print ("You have a chosen task. Do it or continue later!")
             continue
