@@ -200,23 +200,24 @@ def backup(db):
     Then create 'backup<number+1>.pkl' file consisting of current DB.
     If number of backup files is more than 4 delete file backup<min number>.pkl'.
     """
-    list_files = glob.glob("backup*.pkl")
-    list_num_backup = [int(name[6:-4]) for name in list_files
-                       if name[6:-4].isdigit()]
+    FILENAME = "backup"
+    list_files = glob.glob(FILENAME + "*.pkl")
+    list_num_backup = [int(name[len(FILENAME):-4]) for name in list_files
+                       if name[len(FILENAME):-4].isdigit()]
     new_num_backup = None
     if not list_num_backup:
         new_num_backup = 0
     else:
-        last_backup = "backup" + str(max(list_num_backup)) + ".pkl"
+        last_backup = FILENAME + str(max(list_num_backup)) + ".pkl"
         with open(last_backup, 'rb') as f:
             last_db = pickle.load(f)
         if last_db != db:
             new_num_backup = max(list_num_backup) + 1
     if new_num_backup != None:
-        new_name_backup = "backup" + str(new_num_backup) + ".pkl"
+        new_name_backup = FILENAME + str(new_num_backup) + ".pkl"
         savedb(db, new_name_backup)
         if len(list_num_backup) > 4:
-            first_file = "backup" + str(min(list_num_backup)) + ".pkl"
+            first_file = FILENAME + str(min(list_num_backup)) + ".pkl"
             os.remove(first_file)
 
 if __name__ == '__main__':

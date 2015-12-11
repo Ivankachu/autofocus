@@ -83,7 +83,7 @@ class WritingPad:
             print ('Page', index_page)
             print ('-------')
             for index_task, task in enumerate(page):
-                print (" {:<4}{:<25.25}{:>5}".format(index_task, task.text,task.status))
+                print (" {:<4}{:<25.25}{:>3}".format(index_task, task.text,task.status))
             print()
 
     def check_page_full(self):
@@ -115,6 +115,9 @@ def checkcreatefile():
         with open('db.pkl', 'wb') as f:
             db = WritingPad(20)
             pickle.dump(db, f)
+
+def backup(db):
+    pass
 
 def clear():
     if os.name == 'nt':
