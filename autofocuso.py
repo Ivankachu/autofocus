@@ -1,6 +1,7 @@
 import os
 import pickle
 import glob
+import filecmp
 
 class WritingPad:
 
@@ -92,7 +93,7 @@ class WritingPad:
 
     def change_text(self, index, text):
         self.pages[self.active[0]][index].text = text
-        
+
 
 class Entry:
 
@@ -126,6 +127,7 @@ def backup(db):
     If number of backup files is more than 4 delete file backup<min number>.pkl'.
     
     """
+    savedb(db, 'db.pkl')
     FILENAME = "backupn"
     list_files = glob.glob(FILENAME + "*.pkl")
     list_num_backup = [int(name[len(FILENAME):-4]) for name in list_files
@@ -137,7 +139,7 @@ def backup(db):
         last_backup = FILENAME + str(max(list_num_backup)) + ".pkl"
         with open(last_backup, 'rb') as f:
             last_db = pickle.load(f)
-        if last_db != db:
+        if not filecmp.cmp(last_backup, 'db.pkl'):
             new_num_backup = max(list_num_backup) + 1
     if new_num_backup != None:
         new_name_backup = FILENAME + str(new_num_backup) + ".pkl"
