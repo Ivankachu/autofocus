@@ -2,26 +2,13 @@ import tkinter as tk
 
 class Main:
     def __init__(self, master):
-        self.width = 500
-        self.height = 500
-        self.root = tk.Tk()
-        self.root.geometry('{}x{}'.format(self.width, self.height))
         self.btchoose = tk.Button(self.root, text='Choose!')
-        self.btdone = tk.Button(self.root, text='Done!')
-        self.btcont = tk.Button(self.root, text='Continue\nlater')
-        self.btadd =tk. Button(self.root, text='Add')
-        self.btchoose.grid(row=0, column=1)
-        self.btdone.grid(row=1, column=1)
-        self.btcont.grid(row=2, column=1)
-        self.btadd.grid(row=3, column=1)
+        self.pack()
 
 
 class ChooseWin:
     def __init__(self, master):
         self.master = master
-        self.width = 800
-        self.height = 300
-        self.master.geometry('{}x{}'.format(self.width, self.height))
 
 
 class App:
@@ -43,6 +30,6 @@ class App:
         self.slave = tk.Toplevel(self.root)
         self.newwin = ChooseWin(self.slave)
         self.center(self.slave)
-        self.newwin.grab_set()
+        self.slave.grab_set()
 
 app = App()
