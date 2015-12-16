@@ -1,34 +1,30 @@
 import tkinter as tk
-from tkinter import *
-from tkinter import ttk
 
-
-class Demo1( Frame ):
-    def __init__( self ):
-        tk.Frame.__init__(self)
-        self.pack()
-        self.master.title("Demo 1")
-        self.button1 = Button( self, text = "Button 1", width = 25,
-                               command = self.new_window )
-        self.button1.grid( row = 0, column = 1, columnspan = 2, sticky = W+E+N+S )
-
+class Demo1:
+    def __init__(self, master):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+        self.button1 = tk.Button(self.frame, text = 'New Window', width = 25, command = self.new_window)
+        self.button1.pack()
+        self.frame.pack()
     def new_window(self):
-        self.newWindow = Demo2()
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = Demo2(self.newWindow)
 
-class Demo2(Frame):     
-    def __init__(self):
-        new =tk.Frame.__init__(self)
-        new = Toplevel(self)
-        new.title("Demo 2")
-        new.button = tk.Button(  text = "Button 2", width = 25,
-                                 command = self.close_window )
-        new.button.pack()
-
-    def close_window(self):
-        self.destroy()
+class Demo2:
+    def __init__(self, master):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+        self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
+        self.quitButton.pack()
+        self.frame.pack()
+    def close_windows(self):
+        self.master.destroy()
 
 def main(): 
-    Demo1().mainloop()
+    root = tk.Tk()
+    app = Demo1(root)
+    root.mainloop()
 
 if __name__ == '__main__':
     main()
