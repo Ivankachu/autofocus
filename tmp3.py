@@ -16,7 +16,7 @@ class MainWin(tk.Frame):
     
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        self.btchoose = tk.Button(self.master, text='Choose!')
+        self.btchoose = tk.Button(self, text='Choose!')
         self.btchoose.pack()
 
 
