@@ -7,14 +7,18 @@ class Demo1:
         self.frame = tk.Frame(self.master)
         self.button1 = tk.Button(self.frame, text = 'New Window', width = 25, command = self.new_window)
         self.button1.pack()
+        self.button2 = tk.Button(self.frame, text = 'Get data', width = 25, command = self.get_data)
+        self.button2.pack()
         self.lab = tk.Label(self.frame, text = self.data)
         self.lab.pack()
         self.frame.pack()
-        
+
     def new_window(self):
         self.newWindow = tk.Toplevel(self.master)
         self.newWindow.grab_set()
         self.app = Demo2(self.newWindow)
+        
+    def get_data(self):
         self.data = self.app.data
         self.lab.configure(text = self.data)
         
