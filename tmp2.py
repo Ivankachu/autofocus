@@ -5,18 +5,17 @@ class Demo1:
         self.data = ''
         self.master = master
         self.frame = tk.Frame(self.master)
-        self.button1 = tk.Button(self.frame, text = 'New Window', width = 25, command = self.new_window)
-        self.button1.pack()
-        self.button2 = tk.Button(self.frame, text = 'Get data', width = 25, command = self.get_data)
-        self.button2.pack()
         self.lab = tk.Label(self.frame, text = self.data)
+        self.button1 = tk.Button(self.frame, text = 'New Window',
+                                 width = 25, command = self.new_window)
         self.lab.pack()
+        self.button1.pack()
         self.frame.pack()
 
     def new_window(self):
         self.newWindow = tk.Toplevel(self.master)
         self.newWindow.grab_set()
-        self.app = Demo2(self.newWindow)
+        self.app = Demo2(self.newWindow, self)
         
     def get_data(self):
         self.data = self.app.data
@@ -24,20 +23,22 @@ class Demo1:
         
 
 class Demo2:
-    def __init__(self, master):
+    def __init__(self, master, parent):
         self.master = master
+        self.parent = parent
         self.frame = tk.Frame(self.master)
         self.entry_data = tk.Entry(self.frame)
         self.entry_data.pack()
-        self.entry_data.bind('<Return>', lambda event: self.choose_it())
-        self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
+        self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25,
+                                    command = self.read_message)
         self.quitButton.pack()
         self.frame.pack()
         self.data = ''
-    def close_windows(self):
-        self.master.destroy()
-    def choose_it(self):
+
+    def read_message(self):
         self.data = self.entry_data.get()
+        self.master.destroy()
+        self.parent.get_data()
         
 
 def main(): 
