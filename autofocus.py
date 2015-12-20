@@ -5,13 +5,11 @@ import autofocuso as af
 
 class Autofocus:
     
-    def __init__(self, db):
+    def __init__(self, db, root):
         self.db = db
-        self.root = tk.Tk()
-        self.main = MainWin(self.root)
-        self.main.btchoose.bind("<Button-1>", self.choose)
+        self.root = root
+        self.main = MainWin(self.root, self)
         Autofocus.wincenter(self.root)
-        self.root.mainloop()
         
     def choose(self, event):
         self.slave = tk.Toplevel(self.root)
@@ -46,7 +44,7 @@ class Autofocus:
         
 class MainWin:
 
-    def __init__(self, master):
+    def __init__(self, master, parent):
         self.master = master
         self.width = 500
         self.height = 500
@@ -74,6 +72,8 @@ class MainWin:
         self.btadd.grid    (row=4, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=2)
 
+        self.btchoose.bind("<Button-1>", parent.choose)
+
     def make_bt(self, text=""):
         return tk.Button(self.master, text=text)
 
@@ -93,6 +93,7 @@ class ChooseWin:
 
 
 af.checkcreatefile()
+root = tk.Tk()
 db = af.copydb()
-app = Autofocus(db)
-
+app = Autofocus(db, root)
+root.mainloop()
