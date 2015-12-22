@@ -11,7 +11,7 @@ class Autofocus:
         self.main = MainWin(self.root, self)
         Autofocus.wincenter(self.root)
         
-    def choose(self, event):
+    def choose(self):
         self.slave = tk.Toplevel(self.root)
         self.slave.grab_set()
         self.secwin = ChooseWin(self.slave)
@@ -53,7 +53,7 @@ class MainWin:
         self.lbox      = tk.Listbox(self.master, height=20, width=50,
                                     activestyle = 'none')
         self.inputbox  = tk.Entry(self.master)
-        self.btchoose  = self.make_bt(text='Choose!')
+        self.btchoose  = self.make_bt(text='Choose!', command=parent.choose)
         self.btchooseq = self.make_bt(text='Choose quick!')
         self.btdone    = self.make_bt(text='Done!')
         self.btcont    = self.make_bt(text='Continue\nlater')
@@ -72,10 +72,9 @@ class MainWin:
         self.btadd.grid    (row=4, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=2)
 
-        self.btchoose.bind("<Button-1>", parent.choose)
 
-    def make_bt(self, text=""):
-        return tk.Button(self.master, text=text)
+    def make_bt(self, text="", command=None):
+        return tk.Button(self.master, text=text, command=command)
 
 
 class ChooseWin:
