@@ -54,10 +54,12 @@ class MainWin:
                                     activestyle = 'none')
         self.inputbox  = tk.Entry(self.master)
         self.btchoose  = self.make_bt(text='Choose!', command=parent.choose)
-        self.btchooseq = self.make_bt(text='Choose quick!')
-        self.btdone    = self.make_bt(text='Done!')
-        self.btcont    = self.make_bt(text='Continue\nlater')
-        self.btadd     = self.make_bt(text='Add')
+        self.btchooseq = self.make_bt(text='Choose quick!',
+                                      command=parent.chooseq)
+        self.btdone    = self.make_bt(text='Done!', command=parent.done)
+        self.btcont    = self.make_bt(text='Continue\nlater',
+                                      command=parent.cont)
+        self.btadd     = self.make_bt(text='Add', command=parent.add)
         
         self.lbox.grid     (rowspan=4, column=0)
         self.inputbox.grid (row=4, column=0, sticky=tk.W+tk.E+tk.N+tk.S)
@@ -71,6 +73,7 @@ class MainWin:
                             padx=5, pady=2)
         self.btadd.grid    (row=4, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=2)
+        self.inputbox.bind('<Return>', parent.add)
 
 
     def make_bt(self, text="", command=None):
