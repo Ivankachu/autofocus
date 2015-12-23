@@ -17,7 +17,7 @@ def turn_the_page_gui(db):
             db["active"] = db["active"][1:] + [db["active"][0]]
         elif db["pages"][db["active"][0]] is not db["pages"][-1]:
             if messagebox.askyesno("Warning!", af.msg_can_kill_page):
-                db = demolish_page(db)
+                db = af.demolish_page(db)
         else:
             messagebox.showwarning("Warning!", af.msg_cant_turn_page)
     return db           
