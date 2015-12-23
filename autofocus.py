@@ -81,10 +81,6 @@ class MainWin:
         self.inputbox.bind('<Return>', lambda event: parent.add)
 
 
-    def make_bt(self, text="", command=None):
-        return tk.Button(self.master, text=text, command=command)
-
-
 class ChooseWin:
     
     def __init__(self, master):
