@@ -17,18 +17,20 @@ class Autofocus:
         self.secwin = ChooseWin(self.slave)
         Autofocus.wincenter(self.slave)
 
-    def chooseq(self, event):
+    def chooseq(self):
         pass
 
-    def done(self, event):
-        if lbox.curselection():
-            self.db.do(lbox.curselection()[0])
+    def done(self):
+        pass
+        #if lbox.curselection():
+        #    self.db.do(lbox.curselection()[0])
 
-    def cont(self, event):
-        if lbox.curselection():
-            self.db.contin_later(lbox.curselection()[0])
+    def cont(self):
+        pass
+        #if lbox.curselection():
+        #    self.db.contin_later(lbox.curselection()[0])
 
-    def add(self, event):
+    def add(self):
         pass
 
     def wincenter(win):
@@ -53,13 +55,16 @@ class MainWin:
         self.lbox      = tk.Listbox(self.master, height=20, width=50,
                                     activestyle = 'none')
         self.inputbox  = tk.Entry(self.master)
-        self.btchoose  = self.make_bt(text='Choose!', command=parent.choose)
-        self.btchooseq = self.make_bt(text='Choose quick!',
+        self.btchoose  = tk.Button(self.master, text='Choose!',
+                                   command=parent.choose)
+        self.btchooseq = tk.Button(self.master, text='Choose quick!',
                                       command=parent.chooseq)
-        self.btdone    = self.make_bt(text='Done!', command=parent.done)
-        self.btcont    = self.make_bt(text='Continue\nlater',
+        self.btdone    = tk.Button(self.master, text='Done!',
+                                   command=parent.done)
+        self.btcont    = tk.Button(self.master, text='Continue\nlater',
                                       command=parent.cont)
-        self.btadd     = self.make_bt(text='Add', command=parent.add)
+        self.btadd     = tk.Button(self.master, text='Add',
+                                   command=parent.add)
         
         self.lbox.grid     (rowspan=4, column=0)
         self.inputbox.grid (row=4, column=0, sticky=tk.W+tk.E+tk.N+tk.S)
@@ -73,7 +78,7 @@ class MainWin:
                             padx=5, pady=2)
         self.btadd.grid    (row=4, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=2)
-        self.inputbox.bind('<Return>', parent.add)
+        self.inputbox.bind('<Return>', lambda event: parent.add)
 
 
     def make_bt(self, text="", command=None):

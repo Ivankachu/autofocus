@@ -9,6 +9,7 @@ It's like a writing pad for your tasks and wishes. But it has some rules.
 
 Commands:
 - add [task]
-- complete [task number]
-- continue later [task number]
+- choose [task number]
+- complete
+- continue later
 - turn the page
