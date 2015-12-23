@@ -1,3 +1,4 @@
+###############################################################################
 import tkinter as tk
 #For working with getting instance WritingPad and Entry from pickle file
 from autofocuso import WritingPad, Entry
