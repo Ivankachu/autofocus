@@ -49,6 +49,7 @@ class MainWin:
 
     def __init__(self, master, parent):
         self.master = master
+        self.parent = parent
         self.width = 500
         self.height = 500
         #self.master.geometry('{}x{}'.format(self.width, self.height))
@@ -79,7 +80,18 @@ class MainWin:
                             padx=5, pady=2)
         self.btadd.grid    (row=4, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=2)
-        self.inputbox.bind('<Return>', lambda event: parent.add)
+        self.inputbox.bind('<Return>', lambda event: self.parent.add)
+        self.filllb()
+
+    def filllb(self):
+        self.lbox.delete(0, tk.END)
+        if self.parent.db.active:
+            for i, task in enumerate(db.pages[db.active[0]]):
+                self.lbox.insert(i, task.text)
+                if task.status:
+                    self.lbox.itemconfig(i, bg='#804D00', fg='white')
+                else:
+                    self.lbox.itemconfig(i, bg='#FFD699', fg='black')
 
 
 class ChooseWin:
