@@ -133,11 +133,20 @@ class ChooseWin:
         self.width = 800
         self.height = 200
         self.master.geometry('{}x{}'.format(self.width, self.height))
-        self.labchoose = tk.Label(self.master, text='task #1')
+        self.labchoose = tk.Label(self.master, text='')
         self.labchoose.pack()
+        self.show_tasks(0)
+        self.choose_task()
 
-    def show_tasks(self):
+    def show_tasks(self, i):
+        if i <= self.db.numstr:
+            self.labchoose.config(text=self.pages[self.active[0]][i])
+            i+=1
+            self.master.after(1000, self.choose_task, i)
+
+    def choose_task(self, i):
         pass
+        
 
 
 af.checkcreatefile()
