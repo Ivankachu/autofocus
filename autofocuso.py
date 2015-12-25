@@ -3,6 +3,14 @@ import pickle
 import glob
 import filecmp
 
+MSG_CANT_TURN = ("You have to do something from "	
+                 "the current list firstly!")
+
+MSG_CAN_KILL = ("You can turn the page without doing anything "
+                "but it will cause marking all tasks "
+                "in the page as completed.\n"
+                "Do you want to proceed?")
+
 class WritingPad:
 
     def __init__(self, numstr):

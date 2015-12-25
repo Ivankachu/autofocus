@@ -105,7 +105,17 @@ class MainWin:
             self.filllb()
 
     def push_turn(self):
-        self.db.turn_the_page()
+        if self.db.check_page_completed() or self.db.chosen != -1:
+            if db.status:
+                self.db.turn_the_page()
+                self.filllb()
+            else:
+                if tk.BUTTmessagebox.askyesno("Warning!", af.MSG_CAN_KILL):
+                    self.kill_page()
+                    self.db.turn_the_page()
+                    self.filllb()
+        else:
+            tk.messagebox.showwarning("Warning!", af.MSG_CANT_TURN)
 
     def push_add(self):
         msg = self.inputbox.get().strip()
@@ -114,7 +124,7 @@ class MainWin:
             af.backup(db)
             self.filllb()
         self.inputbox.delete(0, tk.END)
-
+        
 
 class ChooseWin:
     
