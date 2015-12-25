@@ -18,14 +18,6 @@ class Autofocus:
         self.secwin = ChooseWin(self.slave)
         Autofocus.wincenter(self.slave)
 
-    def cont(self):
-        pass
-        #if lbox.curselection():
-        #    self.db.contin_later(lbox.curselection()[0])
-
-    def add(self):
-        pass
-
     def wincenter(win):
         win.update_idletasks()
         w = win.winfo_screenwidth()
@@ -43,10 +35,11 @@ class MainWin:
         self.master = master
         self.parent = parent
         self.db = db
-        self.width = 500
-        self.height = 500
-
-        #self.master.geometry('{}x{}'.format(self.width, self.height))
+        self.master.resizable(width=tk.FALSE, height=tk.FALSE)
+        
+##        self.width = 500
+##        self.height = 500
+##        self.master.geometry('{}x{}'.format(self.width, self.height))
 
         self.lbox      = tk.Listbox(self.master, height=20, width=50,
                                     activestyle = 'none')
@@ -62,7 +55,7 @@ class MainWin:
         self.btturn    = tk.Button(self.master, text ='Turn the page!',
                                    command=self.push_turn)
         self.btadd     = tk.Button(self.master, text='Add',
-                                   command=parent.add)
+                                   command=self.push_add)
         
         self.lbox.grid     (rowspan=5, column=0)
         self.inputbox.grid (row=5, column=0, sticky=tk.W+tk.E+tk.N+tk.S)
@@ -78,7 +71,7 @@ class MainWin:
                             padx=5, pady=2)
         self.btadd.grid    (row=5, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=2)
-        self.inputbox.bind('<Return>', lambda event: self.parent.add)
+        self.inputbox.bind('<Return>', lambda event: self.push_add())
         self.filllb()
 
     def filllb(self):
@@ -87,7 +80,7 @@ class MainWin:
             for i, task in enumerate(db.pages[db.active[0]]):
                 self.lbox.insert(i, task.text)
                 if i == self.db.chosen:
-                    self.lbox.itemconfig(i, bg='#315D99', fg='white')
+                    self.lbox.itemconfig(i, bg='#59F', fg='white')
                 else:
                     if task.status:
                         self.lbox.itemconfig(i, bg='#804D00', fg='white')
@@ -113,6 +106,14 @@ class MainWin:
 
     def push_turn(self):
         self.db.turn_the_page()
+
+    def push_add(self):
+        msg = self.inputbox.get().strip()
+        if msg:
+            self.db.add(msg)
+            af.backup(db)
+            self.filllb()
+        self.inputbox.delete(0, tk.END)
 
 
 class ChooseWin:
