@@ -18,14 +18,6 @@ class Autofocus:
         self.secwin = ChooseWin(self.slave)
         Autofocus.wincenter(self.slave)
 
-    def chooseq(self, num):
-        self.db.choose(num)
-
-    def done(self):
-        pass
-        #if lbox.curselection():
-        #    self.db.do(lbox.curselection()[0])
-
     def cont(self):
         pass
         #if lbox.curselection():
@@ -50,9 +42,10 @@ class MainWin:
     def __init__(self, master, parent, db):
         self.master = master
         self.parent = parent
+        self.db = db
         self.width = 500
         self.height = 500
-        self.db = db
+
         #self.master.geometry('{}x{}'.format(self.width, self.height))
 
         self.lbox      = tk.Listbox(self.master, height=20, width=50,
@@ -63,14 +56,16 @@ class MainWin:
         self.btchooseq = tk.Button(self.master, text='Choose quick!',
                                       command=self.push_chooseq)
         self.btdone    = tk.Button(self.master, text='Done!',
-                                   command=parent.done)
+                                   command=self.push_done)
         self.btcont    = tk.Button(self.master, text='Continue\nlater',
-                                      command=parent.cont)
+                                      command=self.push_contin_later)
+        self.btturn    = tk.Button(self.master, text ='Turn the page!',
+                                   command=self.push_turn)
         self.btadd     = tk.Button(self.master, text='Add',
                                    command=parent.add)
         
-        self.lbox.grid     (rowspan=4, column=0)
-        self.inputbox.grid (row=4, column=0, sticky=tk.W+tk.E+tk.N+tk.S)
+        self.lbox.grid     (rowspan=5, column=0)
+        self.inputbox.grid (row=5, column=0, sticky=tk.W+tk.E+tk.N+tk.S)
         self.btchoose.grid (row=0, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=2)
         self.btchooseq.grid(row=1, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
@@ -79,7 +74,9 @@ class MainWin:
                             padx=5, pady=2)
         self.btcont.grid   (row=3, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=2)
-        self.btadd.grid    (row=4, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+        self.btturn.grid   (row=4, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+                            padx=5, pady=2)
+        self.btadd.grid    (row=5, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=2)
         self.inputbox.bind('<Return>', lambda event: self.parent.add)
         self.filllb()
@@ -99,8 +96,23 @@ class MainWin:
 
     def push_chooseq(self):
         if self.lbox.curselection():
-            self.parent.chooseq(self.lbox.curselection()[0])
+            self.db.choose(self.lbox.curselection()[0])
         self.filllb()
+
+    def push_done(self):
+        if self.db.chosen > -1:
+            self.db.do()
+            self.db.chosen = -1
+            self.filllb()
+
+    def push_contin_later(self):
+        if self.db.chosen > -1:
+            self.db.contin_later()
+            self.db.chosen = -1
+            self.filllb()
+
+    def push_turn(self):
+        self.db.turn_the_page()
 
 
 class ChooseWin:
