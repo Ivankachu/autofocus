@@ -15,7 +15,7 @@ class Autofocus:
     def choose(self):
         self.slave = tk.Toplevel(self.root)
         self.slave.grab_set()
-        self.secwin = ChooseWin(self.slave)
+        self.secwin = ChooseWin(self.slave, self.db)
         Autofocus.wincenter(self.slave)
 
     def wincenter(win):
@@ -128,10 +128,11 @@ class MainWin:
 
 class ChooseWin:
     
-    def __init__(self, master):
+    def __init__(self, master, db):
         self.master = master
         self.width = 800
         self.height = 200
+        self.db = db
         self.master.geometry('{}x{}'.format(self.width, self.height))
         self.labchoose = tk.Label(self.master, text='')
         self.labchoose.pack()
@@ -140,9 +141,10 @@ class ChooseWin:
 
     def show_tasks(self, i):
         if i <= self.db.numstr:
-            self.labchoose.config(text=self.pages[self.active[0]][i])
+            self.labchoose.config(text=db.pages[db.active[0]][i])
             i+=1
-            self.master.after(1000, self.choose_task, i)
+            next_task = self.choose_task(i)
+            self.master.after(1000, next_task)
 
     def choose_task(self, i):
         pass
