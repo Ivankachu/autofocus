@@ -9,7 +9,7 @@ class Autofocus:
     def __init__(self, db, root):
         self.db = db
         self.root = root
-        self.main = MainWin(self.root, self)
+        self.main = MainWin(self.root, self, db)
         Autofocus.wincenter(self.root)
         
     def choose(self):
@@ -18,8 +18,8 @@ class Autofocus:
         self.secwin = ChooseWin(self.slave)
         Autofocus.wincenter(self.slave)
 
-    def chooseq(self):
-        pass
+    def chooseq(self, num):
+        self.db.choose(num)
 
     def done(self):
         pass
@@ -47,11 +47,12 @@ class Autofocus:
         
 class MainWin:
 
-    def __init__(self, master, parent):
+    def __init__(self, master, parent, db):
         self.master = master
         self.parent = parent
         self.width = 500
         self.height = 500
+        self.db = db
         #self.master.geometry('{}x{}'.format(self.width, self.height))
 
         self.lbox      = tk.Listbox(self.master, height=20, width=50,
@@ -60,7 +61,7 @@ class MainWin:
         self.btchoose  = tk.Button(self.master, text='Choose!',
                                    command=parent.choose)
         self.btchooseq = tk.Button(self.master, text='Choose quick!',
-                                      command=parent.chooseq)
+                                      command=self.push_chooseq)
         self.btdone    = tk.Button(self.master, text='Done!',
                                    command=parent.done)
         self.btcont    = tk.Button(self.master, text='Continue\nlater',
@@ -88,10 +89,18 @@ class MainWin:
         if self.parent.db.active:
             for i, task in enumerate(db.pages[db.active[0]]):
                 self.lbox.insert(i, task.text)
-                if task.status:
-                    self.lbox.itemconfig(i, bg='#804D00', fg='white')
+                if i == self.db.chosen:
+                    self.lbox.itemconfig(i, bg='#315D99', fg='white')
                 else:
-                    self.lbox.itemconfig(i, bg='#FFD699', fg='black')
+                    if task.status:
+                        self.lbox.itemconfig(i, bg='#804D00', fg='white')
+                    else:
+                        self.lbox.itemconfig(i, bg='#FFD699', fg='black')
+
+    def push_chooseq(self):
+        if self.lbox.curselection():
+            self.parent.chooseq(self.lbox.curselection()[0])
+        self.filllb()
 
 
 class ChooseWin:
