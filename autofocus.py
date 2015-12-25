@@ -105,12 +105,12 @@ class MainWin:
             self.filllb()
 
     def push_turn(self):
-        if self.db.check_page_completed() or self.db.chosen != -1:
+        if not self.db.check_page_completed() and self.db.chosen == -1:
             if db.status:
                 self.db.turn_the_page()
                 self.filllb()
             else:
-                if tk.BUTTmessagebox.askyesno("Warning!", af.MSG_CAN_KILL):
+                if tk.messagebox.askyesno("Warning!", af.MSG_CAN_KILL):
                     self.kill_page()
                     self.db.turn_the_page()
                     self.filllb()
