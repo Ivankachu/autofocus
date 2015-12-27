@@ -106,7 +106,7 @@ class WritingPad:
         act_ts = {}
         for i, ts in enumerate(db.pages[db.active[0]]):
             if not ts.status:
-                act_ts[i] = ts
+                act_ts[i] = ts.text
         return act_ts
 
 

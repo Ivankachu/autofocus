@@ -143,19 +143,20 @@ class ChooseWin:
                             command=self.push_next, state = tk.DISABLED)
         self.btchooseit.pack()
         self.btnext_task.pack()
-        
-        self.show_tasks(0)
+
+        self.act_ts = db.get_act_ts()
+        self.num_ts = sorted(list(act_ts.keys()))
+        self.show_tasks()
 
 
-    def show_tasks(self, i):
-        if i < len(self.db.pages[self.db.active[0]]):
-            msg = db.pages[db.active[0]][i].text
+    def show_tasks(self):
+        if self.num_ts:
+            msg = self.act_ts[self.num_ts.pop(0)]
+            del self.act_ts[self.num_ts.pop(0)]
             self.labchoose.config(text=msg)
-            i += 1
-            self.master.after(300, lambda: self.show_tasks(i))
+            self.master.after(300, self.show_tasks)
         else:
-            self.i = 0
-            self.choose_task(0)
+            self.choose_task()
 
     def choose_task(self, i):
         self.btchooseit.config(state = tk.NORMAL)
