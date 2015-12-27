@@ -80,7 +80,7 @@ class MainWin:
             for i, task in enumerate(db.pages[db.active[0]]):
                 self.lbox.insert(i, task.text)
                 if i == self.db.chosen:
-                    self.lbox.itemconfig(i, bg='#59F', fg='white')
+                    self.lbox.itemconfig(i, bg='#317332', fg='white')
                 else:
                     if task.status:
                         self.lbox.itemconfig(i, bg='#804D00', fg='white')
@@ -137,14 +137,14 @@ class ChooseWin:
         self.labchoose = tk.Label(self.master, text='')
         self.labchoose.pack()
         self.show_tasks(0)
-        self.choose_task()
+        self.choose_task(0)
 
     def show_tasks(self, i):
-        if i <= self.db.numstr:
-            self.labchoose.config(text=db.pages[db.active[0]][i])
-            i+=1
-            next_task = self.choose_task(i)
-            self.master.after(1000, next_task)
+        if i < self.db.numstr:
+            msg = db.pages[db.active[0]][i].text
+            self.labchoose.config(text=msg)
+            i += 1
+            self.master.after(1000, lambda: self.show_tasks(i))
 
     def choose_task(self, i):
         pass
