@@ -15,7 +15,7 @@ class Autofocus:
     def choose(self):
         self.slave = tk.Toplevel(self.root)
         self.slave.grab_set()
-        self.secwin = ChooseWin(self.slave, self.db)
+        self.secwin = ChooseWin(self.slave, self, self.db)
         Autofocus.wincenter(self.slave)
 
     def wincenter(win):
@@ -128,23 +128,23 @@ class MainWin:
 
 class ChooseWin:
     
-    def __init__(self, master, db):
+    def __init__(self, master, parent, db):
         self.master = master
         self.width = 800
         self.height = 200
+        self.parent = parent
         self.db = db
         self.master.geometry('{}x{}'.format(self.width, self.height))
         self.labchoose = tk.Label(self.master, text='')
         self.labchoose.pack()
         self.btchooseit = tk.Button(self.master, text='Choose it',
-                                state = tk.DISABLED)
+                            command=self.push_chooseit, state = tk.DISABLED)
         self.btnext_task = tk.Button(self.master, text='Next',
-                                command=self.push_next, state = tk.DISABLED)
+                            command=self.push_next, state = tk.DISABLED)
         self.btchooseit.pack()
         self.btnext_task.pack()
         
         self.show_tasks(0)
-        self.choose_task(0)
 
     def show_tasks(self, i):
         if i < len(self.db.pages[self.db.active[0]]):
@@ -152,20 +152,23 @@ class ChooseWin:
             self.labchoose.config(text=msg)
             i += 1
             self.master.after(300, lambda: self.show_tasks(i))
+        else:
+            self.i = 0
+            self.choose_task(0)
 
     def choose_task(self, i):
-##        self.btchooseit.config(state = tk.NORMAL)
-##        self.btnext_task.config(state = tk.NORMAL)
-        msg = db.pages[db.active[0]][i].text
-        self.labchoose.config(text=msg)
+        self.btchooseit.config(state = tk.NORMAL)
+        self.btnext_task.config(state = tk.NORMAL)
 
     def push_next(self):
-        i = (i + 1) % len(self.db.pages[self.db.active[0]])
-        msg = db.pages[db.active[0]][i].text
+        self.i = (self.i + 1) % len(self.db.pages[self.db.active[0]])
+        msg = db.pages[db.active[0]][self.i].text
         self.labchoose.config(text=msg)
 
     def push_chooseit(self):
-        pass
+        self.db.choose(self.i)
+        self.parent.secwin.filllb()
+        self.master.destroy()
         
 
 af.checkcreatefile()
