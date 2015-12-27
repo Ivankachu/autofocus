@@ -42,7 +42,7 @@ class MainWin:
 ##        self.master.geometry('{}x{}'.format(self.width, self.height))
 
         self.lbox      = tk.Listbox(self.master, height=20, width=50,
-                                    activestyle = 'none')
+                                    activestyle = 'none', bg='#FFD699')
         self.inputbox  = tk.Entry(self.master)
         self.btchoose  = tk.Button(self.master, text='Choose!',
                                    command=parent.choose)
@@ -136,20 +136,37 @@ class ChooseWin:
         self.master.geometry('{}x{}'.format(self.width, self.height))
         self.labchoose = tk.Label(self.master, text='')
         self.labchoose.pack()
+        self.btchooseit = tk.Button(self.master, text='Choose it',
+                                state = tk.DISABLED)
+        self.btnext_task = tk.Button(self.master, text='Next',
+                                command=self.push_next, state = tk.DISABLED)
+        self.btchooseit.pack()
+        self.btnext_task.pack()
+        
         self.show_tasks(0)
         self.choose_task(0)
 
     def show_tasks(self, i):
-        if i < self.db.numstr:
+        if i < len(self.db.pages[self.db.active[0]]):
             msg = db.pages[db.active[0]][i].text
             self.labchoose.config(text=msg)
             i += 1
-            self.master.after(1000, lambda: self.show_tasks(i))
+            self.master.after(300, lambda: self.show_tasks(i))
 
     def choose_task(self, i):
+##        self.btchooseit.config(state = tk.NORMAL)
+##        self.btnext_task.config(state = tk.NORMAL)
+        msg = db.pages[db.active[0]][i].text
+        self.labchoose.config(text=msg)
+
+    def push_next(self):
+        i = (i + 1) % len(self.db.pages[self.db.active[0]])
+        msg = db.pages[db.active[0]][i].text
+        self.labchoose.config(text=msg)
+
+    def push_chooseit(self):
         pass
         
-
 
 af.checkcreatefile()
 root = tk.Tk()
