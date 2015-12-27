@@ -102,6 +102,13 @@ class WritingPad:
     def change_text(self, index, text):
         self.pages[self.active[0]][index].text = text
 
+    def get_act_ts():
+        act_ts = {}
+        for i, ts in enumerate(db.pages[db.active[0]]):
+            if not ts.status:
+                act_ts[i] = ts
+        return act_ts
+
 
 class Entry:
 

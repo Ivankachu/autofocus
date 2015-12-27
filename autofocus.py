@@ -146,6 +146,7 @@ class ChooseWin:
         
         self.show_tasks(0)
 
+
     def show_tasks(self, i):
         if i < len(self.db.pages[self.db.active[0]]):
             msg = db.pages[db.active[0]][i].text
