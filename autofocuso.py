@@ -21,6 +21,7 @@ class WritingPad:
         self.chosen = -1
 
     def print_agenda(self):
+        print (self.get_act_ts())
         if len(self.active):
             print ('=' * 35)
             for (index, task) in enumerate(self.pages[self.active[0]]):
@@ -102,11 +103,11 @@ class WritingPad:
     def change_text(self, index, text):
         self.pages[self.active[0]][index].text = text
 
-    def get_act_ts():
-        act_ts = {}
-        for i, ts in enumerate(db.pages[db.active[0]]):
+    def get_act_ts(self):
+        act_ts = []
+        for i, ts in enumerate(self.pages[self.active[0]]):
             if not ts.status:
-                act_ts[i] = ts.text
+                act_ts.append((i, ts.text))
         return act_ts
 
 

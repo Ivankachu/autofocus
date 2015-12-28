@@ -13,10 +13,11 @@ class Autofocus:
         Autofocus.wincenter(self.root)
         
     def choose(self):
-        self.slave = tk.Toplevel(self.root)
-        self.slave.grab_set()
-        self.secwin = ChooseWin(self.slave, self, self.db)
-        Autofocus.wincenter(self.slave)
+        if self.db.chosen == -1:
+            self.slave = tk.Toplevel(self.root)
+            self.slave.grab_set()
+            self.secwin = ChooseWin(self.slave, self, self.db)
+            Autofocus.wincenter(self.slave)
 
     def wincenter(win):
         win.update_idletasks()
@@ -134,6 +135,8 @@ class ChooseWin:
         self.height = 200
         self.parent = parent
         self.db = db
+        self.act_ts = self.db.get_act_ts()
+        self.i = 0
         self.master.geometry('{}x{}'.format(self.width, self.height))
         self.labchoose = tk.Label(self.master, text='')
         self.labchoose.pack()
@@ -143,33 +146,32 @@ class ChooseWin:
                             command=self.push_next, state = tk.DISABLED)
         self.btchooseit.pack()
         self.btnext_task.pack()
-
-        self.act_ts = db.get_act_ts()
-        self.num_ts = sorted(list(act_ts.keys()))
         self.show_tasks()
 
 
     def show_tasks(self):
-        if self.num_ts:
-            msg = self.act_ts[self.num_ts.pop(0)]
-            del self.act_ts[self.num_ts.pop(0)]
+        if self.act_ts:
+            msg = self.act_ts.pop(0)[1]
             self.labchoose.config(text=msg)
             self.master.after(300, self.show_tasks)
         else:
+            self.act_ts = self.db.get_act_ts()
+            msg = self.act_ts[0][1]
+            self.labchoose.config(text=msg)
             self.choose_task()
 
-    def choose_task(self, i):
+    def choose_task(self):
         self.btchooseit.config(state = tk.NORMAL)
         self.btnext_task.config(state = tk.NORMAL)
 
     def push_next(self):
-        self.i = (self.i + 1) % len(self.db.pages[self.db.active[0]])
-        msg = db.pages[db.active[0]][self.i].text
+        self.i = (self.i + 1) % len(self.act_ts)
+        msg = self.act_ts[self.i][1]
         self.labchoose.config(text=msg)
 
     def push_chooseit(self):
-        self.db.choose(self.i)
-        self.parent.secwin.filllb()
+        self.db.choose(self.act_ts[self.i][0])
+        self.parent.main.filllb()
         self.master.destroy()
         
 
