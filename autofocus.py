@@ -131,21 +131,20 @@ class ChooseWin:
     
     def __init__(self, master, parent, db):
         self.master = master
-        self.width = 800
-        self.height = 200
         self.parent = parent
         self.db = db
         self.act_ts = self.db.get_act_ts()
         self.i = 0
-        self.master.geometry('{}x{}'.format(self.width, self.height))
-        self.labchoose = tk.Label(self.master, text='')
-        self.labchoose.pack()
-        self.btchooseit = tk.Button(self.master, text='Choose it',
+        self.labchoose = tk.Label(self.master, text='', width=50, height=5,
+                                  font=("Helvetica", 16))
+        self.btchooseit = tk.Button(self.master, text='Choose it', width=20,
                             command=self.push_chooseit, state = tk.DISABLED)
-        self.btnext_task = tk.Button(self.master, text='Next',
+        self.btnext_task = tk.Button(self.master, text='Next', width=10,
                             command=self.push_next, state = tk.DISABLED)
-        self.btchooseit.pack()
-        self.btnext_task.pack()
+        self.labchoose.grid(columnspan=2, sticky=tk.W+tk.E+tk.N+tk.S)
+        self.btchooseit.grid(row=1, column=0, sticky=tk.W+tk.E, padx=5, pady=2)
+        self.btnext_task.grid(row=1, column=1, sticky=tk.W+tk.E,
+                              padx=5, pady=2)
         self.show_tasks()
 
 
@@ -153,7 +152,7 @@ class ChooseWin:
         if self.act_ts:
             msg = self.act_ts.pop(0)[1]
             self.labchoose.config(text=msg)
-            self.master.after(300, self.show_tasks)
+            self.master.after(1000, self.show_tasks)
         else:
             self.act_ts = self.db.get_act_ts()
             msg = self.act_ts[0][1]
