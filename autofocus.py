@@ -37,10 +37,6 @@ class MainWin:
         self.parent = parent
         self.db = db
         self.master.resizable(width=tk.FALSE, height=tk.FALSE)
-        
-##        self.width = 500
-##        self.height = 500
-##        self.master.geometry('{}x{}'.format(self.width, self.height))
 
         self.lbox      = tk.Listbox(self.master, height=20, width=50,
                                     activestyle = 'none', bg='#FFD699')
@@ -145,6 +141,7 @@ class ChooseWin:
         self.btchooseit.grid(row=1, column=0, sticky=tk.W+tk.E, padx=5, pady=2)
         self.btnext_task.grid(row=1, column=1, sticky=tk.W+tk.E,
                               padx=5, pady=2)
+        self.master.resizable(width=tk.FALSE, height=tk.FALSE)
         self.show_tasks()
 
 
