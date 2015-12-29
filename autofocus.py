@@ -43,7 +43,7 @@ class MainWin:
         self.inputbox  = tk.Entry(self.master)
         self.btchoose  = tk.Button(self.master, text='Choose!',
                                    command=parent.choose,
-                                   bg='#444', fg = 'white', width=15)
+                                   bg='#BBB', fg = 'black', width=15)
         self.btchooseq = tk.Button(self.master, text='Choose quick!',
                                    command=self.push_chooseq,
                                    bg='#777', fg = 'white')
@@ -55,7 +55,7 @@ class MainWin:
                                    bg='#777', fg = 'white')
         self.btturn    = tk.Button(self.master, text ='Turn the page!',
                                    command=self.push_turn,
-                                   bg='#BBB', fg = 'black')
+                                   bg='#444', fg = 'white')
         self.btadd     = tk.Button(self.master, text='Add',
                                    command=self.push_add,
                                    bg='#777', fg = 'white')
