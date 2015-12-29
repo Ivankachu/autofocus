@@ -88,7 +88,7 @@ class MainWin:
                     self.lbox.itemconfig(i, bg='#317332', fg='white')
                 else:
                     if task.status:
-                        self.lbox.itemconfig(i, bg='#804D00', fg='white')
+                        self.lbox.itemconfig(i, bg='#F2EDE5', fg='#B2B2B2')
                     else:
                         self.lbox.itemconfig(i, bg='#FFD699', fg='black')
 
