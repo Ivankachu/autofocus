@@ -42,32 +42,40 @@ class MainWin:
                                     activestyle = 'none', bg='#FFD699')
         self.inputbox  = tk.Entry(self.master)
         self.btchoose  = tk.Button(self.master, text='Choose!',
-                                   command=parent.choose)
+                                   command=parent.choose,
+                                   bg='#444', fg = 'white', width=15)
         self.btchooseq = tk.Button(self.master, text='Choose quick!',
-                                      command=self.push_chooseq)
+                                   command=self.push_chooseq,
+                                   bg='#777', fg = 'white')
         self.btdone    = tk.Button(self.master, text='Done!',
-                                   command=self.push_done)
-        self.btcont    = tk.Button(self.master, text='Continue\nlater',
-                                      command=self.push_contin_later)
+                                   command=self.push_done,
+                                   bg='#777', fg = 'white')
+        self.btcont    = tk.Button(self.master, text='Continue later',
+                                   command=self.push_contin_later,
+                                   bg='#777', fg = 'white')
         self.btturn    = tk.Button(self.master, text ='Turn the page!',
-                                   command=self.push_turn)
+                                   command=self.push_turn,
+                                   bg='#BBB', fg = 'black')
         self.btadd     = tk.Button(self.master, text='Add',
-                                   command=self.push_add)
+                                   command=self.push_add,
+                                   bg='#777', fg = 'white')
         
-        self.lbox.grid     (rowspan=5, column=0)
-        self.inputbox.grid (row=5, column=0, sticky=tk.W+tk.E+tk.N+tk.S)
+        self.lbox.grid     (rowspan=5, column=0, sticky=tk.W+tk.E,
+                            padx=5, pady=5)
+        self.inputbox.grid (row=5, column=0, sticky=tk.W+tk.E+tk.N+tk.S,
+                            padx=5, pady=5)
         self.btchoose.grid (row=0, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
-                            padx=5, pady=2)
-        self.btchooseq.grid(row=1, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
-                            padx=5, pady=2)
+                            padx=5, pady=5)
+        self.btchooseq.grid(row=4, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+                            padx=5, pady=5)
         self.btdone.grid   (row=2, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
-                            padx=5, pady=2)
+                            padx=5, pady=5)
         self.btcont.grid   (row=3, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
-                            padx=5, pady=2)
-        self.btturn.grid   (row=4, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
-                            padx=5, pady=2)
+                            padx=5, pady=5)
+        self.btturn.grid   (row=1, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+                            padx=5, pady=5)
         self.btadd.grid    (row=5, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
-                            padx=5, pady=2)
+                            padx=5, pady=5)
         self.inputbox.bind('<Return>', lambda event: self.push_add())
         self.filllb()
 
@@ -135,7 +143,7 @@ class ChooseWin:
                                   font=("Helvetica", 16))
         self.btchooseit = tk.Button(self.master, text='Choose it', width=20,
                             command=self.push_chooseit, state = tk.DISABLED)
-        self.btnext_task = tk.Button(self.master, text='Next', width=10,
+        self.btnext_task = tk.Button(self.master, text='Next', width=20,
                             command=self.push_next, state = tk.DISABLED)
         self.labchoose.grid(columnspan=2, sticky=tk.W+tk.E+tk.N+tk.S)
         self.btchooseit.grid(row=1, column=0, sticky=tk.W+tk.E, padx=5, pady=2)
