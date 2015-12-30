@@ -157,7 +157,7 @@ def backup(db):
             last_db = pickle.load(f)
         if not filecmp.cmp(last_backup, 'db.pkl'):
             new_num_backup = max(list_num_backup) + 1
-    if new_num_backup != None:
+    if new_num_backup:
         new_name_backup = FILENAME + str(new_num_backup) + ".pkl"
         savedb(db, new_name_backup)
         if len(list_num_backup) > 4:
@@ -246,5 +246,5 @@ if __name__ == '__main__':
             backup(db)
             continue
         print ("There is no such command", msg)
-    savedb(db, 'db.pkl')
+    backup(db)
 
