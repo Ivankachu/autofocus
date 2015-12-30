@@ -1,7 +1,7 @@
 import os
 import pickle
 import glob
-import filecmp
+import copy
 
 MSG_CANT_TURN = ("You have to do something from "	
                  "the current list firstly!")
@@ -19,6 +19,7 @@ class WritingPad:
         self.active = []
         self.pages = []
         self.chosen = -1
+        self.is_changed = False
 
     def print_agenda(self):
         print (self.get_act_ts())
@@ -41,10 +42,12 @@ class WritingPad:
             self.pages.append([newtask])
         else:
             self.pages[-1].append(newtask)
+        self.is_changed = True
 
     def choose(self, numtask):
         if self.chosen == -1 and not self.pages[self.active[0]][numtask].status:
             self.chosen = numtask
+            self.is_changed = True
 
     def do(self):
         if self.chosen != -1:
@@ -54,6 +57,7 @@ class WritingPad:
                 self.turn_the_page()
             self.chosen = -1
             self.status = True
+            self.is_changed = True
 
     def contin_later(self):
         if self.chosen != -1:
@@ -69,6 +73,7 @@ class WritingPad:
         current_page = self.active[0]
         for task in self.pages[current_page]:
             task.do()
+        self.is_changed = True
 
     def turn_the_page(self):
         if len(self.active) < 2:
@@ -81,6 +86,7 @@ class WritingPad:
                 self.active.pop(0)
             self.chosen = -1
             self.status = False
+            self.is_changed = True
 
     def check_page_completed(self):
         current_page = self.active[0]
@@ -102,6 +108,7 @@ class WritingPad:
 
     def change_text(self, index, text):
         self.pages[self.active[0]][index].text = text
+        self.is_changed = True
 
     def get_act_ts(self):
         act_ts = []
@@ -126,8 +133,10 @@ def copydb():
     return db
 
 def savedb(db, filename):
+    _db = db
+    _db.is_changed = False
     with open(filename, 'wb') as f:
-        pickle.dump(db, f)
+        pickle.dump(_db, f)
 
 def checkcreatefile():
     if not os.path.isfile("db.pkl"):
@@ -136,13 +145,32 @@ def checkcreatefile():
             pickle.dump(db, f)
 
 def backup(db):
+    savedb(db, 'db.pkl')
+    if db.is_changed:
+        FILENAME = "backupn"
+        list_files = glob.glob(FILENAME + "*.pkl")
+        list_num_backup = [int(name[len(FILENAME):-4]) for name in list_files
+                           if name[len(FILENAME):-4].isdigit()]
+        if not list_num_backup:
+            new_num_backup = 0
+        else:
+            new_num_backup = max(list_num_backup) + 1
+        copydb = copy.deepcopy(db)
+        copydb.is_canged = False
+        savedb(copydb, new_name_backup)
+        if len(list_num_backup) > 4:
+            first_file = FILENAME + str(min(list_num_backup)) + ".pkl"
+            os.remove(first_file)
+
     """
+    old version backup()
+    
     Create a backup file of previous 4 versions of DB.
     Check for files 'backup<number>.pkl' and find out maximum number.
     Then create 'backup<number+1>.pkl' file consisting of current DB.
     If number of backup files is more than 4 delete file backup<min number>.pkl'.
     
-    """
+    
     savedb(db, 'db.pkl')
     FILENAME = "backupn"
     list_files = glob.glob(FILENAME + "*.pkl")
@@ -150,7 +178,7 @@ def backup(db):
                        if name[len(FILENAME):-4].isdigit()]
     new_num_backup = None
     if not list_num_backup:
-        new_num_backup = 0
+        new_num_backup = 1
     else:
         last_backup = FILENAME + str(max(list_num_backup)) + ".pkl"
         with open(last_backup, 'rb') as f:
@@ -163,7 +191,9 @@ def backup(db):
         if len(list_num_backup) > 4:
             first_file = FILENAME + str(min(list_num_backup)) + ".pkl"
             os.remove(first_file)
+    """
 
+    
 def clear():
     if os.name == 'nt':
         os.system('cls')
