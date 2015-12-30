@@ -130,13 +130,14 @@ class Entry:
 def copydb():
     with open('db.pkl', 'rb') as f:
         db = pickle.load(f)
+        db.is_canged = False
     return db
 
 def savedb(db, filename):
-    _db = db
-    _db.is_changed = False
+    copydb = copy.deepcopy(db)
+    copydb.is_canged = False
     with open(filename, 'wb') as f:
-        pickle.dump(_db, f)
+        pickle.dump(copydb, f)
 
 def checkcreatefile():
     if not os.path.isfile("db.pkl"):
@@ -155,9 +156,8 @@ def backup(db):
             new_num_backup = 0
         else:
             new_num_backup = max(list_num_backup) + 1
-        copydb = copy.deepcopy(db)
-        copydb.is_canged = False
-        savedb(copydb, new_name_backup)
+        new_name_backup = FILENAME + str(new_num_backup) + ".pkl"
+        savedb(db, new_name_backup)
         if len(list_num_backup) > 4:
             first_file = FILENAME + str(min(list_num_backup)) + ".pkl"
             os.remove(first_file)
