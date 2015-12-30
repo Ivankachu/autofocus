@@ -130,7 +130,7 @@ class Entry:
 def copydb():
     with open('db.pkl', 'rb') as f:
         db = pickle.load(f)
-        db.is_canged = False
+        db.is_changed = False
     return db
 
 def savedb(db, filename):
@@ -146,8 +146,8 @@ def checkcreatefile():
             pickle.dump(db, f)
 
 def backup(db):
-    savedb(db, 'db.pkl')
     if db.is_changed:
+        savedb(db, 'db.pkl')
         FILENAME = "backupn"
         list_files = glob.glob(FILENAME + "*.pkl")
         list_num_backup = [int(name[len(FILENAME):-4]) for name in list_files
@@ -206,7 +206,6 @@ if __name__ == '__main__':
     db = copydb()
     db.print_agenda()
     msg = ''
-
     while True:
         msg = input(">>> ").strip()
         if msg == 'exit' or msg == 'quit':
