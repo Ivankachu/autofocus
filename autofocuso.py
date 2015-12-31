@@ -77,7 +77,8 @@ class WritingPad:
 
     def turn_the_page(self):
         if len(self.active) < 2:
-            print ("We can't turn the page. Work!")
+            if __name__ == '__main__':
+                print ("We can't turn the page. Work!")
         else:
             if self.status:
                 self.active.append(self.active.pop(0))

@@ -9,6 +9,7 @@ class Autofocus:
     def __init__(self, db, root):
         self.db = db
         self.root = root
+        self.root.title("Autofocus")
         self.main = MainWin(self.root, self, db)
         Autofocus.wincenter(self.root)
         
