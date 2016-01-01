@@ -1,4 +1,5 @@
+setup.py
 *.pkl
 *.pyc
-info
+build
 __pycache__
