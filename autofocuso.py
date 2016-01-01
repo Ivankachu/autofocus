@@ -159,40 +159,9 @@ def backup(db):
             new_num_backup = max(list_num_backup) + 1
         new_name_backup = FILENAME + str(new_num_backup) + ".pkl"
         savedb(db, new_name_backup)
-        if len(list_num_backup) > 4:
+        if len(list_num_backup) > 12:
             first_file = FILENAME + str(min(list_num_backup)) + ".pkl"
             os.remove(first_file)
-
-    """
-    old version backup()
-    
-    Create a backup file of previous 4 versions of DB.
-    Check for files 'backup<number>.pkl' and find out maximum number.
-    Then create 'backup<number+1>.pkl' file consisting of current DB.
-    If number of backup files is more than 4 delete file backup<min number>.pkl'.
-    
-    
-    savedb(db, 'db.pkl')
-    FILENAME = "backupn"
-    list_files = glob.glob(FILENAME + "*.pkl")
-    list_num_backup = [int(name[len(FILENAME):-4]) for name in list_files
-                       if name[len(FILENAME):-4].isdigit()]
-    new_num_backup = None
-    if not list_num_backup:
-        new_num_backup = 1
-    else:
-        last_backup = FILENAME + str(max(list_num_backup)) + ".pkl"
-        with open(last_backup, 'rb') as f:
-            last_db = pickle.load(f)
-        if not filecmp.cmp(last_backup, 'db.pkl'):
-            new_num_backup = max(list_num_backup) + 1
-    if new_num_backup:
-        new_name_backup = FILENAME + str(new_num_backup) + ".pkl"
-        savedb(db, new_name_backup)
-        if len(list_num_backup) > 4:
-            first_file = FILENAME + str(min(list_num_backup)) + ".pkl"
-            os.remove(first_file)
-    """
 
     
 def clear():
