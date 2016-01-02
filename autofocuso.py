@@ -76,18 +76,18 @@ class WritingPad:
         self.is_changed = True
 
     def turn_the_page(self):
-        if len(self.active) < 2:
-            if __name__ == '__main__':
-                print ("We can't turn the page. Work!")
-        else:
+        if (len(self.pages[self.active[0]]) == self.numstr and
+            self.chosen == -1):
             if self.status:
                 self.active.append(self.active.pop(0))
             else:
                 self.kill_page()
                 self.active.pop(0)
-            self.chosen = -1
             self.status = False
             self.is_changed = True
+        else:
+            if __name__ == '__main__':
+                print ("We can't turn the page. Work!")
 
     def check_page_completed(self):
         current_page = self.active[0]
