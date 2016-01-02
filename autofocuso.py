@@ -22,7 +22,6 @@ class WritingPad:
         self.is_changed = False
 
     def print_agenda(self):
-        print (self.get_act_ts())
         if len(self.active):
             print ('=' * 35)
             for (index, task) in enumerate(self.pages[self.active[0]]):
