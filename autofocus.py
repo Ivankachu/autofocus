@@ -111,7 +111,8 @@ class MainWin:
             self.filllb()
 
     def push_turn(self):
-        if not self.db.check_page_completed() and self.db.chosen == -1:
+        if (len(self.db.pages[self.db.active[0]]) == self.db.numstr
+            and self.db.chosen == -1):
             if db.status:
                 self.db.turn_the_page()
                 self.filllb()
