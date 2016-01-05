@@ -220,6 +220,13 @@ def backup(db):
             first_file = FILENAME + str(min(list_num_backup)) + ".pkl"
             os.remove(first_file)
 
+def get_act_ts(db):
+    act_ts = []
+    for i, ts in enumerate(db["pages"][db["active"][0]]):
+        if not ts.status:
+            act_ts.append((i, ts.text))
+    return act_ts
+
 if __name__ == '__main__':
 
     checkcreatefile()
