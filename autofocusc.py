@@ -221,6 +221,10 @@ def backup(db):
             os.remove(first_file)
 
 def get_act_ts(db):
+    """
+    Getting active tasks from the active page with its indices.
+    List of tuples.
+    """
     act_ts = []
     for i, ts in enumerate(db["pages"][db["active"][0]]):
         if not ts.status:

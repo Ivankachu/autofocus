@@ -70,8 +70,7 @@ class change_text:
         self.choosetasklabel.after(1000, self.__call__)
 
 def pushchoose():
-    tasks = db["pages"][db["active"][0]]
-    tasks = [task[0] for task in tasks if task[1] == 0]
+    tasks = af.get_ts_act(db)
     ts = change_text(tasks)
     ts()
 
