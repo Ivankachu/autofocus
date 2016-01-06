@@ -58,17 +58,6 @@ def pushcont():
         af.savedb(db, "tasks.pkl")
         filllb()
 
-class change_text:
-    def __init__(self, li):
-        self.choosewin = Toplevel(root)
-        self.li = li
-        self.choosetasklabel = Label(self.choosewin, text=self.li[0])
-        self.choosetasklabel.pack()
-    def __call__(self):
-        self.li.pop()
-        self.choosetasklabel.config(text=self.li[0])
-        self.choosetasklabel.after(1000, self.__call__)
-
 def pushchoose():
     tasks = db["pages"][db["active"][0]]
     tasks = [task[0] for task in tasks if task[1] == 0]
