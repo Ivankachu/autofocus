@@ -6,6 +6,8 @@ heightpixels = 370
 
 af.checkcreatefile()
 db = af.copydb()
+act_ts = af.get_act_ts(db)
+
 root = Tk()
 root.geometry('{}x{}'.format(widthpixels, heightpixels))
 lbox = Listbox(root, height=20, width=50, activestyle = 'none')
@@ -58,11 +60,12 @@ def pushcont():
         af.savedb(db, "tasks.pkl")
         filllb()
 
-def pushchoose():
-    tasks = af.get_ts_act(db)
-    ts = change_text(tasks)
-    ts()
-
+def pushchoose(root):
+    if act_ts:
+        label = act_ts.pop(0)
+        fun = pushchoose(root)
+        root.after(1000, fun)
+        
 def createbutton(command, text, bg='#777', fg = 'white'):
     return Button(root, text=text, command=command, bg=bg, fg=fg)
 
@@ -73,8 +76,8 @@ entry_add = Entry(root)
 entry_add.grid(row=4, column=0, sticky=W+E, pady = 5,  padx = 5)
 entry_add.bind('<Return>', lambda event: pushadd())
 
-button_choose = createbutton(text='Make a choice!\nF5', command=pushchoose,
-                     bg = '#444')
+button_choose = createbutton(text='Make a choice!\nF5',
+                             command=lambda root: pushchoose(root), bg = '#444')
 button_add = createbutton(text='Add new task', command=pushadd)
 button_done = createbutton(text='Done!\nF2', command=pushdone)
 button_cont = createbutton(text='Continue later\nF3', command=pushcont)

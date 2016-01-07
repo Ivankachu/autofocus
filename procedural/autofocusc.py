@@ -223,13 +223,16 @@ def backup(db):
 def get_act_ts(db):
     """
     Getting active tasks from the active page with its indices.
-    List of tuples.
+    Return list of tuples.
     """
-    act_ts = []
-    for i, ts in enumerate(db["pages"][db["active"][0]]):
-        if not ts.status:
-            act_ts.append((i, ts.text))
-    return act_ts
+    if db["pages"]:
+        act_ts = []
+        for i, ts in enumerate(db["pages"][db["active"][0]]):
+            if not ts.status:
+                act_ts.append((i, ts.text))
+        return act_ts
+    else:
+        return []
 
 if __name__ == '__main__':
 
