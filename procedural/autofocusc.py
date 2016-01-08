@@ -228,8 +228,8 @@ def get_act_ts(db):
     if db["pages"]:
         act_ts = []
         for i, ts in enumerate(db["pages"][db["active"][0]]):
-            if not ts.status:
-                act_ts.append((i, ts.text))
+            if not ts[1]:
+                act_ts.append((i, ts[0]))
         return act_ts
     else:
         return []
