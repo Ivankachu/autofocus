@@ -6,7 +6,7 @@ heightpixels = 370
 
 af.checkcreatefile()
 db = af.copydb()
-act_ts = af.get_act_ts(db)
+act_ts = []
 
 root = Tk()
 root.geometry('{}x{}'.format(widthpixels, heightpixels))
@@ -61,10 +61,16 @@ def pushcont():
         filllb()
 
 def pushchoose():
+    act_ts.extend(af.get_act_ts(db))
+    choose_win = Toplevel(root)
+    choose_lab = Label(choose_win, text=act_ts.pop(0)[1])
+    choose_lab.pack()
+    auto_next_task(choose_lab)
+
+def auto_next_task(lab):
     if act_ts:
-        label = act_ts.pop(0)
-        print (label)
-        root.after(1000, pushchoose)
+        lab.config(text=act_ts.pop(0)[1])
+        root.after(1000, lambda: auto_next_task(lab))
         
 def createbutton(command, text, bg='#777', fg = 'white'):
     return Button(root, text=text, command=command, bg=bg, fg=fg)
