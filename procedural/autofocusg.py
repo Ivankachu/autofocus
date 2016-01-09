@@ -60,11 +60,11 @@ def pushcont():
         af.savedb(db, "tasks.pkl")
         filllb()
 
-def pushchoose(root):
+def pushchoose():
     if act_ts:
         label = act_ts.pop(0)
-        fun = pushchoose(root)
-        root.after(1000, fun)
+        print (label)
+        root.after(1000, pushchoose)
         
 def createbutton(command, text, bg='#777', fg = 'white'):
     return Button(root, text=text, command=command, bg=bg, fg=fg)
@@ -77,7 +77,7 @@ entry_add.grid(row=4, column=0, sticky=W+E, pady = 5,  padx = 5)
 entry_add.bind('<Return>', lambda event: pushadd())
 
 button_choose = createbutton(text='Make a choice!\nF5',
-                             command=lambda root: pushchoose(root), bg = '#444')
+                             command=pushchoose, bg = '#444')
 button_add = createbutton(text='Add new task', command=pushadd)
 button_done = createbutton(text='Done!\nF2', command=pushdone)
 button_cont = createbutton(text='Continue later\nF3', command=pushcont)
