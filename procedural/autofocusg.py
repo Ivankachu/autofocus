@@ -61,9 +61,11 @@ def pushcont():
         filllb()
 
 def pushchoose():
+    act_ts[:] = []  #to clear list without losing object
     act_ts.extend(af.get_act_ts(db))
     choose_win = Toplevel(root)
-    choose_lab = Label(choose_win, text=act_ts.pop(0)[1])
+    labtext = act_ts.pop(0)[1]
+    choose_lab = Label(choose_win, text=labtext)
     choose_lab.pack()
     auto_next_task(choose_lab)
 
