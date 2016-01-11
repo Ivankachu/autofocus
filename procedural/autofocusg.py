@@ -67,12 +67,12 @@ def pushchoose():
     labtext = act_ts.pop(0)[1]
     choose_lab = Label(choose_win, text=labtext)
     choose_lab.pack()
-    auto_next_task(choose_lab)
+    choose_win.after(1000, lambda: auto_next_task(choose_lab, choose_win))
 
-def auto_next_task(lab):
+def auto_next_task(lab, win):
     if act_ts:
         lab.config(text=act_ts.pop(0)[1])
-        root.after(1000, lambda: auto_next_task(lab))
+        win.after(1000, lambda: auto_next_task(lab, win))
         
 def createbutton(command, text, bg='#777', fg = 'white'):
     return Button(root, text=text, command=command, bg=bg, fg=fg)
