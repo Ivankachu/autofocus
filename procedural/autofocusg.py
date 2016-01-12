@@ -4,14 +4,6 @@ from tkinter import *
 widthpixels = 418
 heightpixels = 370
 
-af.checkcreatefile()
-db = af.copydb()
-act_ts = []
-
-root = Tk()
-root.geometry('{}x{}'.format(widthpixels, heightpixels))
-lbox = Listbox(root, height=20, width=50, activestyle = 'none')
-
 def turn_the_page_gui(db):
     if len(db["active"]):
         if db["isdone"]:
@@ -64,6 +56,7 @@ def pushchoose():
     act_ts[:] = []  #to clear list without losing object
     act_ts.extend(af.get_act_ts(db))
     choose_win = Toplevel(root)
+    win_to_center(choose_win)
     labtext = act_ts.pop(0)[1]
     choose_lab = Label(choose_win, text=labtext)
     choose_lab.pack()
@@ -76,6 +69,25 @@ def auto_next_task(lab, win):
         
 def createbutton(command, text, bg='#777', fg = 'white'):
     return Button(root, text=text, command=command, bg=bg, fg=fg)
+
+def win_to_center(win):
+    win.update_idletasks()
+    w = win.winfo_screenwidth()
+    w = win.winfo_screenwidth()
+    h = win.winfo_screenheight()
+    size = tuple(int(_) for _ in win.geometry().split('+')[0].split('x'))
+    x = int(w / 2 - size[0] / 2)
+    y = int(h / 2 - size[1] / 2)
+    win.geometry("{}x{}+{}+{}".format(size[0], size[1], x, y))
+
+af.checkcreatefile()
+db = af.copydb()
+act_ts = []
+
+root = Tk()
+root.geometry('{}x{}'.format(widthpixels, heightpixels))
+win_to_center(root)
+lbox = Listbox(root, height=20, width=50, activestyle = 'none')
 
 filllb()
 lbox.grid(rowspan=4, sticky=W+E, pady = 5,  padx = 5)
