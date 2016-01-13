@@ -56,10 +56,15 @@ def pushchoose():
     act_ts[:] = []  #to clear list without losing object
     act_ts.extend(af.get_act_ts(db))
     choose_win = Toplevel(root)
+    choose_win.grab_set()
     win_to_center(choose_win)
     labtext = act_ts.pop(0)[1]
     choose_lab = Label(choose_win, text=labtext)
+    bt_this_one = Button(choose_win, text="This one")
+    bt_next = Button(choose_win, text="Next")
     choose_lab.pack()
+    bt_this_one.pack(side=LEFT)
+    bt_next.pack(side=LEFT)
     choose_win.after(1000, lambda: auto_next_task(choose_lab, choose_win))
 
 def auto_next_task(lab, win):
@@ -67,9 +72,6 @@ def auto_next_task(lab, win):
         lab.config(text=act_ts.pop(0)[1])
         win.after(1000, lambda: auto_next_task(lab, win))
         
-def createbutton(command, text, bg='#777', fg = 'white'):
-    return Button(root, text=text, command=command, bg=bg, fg=fg)
-
 def win_to_center(win):
     win.update_idletasks()
     w = win.winfo_screenwidth()
@@ -79,6 +81,9 @@ def win_to_center(win):
     x = int(w / 2 - size[0] / 2)
     y = int(h / 2 - size[1] / 2)
     win.geometry("{}x{}+{}+{}".format(size[0], size[1], x, y))
+
+def createbutton(command, text, bg='#777', fg = 'white'):
+    return Button(root, text=text, command=command, bg=bg, fg=fg)
 
 af.checkcreatefile()
 db = af.copydb()
