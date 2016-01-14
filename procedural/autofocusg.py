@@ -57,14 +57,16 @@ def pushchoose():
     act_ts.extend(af.get_act_ts(db))
     choose_win = Toplevel(root)
     choose_win.grab_set()
-    win_to_center(choose_win)
     labtext = act_ts.pop(0)[1]
-    choose_lab = Label(choose_win, text=labtext)
-    bt_this_one = Button(choose_win, text="This one")
-    bt_next = Button(choose_win, text="Next")
+    choose_lab = Label(choose_win, text=labtext,
+                                   font=("Helvetica", 16),
+                                   height=3)
+    bt_this_one = Button(choose_win, text="This one", width=45)
+    bt_next = Button(choose_win, text="Next", width=45)
     choose_lab.pack()
     bt_this_one.pack(side=LEFT)
     bt_next.pack(side=LEFT)
+    win_to_center(choose_win)
     choose_win.after(1000, lambda: auto_next_task(choose_lab, choose_win))
 
 def auto_next_task(lab, win):
