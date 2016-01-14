@@ -61,18 +61,35 @@ def pushchoose():
     choose_lab = Label(choose_win, text=labtext,
                                    font=("Helvetica", 16),
                                    height=3)
-    bt_this_one = Button(choose_win, text="This one", width=45)
-    bt_next = Button(choose_win, text="Next", width=45)
+    bt_this_one = Button(choose_win, text="This one",
+                                     command=push_this_one,
+                                     width=45,
+                                     state = DISABLED)
+    bt_next = Button(choose_win, text="Next", width=45,
+                                 command=lambda: push_next(choose_lab),
+                                 state = DISABLED)
     choose_lab.pack()
     bt_this_one.pack(side=LEFT)
     bt_next.pack(side=LEFT)
     win_to_center(choose_win)
-    choose_win.after(1000, lambda: auto_next_task(choose_lab, choose_win))
+    choose_win.after(1000, lambda: auto_next_task(choose_lab, choose_win,
+                                            bt_this_one, bt_next))
 
-def auto_next_task(lab, win):
+def push_next(choose_lab):
+    act_ts.append(act_ts.pop(0))
+    choose_lab.config(text=act_ts[0][1])
+
+def push_this_one():
+    pass
+
+def auto_next_task(lab, win, bt_this_one, bt_next):
     if act_ts:
         lab.config(text=act_ts.pop(0)[1])
-        win.after(1000, lambda: auto_next_task(lab, win))
+        win.after(1000, lambda: auto_next_task(lab, win, bt_this_one, bt_next))
+    else:
+        act_ts.extend(af.get_act_ts(db))
+        bt_this_one.config(state = NORMAL)
+        bt_next.config(state = NORMAL)
         
 def win_to_center(win):
     win.update_idletasks()
