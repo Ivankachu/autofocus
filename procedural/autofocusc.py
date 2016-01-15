@@ -20,19 +20,24 @@ msg_can_kill_page = ("You can turn the page without doing anything "
 def copydb():
     """
     Copy DB of items to-do list from a file. DB is structured as a dictionary
-    consisting of 3 items with keys: 'isdone', 'active' and 'pages'.
+    consisting of 4 items with keys: 'isdone', 'active', 'chosen' and 'pages'.
     Item 'isdone' is a flag (True of False) that means whether any task
     in the active page is already done in the current lap. The first number
     of that list is an index of current page.
     Item 'active' is a list of pages' indices that has undone tasks.
+    Item 'chosen' is a index of chosen task in active page
+    which is currently being executed.
+    'chosen' = -1 means there is no chosen task now.
     Item 'pages' is a nested list of pages which consist of tasks and flags
     (0 or 1 - undone or done task).
     
     Example of DB dictionary:
     
-    {False,
-    [1, 2],
-    [
+    {
+    "isdone": False,
+    "active": [1, 2],
+    "chosen": 5,
+    "pages" : [
     [['text of task 1', 1], ['text of task 2', 1], ['text of task 3', 1]...],
     [['text of task 21', 1], ['text of task 22', 0], ['text of task 23', 0]...],
     [['text of task 31', 0], ['text of task 32', 0], ['text of task 33', 0]...],
@@ -190,7 +195,7 @@ def checkcreatefile():
     """
     if not os.path.isfile("tasks.pkl"):
         with open('tasks.pkl', 'wb') as f:
-            db = {"isdone": False, "active": [], "pages": []}
+            db = {"isdone": False, "active": [], "chosen": -1, "pages": []}
             pickle.dump(db, f)
 
 def backup(db):
