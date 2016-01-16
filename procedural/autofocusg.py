@@ -21,10 +21,10 @@ def filllb():
     if db["active"]:
         for i, task in enumerate(db["pages"][db["active"][0]]):
             lbox.insert(i, task[0])
-            if i == db["chosen"]:
-                lbox.itemconfig(i, bg='#2e8f7b', fg='white')
-            elif not task[1]:
+            if not task[1]:
                 lbox.itemconfig(i, bg='#FFD699', fg='black')
+            elif i == db["chosen"]:
+                lbox.itemconfig(i, bg='#2e8f7b', fg='white')
             else:
                 lbox.itemconfig(i, bg='#804D00', fg='white')
                 
@@ -83,7 +83,7 @@ def push_next(choose_lab):
     choose_lab.config(text=act_ts[0][1])
 
 def push_this_one(choose_win):
-    db["chosen"] = act_ts[0][0]
+    db["chosen"] = act_ts[0]
     choose_win.destroy()
     filllb()
 
