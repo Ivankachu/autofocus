@@ -21,11 +21,13 @@ def filllb():
     if db["active"]:
         for i, task in enumerate(db["pages"][db["active"][0]]):
             lbox.insert(i, task[0])
-            if task[1]:
-                lbox.itemconfig(i, bg='#804D00', fg='white')
-            else:
+            if i == db["chosen"]:
+                lbox.itemconfig(i, bg='#2e8f7b', fg='white')
+            elif not task[1]:
                 lbox.itemconfig(i, bg='#FFD699', fg='black')
-
+            else:
+                lbox.itemconfig(i, bg='#804D00', fg='white')
+                
 def pushadd():
     msg = entry_add.get().strip()
     if msg:
@@ -55,6 +57,7 @@ def pushcont():
 def pushchoose():
     act_ts[:] = []  #to clear list without losing object
     act_ts.extend(af.get_act_ts(db))
+    if not act_ts: return
     choose_win = Toplevel(root)
     choose_win.grab_set()
     labtext = act_ts.pop(0)[1]
@@ -62,9 +65,9 @@ def pushchoose():
                                    font=("Helvetica", 16),
                                    height=3)
     bt_this_one = Button(choose_win, text="This one",
-                                     command=push_this_one,
-                                     width=45,
-                                     state = DISABLED)
+                                 command=lambda: push_this_one(choose_win),
+                                 width=45,
+                                 state = DISABLED)
     bt_next = Button(choose_win, text="Next", width=45,
                                  command=lambda: push_next(choose_lab),
                                  state = DISABLED)
@@ -79,8 +82,10 @@ def push_next(choose_lab):
     act_ts.append(act_ts.pop(0))
     choose_lab.config(text=act_ts[0][1])
 
-def push_this_one():
-    pass
+def push_this_one(choose_win):
+    db["chosen"] = act_ts[0][0]
+    choose_win.destroy()
+    filllb()
 
 def auto_next_task(lab, win, bt_this_one, bt_next):
     if act_ts:
@@ -134,7 +139,7 @@ button_cont.grid(row=2, column=1, sticky=W+E+N+S, pady = 5,  padx = 5)
 button_turn.grid(row=3, column=1,  sticky=W+E+N+S, pady = 5,  padx = 5)
 
 root.resizable(width=FALSE, height=FALSE)
-root.title("AutoFocus")
+root.title("AutoFocus P")
 root.bind('<F2>', lambda event: pushdone())
 root.bind('<F3>', lambda event: pushcont())
 root.bind('<F4>', lambda event: pushturn())
