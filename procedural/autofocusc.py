@@ -59,6 +59,9 @@ def print_agenda(db):
             if not task[1]:
                 print (' {:2}  {}'.format(index, task[0]))
         print ('=' * 35)
+        if db["chosen"] != -1:
+            print ("Chosen task:\n{}".\
+                   format(db["pages"][db["active"][0]][db["chosen"]]))
     else:
         print ("All tasks you planned are completed.")
 
@@ -84,28 +87,22 @@ def add(new_task, db):
         db["active"].append(0)
     return db
 
-def complete(index_task, db):
+def complete(db):
     """
     Mark item as completed
     """
-    if 0 <= index_task < tasks_in_page:
-        if not db["pages"][db["active"][0]][index_task][1]:
-            db["isdone"] = True
-            db["pages"][db["active"][0]][index_task][1] = 1
-            check_active_page_completed(db)
-        else:
-            print ("The task is already completed")
-    else:
-        print ("Bad number. It must be from 0 to 19")
+    if db["chosen"] != -1:
+        db["isdone"] = True
+        db["pages"][db["active"][0]][db["chosen"]][1] = 1
+        check_active_page_completed(db)
     return db
         
-def continue_later(index_task, db):
+def continue_later(db):
     """
     Mark item as completed and copy it in the end of notebook
     """
-    if db["pages"][db["active"][0]][index_task][1]: return db
-    task = db["pages"][db["active"][0]][index_task][0]
-    db = complete(index_task, db)
+    task = db["pages"][db["active"][0]][db["chosen"]][0]
+    db = complete(db)
     db = add(task, db)
     return db
 
@@ -171,6 +168,11 @@ def print_pages(db):
         print ("page ", index)
         for (index2, task) in enumerate(page):
             print ('{:3}  {:40}{}'.format(index2, task[0], task[1]))
+
+def choose(num):
+    if (db["chosen"] == -1 and 0 <= num < 20 and
+        not db["pages"][db["active"][0]][num][1]):
+        db["chosen"] = num
 
 def clear():
     """
@@ -250,6 +252,8 @@ if __name__ == '__main__':
         msg = input(">>> ")
         if msg[:4] == "add " and msg[4:]:
             db = add(msg[4:], db)
+        if msg[:7] == "choose" and msg[7:]:
+            choose(int(msg[7:]))
         if msg[:9] == "complete " and msg[9:]:
             db = complete(int(msg[9:]), db)
         if msg[:15] == "continue later " and msg[15:]:
