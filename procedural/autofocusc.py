@@ -61,7 +61,7 @@ def print_agenda(db):
         print ('=' * 35)
         if db["chosen"] != -1:
             print ("Chosen task:\n{}".\
-                   format(db["pages"][db["active"][0]][db["chosen"]]))
+                   format(db["pages"][db["active"][0]][db["chosen"]][0]))
     else:
         print ("All tasks you planned are completed.")
 
@@ -101,9 +101,10 @@ def continue_later(db):
     """
     Mark item as completed and copy it in the end of notebook
     """
-    task = db["pages"][db["active"][0]][db["chosen"]][0]
-    db = complete(db)
-    db = add(task, db)
+    if db["chosen"] != -1:
+        task = db["pages"][db["active"][0]][db["chosen"]][0]
+        db = complete(db)
+        db = add(task, db)
     return db
 
 def demolish_page(db):
@@ -252,7 +253,7 @@ if __name__ == '__main__':
         msg = input(">>> ")
         if msg[:4] == "add " and msg[4:]:
             db = add(msg[4:], db)
-        if msg[:7] == "choose" and msg[7:]:
+        if msg[:7] == "choose " and msg[7:]:
             choose(int(msg[7:]))
         if msg[:9] == "complete " and msg[9:]:
             db = complete(int(msg[9:]), db)

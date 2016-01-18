@@ -22,9 +22,10 @@ def filllb():
         for i, task in enumerate(db["pages"][db["active"][0]]):
             lbox.insert(i, task[0])
             if not task[1]:
-                lbox.itemconfig(i, bg='#FFD699', fg='black')
-            elif i == db["chosen"]:
-                lbox.itemconfig(i, bg='#2e8f7b', fg='white')
+                if i == db["chosen"]:
+                    lbox.itemconfig(i, bg='#2e8f7b', fg='white')
+                else:
+                    lbox.itemconfig(i, bg='#FFD699', fg='black')
             else:
                 lbox.itemconfig(i, bg='#804D00', fg='white')
                 
@@ -93,6 +94,7 @@ def auto_next_task(lab, win, bt_this_one, bt_next):
         win.after(1000, lambda: auto_next_task(lab, win, bt_this_one, bt_next))
     else:
         act_ts.extend(af.get_act_ts(db))
+        lab.config(text=act_ts[0][1])
         bt_this_one.config(state = NORMAL)
         bt_next.config(state = NORMAL)
         
