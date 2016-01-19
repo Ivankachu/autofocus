@@ -95,7 +95,7 @@ def complete(db):
         db["isdone"] = True
         db["pages"][db["active"][0]][db["chosen"]][1] = 1
         check_active_page_completed(db)
-    return db
+    db["chosen"] = -1
         
 def continue_later(db):
     """
@@ -103,6 +103,7 @@ def continue_later(db):
     """
     if db["chosen"] != -1:
         task = db["pages"][db["active"][0]][db["chosen"]][0]
+        print (task)
         db = complete(db)
         db = add(task, db)
     return db
@@ -255,10 +256,10 @@ if __name__ == '__main__':
             db = add(msg[4:], db)
         if msg[:7] == "choose " and msg[7:]:
             choose(int(msg[7:]))
-        if msg[:9] == "complete " and msg[9:]:
-            db = complete(int(msg[9:]), db)
-        if msg[:15] == "continue later " and msg[15:]:
-            db = continue_later(int(msg[15:]), db)
+        if msg[:8] == "complete":
+            db = complete(db)
+        if msg[:14] == "continue later":
+            db = continue_later(db)
         if msg == "turn the page":
             db = turn_the_page(db)
         if msg == "print":

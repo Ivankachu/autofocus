@@ -44,14 +44,14 @@ def pushturn():
     filllb()
 
 def pushdone():
-    if lbox.curselection():
-        af.complete(lbox.curselection()[0], db)
+    if db["chosen"] != -1:
+        af.complete(db)
         af.savedb(db, "tasks.pkl")
         filllb()
 
 def pushcont():
-    if lbox.curselection():
-        af.continue_later(lbox.curselection()[0], db)
+    if db["chosen"] != -1:
+        af.continue_later(db)
         af.savedb(db, "tasks.pkl")
         filllb()
 
@@ -84,7 +84,7 @@ def push_next(choose_lab):
     choose_lab.config(text=act_ts[0][1])
 
 def push_this_one(choose_win):
-    db["chosen"] = act_ts[0]
+    db["chosen"] = act_ts[0][0]
     choose_win.destroy()
     filllb()
 
