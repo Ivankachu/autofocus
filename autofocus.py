@@ -60,22 +60,33 @@ class MainWin:
         self.btadd     = tk.Button(self.master, text='Add',
                                    command=self.push_add,
                                    bg='#777', fg = 'white')
+        self.btpgnext  = tk.Button(self.master, text="N")
+        self.btpgprev  = tk.Button(self.master, text="P")
+        self.btpgcur   = tk.Button(self.master, text="C")
         
-        self.lbox.grid     (rowspan=5, column=0, sticky=tk.W+tk.E,
+        self.lbox.grid     (rowspan=6, column=0, sticky=tk.W+tk.E,
                             padx=5, pady=5)
-        self.inputbox.grid (row=5, column=0, sticky=tk.W+tk.E+tk.N+tk.S,
+        self.inputbox.grid (row=6, column=0, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=5)
-        self.btchoose.grid (row=0, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+        
+        self.btpgprev.grid (row=5, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+                            pady=5)
+        self.btpgcur.grid  (row=5, column=2, sticky=tk.W+tk.E+tk.N+tk.S,
+                            pady=5)
+        self.btpgnext.grid (row=5, column=3, sticky=tk.W+tk.E+tk.N+tk.S,
+                            pady=5)
+        
+        self.btchoose.grid (row=0, column=1, columnspan=3,
+                            sticky=tk.W+tk.E+tk.N+tk.S, padx=5, pady=5)
+        self.btchooseq.grid(row=4, column=1, columnspan=3, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=5)
-        self.btchooseq.grid(row=4, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+        self.btdone.grid   (row=2, column=1, columnspan=3, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=5)
-        self.btdone.grid   (row=2, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+        self.btcont.grid   (row=3, column=1, columnspan=3, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=5)
-        self.btcont.grid   (row=3, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+        self.btturn.grid   (row=1, column=1, columnspan=3, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=5)
-        self.btturn.grid   (row=1, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
-                            padx=5, pady=5)
-        self.btadd.grid    (row=5, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
+        self.btadd.grid    (row=6, column=1, columnspan=3, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=5)
         self.inputbox.bind('<Return>', lambda event: self.push_add())
         self.filllb()
