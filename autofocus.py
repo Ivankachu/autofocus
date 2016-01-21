@@ -63,6 +63,7 @@ class MainWin:
         self.btpgnext  = tk.Button(self.master, text="N")
         self.btpgprev  = tk.Button(self.master, text="P")
         self.btpgcur   = tk.Button(self.master, text="C")
+        self.status    = tk.Label(self.master, text="", bd=1, relief=tk.SUNKEN, anchor=tk.W)
         
         self.lbox.grid     (rowspan=6, column=0, sticky=tk.W+tk.E,
                             padx=5, pady=5)
@@ -70,11 +71,11 @@ class MainWin:
                             padx=5, pady=5)
         
         self.btpgprev.grid (row=5, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
-                            pady=5)
+                            padx=5, pady=5)
         self.btpgcur.grid  (row=5, column=2, sticky=tk.W+tk.E+tk.N+tk.S,
                             pady=5)
         self.btpgnext.grid (row=5, column=3, sticky=tk.W+tk.E+tk.N+tk.S,
-                            pady=5)
+                            padx=5, pady=5)
         
         self.btchoose.grid (row=0, column=1, columnspan=3,
                             sticky=tk.W+tk.E+tk.N+tk.S, padx=5, pady=5)
@@ -88,6 +89,7 @@ class MainWin:
                             padx=5, pady=5)
         self.btadd.grid    (row=6, column=1, columnspan=3, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=5)
+        self.status.grid(row=7, columnspan=4, sticky=tk.W+tk.E)
         self.inputbox.bind('<Return>', lambda event: self.push_add())
         self.filllb()
 
