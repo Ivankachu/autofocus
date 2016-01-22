@@ -60,9 +60,9 @@ class MainWin:
         self.btadd     = tk.Button(self.master, text='Add',
                                    command=self.push_add,
                                    bg='#777', fg = 'white')
-        self.btpgnext  = tk.Button(self.master, text="N")
-        self.btpgprev  = tk.Button(self.master, text="P")
-        self.btpgcur   = tk.Button(self.master, text="C")
+        self.btpgnext  = tk.Button(self.master, text="N", command=self.shift_page)
+        self.btpgprev  = tk.Button(self.master, text="P", command=lambda: self.shift_page(prev=True))
+        self.btpgcur   = tk.Button(self.master, text="C", command=lambda: self.shift_page(cur=True))
         self.status    = tk.Label(self.master, text="", bd=1, relief=tk.SUNKEN, anchor=tk.W)
         
         self.lbox.grid     (rowspan=6, column=0, sticky=tk.W+tk.E,
@@ -93,18 +93,20 @@ class MainWin:
         self.inputbox.bind('<Return>', lambda event: self.push_add())
         self.filllb()
 
-    def filllb(self):
+    def filllb(self, ipage=None):
         self.lbox.delete(0, tk.END)
-        if self.parent.db.active:
-            for i, task in enumerate(db.pages[db.active[0]]):
-                self.lbox.insert(i, task.text)
-                if i == self.db.chosen:
-                    self.lbox.itemconfig(i, bg='#317332', fg='white')
-                else:
-                    if task.status:
-                        self.lbox.itemconfig(i, bg='#FFD699', fg='white')
+        index = ipage if ipage else db.active[0]
+        if self.db.active:
+                for i, task in enumerate(db.pages[index]):
+                    self.lbox.insert(i, task.text)
+                    if i == self.db.chosen and not ipage:
+                        self.lbox.itemconfig(i, bg='#317332', fg='white')
                     else:
-                        self.lbox.itemconfig(i, bg='#FFD699', fg='black')
+                        if task.status:
+                            self.lbox.itemconfig(i, bg='#FFD699', fg='white')
+                        else:
+                            self.lbox.itemconfig(i, bg='#FFD699', fg='black')
+
 
     def push_chooseq(self):
         if self.lbox.curselection():
@@ -144,7 +146,19 @@ class MainWin:
             af.backup(db)
             self.filllb()
         self.inputbox.delete(0, tk.END)
-        
+
+    def shift_page(self, prev=False, cur=False):
+        if cur:
+            self.shift_active[:] = []
+            filllb()
+            return
+        self.shift_active[:] = self.db.active
+        if not prev:
+            shift_active.append(shift_active.pop(0))
+        else:
+            shift_active.insert(0, shift_active.pop())
+        filllb(ipage=self.shift_active[0])
+
 
 class ChooseWin:
     
