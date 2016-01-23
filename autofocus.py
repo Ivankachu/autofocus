@@ -37,6 +37,7 @@ class MainWin:
         self.master = master
         self.parent = parent
         self.db = db
+        self.shift_active = []
         self.master.resizable(width=tk.FALSE, height=tk.FALSE)
 
         self.lbox      = tk.Listbox(self.master, height=20, width=50,
@@ -150,14 +151,14 @@ class MainWin:
     def shift_page(self, prev=False, cur=False):
         if cur:
             self.shift_active[:] = []
-            filllb()
+            self.filllb()
             return
         self.shift_active[:] = self.db.active
         if not prev:
-            shift_active.append(shift_active.pop(0))
+            self.shift_active.append(self.shift_active.pop(0))
         else:
-            shift_active.insert(0, shift_active.pop())
-        filllb(ipage=self.shift_active[0])
+            self.shift_active.insert(0, self.shift_active.pop())
+        self.filllb(ipage=self.shift_active[0])
 
 
 class ChooseWin:
