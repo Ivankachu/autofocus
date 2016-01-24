@@ -96,7 +96,8 @@ class MainWin:
 
     def filllb(self, ipage=None):
         self.lbox.delete(0, tk.END)
-        index = ipage if ipage else db.active[0]
+        index = ipage if ipage != None else db.active[0]
+        print ("filllb, index = ", index, ", ipage = ", ipage)
         if self.db.active:
                 for i, task in enumerate(db.pages[index]):
                     self.lbox.insert(i, task.text)
@@ -154,10 +155,17 @@ class MainWin:
             self.filllb()
             return
         self.shift_active[:] = self.db.active
+        print (self.shift_active)
         if not prev:
-            self.shift_active.append(self.shift_active.pop(0))
+            print ('N')
+            tmp = self.shift_active.pop(0)
+            self.shift_active.append(tmp)
         else:
-            self.shift_active.insert(0, self.shift_active.pop())
+            print ('P')
+            tmp = self.shift_active.pop()
+            self.shift_active.insert(0, tmp)
+        print(tmp)
+        print (self.shift_active)
         self.filllb(ipage=self.shift_active[0])
 
 
