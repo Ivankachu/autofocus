@@ -61,10 +61,14 @@ class MainWin:
         self.btadd     = tk.Button(self.master, text='Add',
                                    command=self.push_add,
                                    bg='#777', fg = 'white')
-        self.btpgnext  = tk.Button(self.master, text="N", command=self.shift_page)
-        self.btpgprev  = tk.Button(self.master, text="P", command=lambda: self.shift_page(prev=True))
-        self.btpgcur   = tk.Button(self.master, text="C", command=lambda: self.shift_page(cur=True))
-        self.status    = tk.Label(self.master, text="", bd=1, relief=tk.SUNKEN, anchor=tk.W)
+        self.btpgnext  = tk.Button(self.master, text="N",
+                                   command=self.shift_page)
+        self.btpgprev  = tk.Button(self.master, text="P",
+                                   command=lambda: self.shift_page(prev=True))
+        self.btpgcur   = tk.Button(self.master, text="C",
+                                   command=lambda: self.shift_page(cur=True))
+        self.status    = tk.Label(self.master, text="", bd=1,
+                                  relief=tk.SUNKEN, anchor=tk.W)
         
         self.lbox.grid     (rowspan=6, column=0, sticky=tk.W+tk.E,
                             padx=5, pady=5)
@@ -80,8 +84,8 @@ class MainWin:
         
         self.btchoose.grid (row=0, column=1, columnspan=3,
                             sticky=tk.W+tk.E+tk.N+tk.S, padx=5, pady=5)
-        self.btchooseq.grid(row=4, column=1, columnspan=3, sticky=tk.W+tk.E+tk.N+tk.S,
-                            padx=5, pady=5)
+        self.btchooseq.grid(row=4, column=1, columnspan=3,
+                            sticky=tk.W+tk.E+tk.N+tk.S, padx=5, pady=5)
         self.btdone.grid   (row=2, column=1, columnspan=3, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=5)
         self.btcont.grid   (row=3, column=1, columnspan=3, sticky=tk.W+tk.E+tk.N+tk.S,
@@ -97,7 +101,6 @@ class MainWin:
     def filllb(self, ipage=None):
         self.lbox.delete(0, tk.END)
         index = ipage if ipage != None else db.active[0]
-        print ("filllb, index = ", index, ", ipage = ", ipage)
         if self.db.active:
                 for i, task in enumerate(db.pages[index]):
                     self.lbox.insert(i, task.text)
@@ -108,6 +111,8 @@ class MainWin:
                             self.lbox.itemconfig(i, bg='#FFD699', fg='white')
                         else:
                             self.lbox.itemconfig(i, bg='#FFD699', fg='black')
+        self.status.config(text=str("{}/{}".format(self.db.active[0],
+                                                       len(self.db.pages))))
 
 
     def push_chooseq(self):
@@ -154,18 +159,12 @@ class MainWin:
             self.shift_active[:] = []
             self.filllb()
             return
-        self.shift_active[:] = self.db.active
-        print (self.shift_active)
+        if not self.shift_active:
+            self.shift_active[:] = self.db.active
         if not prev:
-            print ('N')
-            tmp = self.shift_active.pop(0)
-            self.shift_active.append(tmp)
+            self.shift_active.append(self.shift_active.pop(0))
         else:
-            print ('P')
-            tmp = self.shift_active.pop()
-            self.shift_active.insert(0, tmp)
-        print(tmp)
-        print (self.shift_active)
+            self.shift_active.insert(0, self.shift_active.pop())
         self.filllb(ipage=self.shift_active[0])
 
 
