@@ -100,11 +100,11 @@ class MainWin:
 
     def filllb(self, ipage=None):
         self.lbox.delete(0, tk.END)
-        index = ipage if ipage != None else db.active[0]
+        index = ipage if ipage != None else self.db.active[0]
         if self.db.active:
-                for i, task in enumerate(db.pages[index]):
+                for i, task in enumerate(self.db.pages[index]):
                     self.lbox.insert(i, task.text)
-                    if i == self.db.chosen and not ipage:
+                    if i == self.db.chosen and (ipage == None or ipage == self.db.active[0]):
                         self.lbox.itemconfig(i, bg='#317332', fg='white')
                     else:
                         if task.status:
