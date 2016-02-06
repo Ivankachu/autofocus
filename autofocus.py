@@ -100,18 +100,18 @@ class MainWin:
 
     def filllb(self, ipage=None):
         self.lbox.delete(0, tk.END)
-        index = ipage if ipage != None else self.db.active[0]
         if self.db.active:
-                for i, task in enumerate(self.db.pages[index]):
-                    self.lbox.insert(i, task.text)
-                    if i == self.db.chosen and (ipage == None or ipage == self.db.active[0]):
-                        self.lbox.itemconfig(i, bg='#317332', fg='white')
+            index = ipage if ipage != None else self.db.active[0]
+            for i, task in enumerate(self.db.pages[index]):
+                self.lbox.insert(i, task.text)
+                if i == self.db.chosen and (ipage == None or ipage == self.db.active[0]):
+                    self.lbox.itemconfig(i, bg='#317332', fg='white')
+                else:
+                    if task.status:
+                        self.lbox.itemconfig(i, bg='#FFD699', fg='white')
                     else:
-                        if task.status:
-                            self.lbox.itemconfig(i, bg='#FFD699', fg='white')
-                        else:
-                            self.lbox.itemconfig(i, bg='#FFD699', fg='black')
-        self.status.config(text=str("{}/{}".format(self.db.active[0],
+                        self.lbox.itemconfig(i, bg='#FFD699', fg='black')
+            self.status.config(text=str("{}/{}".format(self.db.active[0],
                                                        len(self.db.pages))))
 
 
