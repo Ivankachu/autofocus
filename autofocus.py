@@ -61,11 +61,11 @@ class MainWin:
         self.btadd     = tk.Button(self.master, text='Add',
                                    command=self.push_add,
                                    bg='#777', fg = 'white')
-        self.btpgnext  = tk.Button(self.master, text="N",
+        self.btpgnext  = tk.Button(self.master, text=">",
                                    command=self.shift_page)
-        self.btpgprev  = tk.Button(self.master, text="P",
+        self.btpgprev  = tk.Button(self.master, text="<",
                                    command=lambda: self.shift_page(prev=True))
-        self.btpgcur   = tk.Button(self.master, text="C",
+        self.btpgcur   = tk.Button(self.master, text="^",
                                    command=lambda: self.shift_page(cur=True))
         self.status    = tk.Label(self.master, text="", bd=1,
                                   relief=tk.SUNKEN, anchor=tk.W)
