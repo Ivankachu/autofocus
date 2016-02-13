@@ -111,8 +111,7 @@ class MainWin:
                             self.lbox.itemconfig(i, bg='#FFD699', fg='white')
                         else:
                             self.lbox.itemconfig(i, bg='#FFD699', fg='black')
-        self.status.config(text=str("{}/{}".format(self.db.active[0],
-                                                       len(self.db.pages))))
+        self.status.config(text=str("{}/{}".format(index, len(self.db.pages))))
 
 
     def push_chooseq(self):
