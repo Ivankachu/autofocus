@@ -7,7 +7,7 @@ if sys.platform == "win32":
     
 setup(
     name = "Autofocus",
-    version = "0.1",
-    description = "App of Autofocus System by Mark Forster",
+    version = "0.2",
+    description = "App of Autofocus System. The system is designed by Mark Forster",
     executables = [Executable("autofocus.py", base=base)]
 )
