@@ -100,7 +100,12 @@ class MainWin:
 
     def filllb(self, ipage=None):
         self.lbox.delete(0, tk.END)
-        index = ipage if ipage != None else self.db.active[0]
+        if ipage != None:
+            index = ipage
+        elif self.db.active:
+            index = self.db.active[0]
+        else:
+            index = 0
         if self.db.active:
                 for i, task in enumerate(self.db.pages[index]):
                     self.lbox.insert(i, task.text)
