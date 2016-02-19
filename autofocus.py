@@ -159,6 +159,8 @@ class MainWin:
         self.inputbox.delete(0, tk.END)
 
     def shift_page(self, prev=False, cur=False):
+        if not self.db.active:
+            return
         if cur:
             self.shift_active[:] = []
             self.filllb()
