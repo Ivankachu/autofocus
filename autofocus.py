@@ -62,11 +62,11 @@ class MainWin:
                                    command=self.push_add,
                                    bg='#777', fg = 'white')
         self.btpgnext  = tk.Button(self.master, text=">",
-                                   command=self.shift_page)
+                                   command=lambda: self.shift_page(where='next'))
         self.btpgprev  = tk.Button(self.master, text="<",
-                                   command=lambda: self.shift_page(prev=True))
+                                   command=lambda: self.shift_page(where='prev'))
         self.btpgcur   = tk.Button(self.master, text="^",
-                                   command=lambda: self.shift_page(cur=True))
+                                   command=lambda: self.shift_page(where='curr'))
         self.status    = tk.Label(self.master, text="", bd=1,
                                   relief=tk.SUNKEN, anchor=tk.W)
         
@@ -158,16 +158,19 @@ class MainWin:
             self.filllb()
         self.inputbox.delete(0, tk.END)
 
-    def shift_page(self, prev=False, cur=False):
+    def shift_page(self, where="next"):
+        """
+        where arg can be 'next', 'prev', 'curr'
+        """
         if not self.db.active:
             return
-        if cur:
+        if where == 'curr':
             self.shift_active[:] = []
             self.filllb()
             return
         if not self.shift_active:
             self.shift_active[:] = self.db.active
-        if not prev:
+        if where == 'next':
             self.shift_active.append(self.shift_active.pop(0))
         else:
             self.shift_active.insert(0, self.shift_active.pop())
