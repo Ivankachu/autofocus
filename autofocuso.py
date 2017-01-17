@@ -120,9 +120,18 @@ class WritingPad:
 
 class Entry:
 
-    def __init__(self, text):
+    def __init__(self, text, reference = "", tags = [],
+                 additional_field_1 = None,
+                 additional_field_2 = None,
+                 additional_field_3 = None):
+        
         self.text = text
         self.status = 0
+        self.reference = reference
+        self.tags = tags
+        self.additional_field_1 = additional_field_1
+        self.additional_field_2 = additional_field_2
+        self.additional_field_3 = additional_field_3
 
     def do(self):
         self.status = 1
