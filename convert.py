@@ -1,3 +1,6 @@
+import pickle
+import copy
+
 class Entry:
 
     def __init__(self, text, status = 0, reference = "", tags = [],
@@ -35,5 +38,12 @@ def convert(writing_pad):
         for old_entry in page:
             entry = Entry(old_entry.text, old_entry.status)
             new_page.append(entry)
-        newpages.append(new_page)
+        new_pages.append(new_page)
+    writing_pad.pages = new_pages
+
+db = copydb()
+convert(db)
+savedb(db, 'newdb.pkl')
+
+    
         
