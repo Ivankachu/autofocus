@@ -34,8 +34,9 @@ class WritingPad:
             print ("\nCurrent chosen task:\n",
                    self.pages[self.active[0]][self.chosen].text, sep='')
 
-    def add(self, text):
+    def add(self, text, ref):
         newtask = Entry(text)
+        newtask.reference = ref
         if not self.pages or len(self.pages[-1]) >= self.numstr:
             self.active.append(len(self.pages))
             self.pages.append([newtask])
@@ -62,8 +63,9 @@ class WritingPad:
         if self.chosen != -1:
             current_page = self.active[0]
             text = self.pages[current_page][self.chosen].text
+            ref = self.pages[current_page][self.chosen].reference
             self.do()
-            self.add(text)
+            self.add(text, ref)
             if self.check_page_completed():
                 self.turn_the_page()
             self.chosen = -1
@@ -75,8 +77,7 @@ class WritingPad:
         self.is_changed = True
 
     def turn_the_page(self):
-        if (len(self.pages[self.active[0]]) == self.numstr and
-            self.chosen == -1):
+        if (len(self.active) != 1 and self.chosen == -1):
             if self.status:
                 self.active.append(self.active.pop(0))
             else:

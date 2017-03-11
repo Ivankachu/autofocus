@@ -1,5 +1,6 @@
 ###############################################################################
 import tkinter as tk
+from tkinter import messagebox
 #For working with getting instance WritingPad and Entry from pickle file
 from autofocuso import WritingPad, Entry
 import autofocuso as af
@@ -41,8 +42,9 @@ class MainWin:
         self.master.resizable(width=tk.FALSE, height=tk.FALSE)
 
         self.lbox      = tk.Listbox(self.master, height=20, width=50,
-                                    activestyle = 'none', bg='#FFD699')
+                                    activestyle = 'none', bg='#FFD699', font='Consolas')
         self.inputbox  = tk.Entry(self.master)
+        self.inputrefbox  = tk.Entry(self.master)
         self.btchoose  = tk.Button(self.master, text='Choose!',
                                    command=parent.choose,
                                    bg='#BBB', fg = 'black', width=15)
@@ -74,6 +76,8 @@ class MainWin:
                             padx=5, pady=5)
         self.inputbox.grid (row=6, column=0, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=5)
+        self.inputrefbox.grid (row=7, column=0, sticky=tk.W+tk.E+tk.N+tk.S,
+                            padx=5, pady=5)
         
         self.btpgprev.grid (row=5, column=1, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=5)
@@ -94,8 +98,9 @@ class MainWin:
                             padx=5, pady=5)
         self.btadd.grid    (row=6, column=1, columnspan=3, sticky=tk.W+tk.E+tk.N+tk.S,
                             padx=5, pady=5)
-        self.status.grid(row=7, columnspan=4, sticky=tk.W+tk.E)
+        self.status.grid(row=8, columnspan=4, sticky=tk.W+tk.E)
         self.inputbox.bind('<Return>', lambda event: self.push_add())
+        self.lbox.bind('<Double-1>', lambda event: self.copy_ref())
         self.filllb()
 
     def filllb(self, ipage=None):
@@ -108,7 +113,10 @@ class MainWin:
             index = 0
         if self.db.active:
                 for i, task in enumerate(self.db.pages[index]):
-                    self.lbox.insert(i, task.text)
+                    if (task.reference):
+                        self.lbox.insert(i, '{: <.44}  ref'.format(task.text))
+                    else:
+                        self.lbox.insert(i, task.text)
                     if i == self.db.chosen and (ipage == None or ipage == self.db.active[0]):
                         self.lbox.itemconfig(i, bg='#317332', fg='white')
                     else:
@@ -137,8 +145,7 @@ class MainWin:
             self.filllb()
 
     def push_turn(self):
-        if (len(self.db.pages[self.db.active[0]]) == self.db.numstr
-            and self.db.chosen == -1):
+        if (len(self.db.active) != 1 and self.db.chosen == -1):
             if db.status:
                 self.db.turn_the_page()
                 self.filllb()
@@ -152,11 +159,13 @@ class MainWin:
 
     def push_add(self):
         msg = self.inputbox.get().strip()
+        ref = self.inputrefbox.get().strip()
         if msg:
-            self.db.add(msg)
+            self.db.add(msg, ref)
             af.backup(db)
             self.filllb()
         self.inputbox.delete(0, tk.END)
+        self.inputrefbox.delete(0, tk.END)
 
     def shift_page(self, where="next"):
         """
@@ -175,6 +184,18 @@ class MainWin:
         else:
             self.shift_active.insert(0, self.shift_active.pop())
         self.filllb(ipage=self.shift_active[0])
+
+    def copy_ref(self):
+        if self.lbox.curselection():
+            index_selected_task_on_page = self.lbox.curselection()[0]
+            if self.shift_active:
+                index_showed_page = self.shift_active[0]
+                ref_selected_task = self.db.pages[index_showed_page][index_selected_task_on_page].reference
+            else:
+                ref_selected_task = self.db.pages[self.db.active[0]][index_selected_task_on_page].reference
+            
+            self.master.clipboard_clear()
+            self.master.clipboard_append(ref_selected_task)
 
 
 class ChooseWin:
